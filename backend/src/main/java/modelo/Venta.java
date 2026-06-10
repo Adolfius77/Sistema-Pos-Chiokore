@@ -1,0 +1,45 @@
+package modelo;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.pojava.datetime.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "venta")
+@Data
+@NoArgsConstructor
+public class Venta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private int id;
+
+    @Column(name = "fecha_hora", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private DateTime fecha_hora;
+
+    @Column(name = "total", nullable = false)
+    private double total;
+
+    @Column(name = "monto_recibido", nullable = false)
+    private double monto_recibido;
+
+    @Column(name = "cambio_entregado", nullable = false)
+    private double cambio_entregado;
+
+
+    @Column(name = "usuario_id", nullable = false)
+    private int usuario_id;
+
+    @Column(name = "metodo_pago", nullable = false)
+    private String metodo_pago;
+
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleVenta> detalles = new ArrayList<>();
+
+
+}
