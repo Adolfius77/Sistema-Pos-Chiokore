@@ -1,6 +1,5 @@
-package modelo;
+package com.chiokore.backend.modelo;
 
-import ch.qos.logback.core.model.processor.NOPModelHandler;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

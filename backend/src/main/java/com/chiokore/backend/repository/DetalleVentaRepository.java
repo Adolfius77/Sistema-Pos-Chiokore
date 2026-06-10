@@ -1,6 +1,6 @@
-package repository;
+package com.chiokore.backend.repository;
 
-import modelo.DetalleVenta;
+import com.chiokore.backend.modelo.DetalleVenta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

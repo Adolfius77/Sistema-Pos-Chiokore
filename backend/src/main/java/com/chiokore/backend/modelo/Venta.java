@@ -1,4 +1,4 @@
-package modelo;
+package com.chiokore.backend.modelo;
 
 import jakarta.persistence.*;
 import lombok.Data;

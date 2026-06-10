@@ -1,8 +1,8 @@
-package dtos;
+package com.chiokore.backend.dtos;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import modelo.DetalleVenta;
+import com.chiokore.backend.modelo.DetalleVenta;
 
 import java.util.ArrayList;
 import java.util.List;
