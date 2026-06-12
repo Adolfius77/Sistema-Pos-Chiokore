@@ -1,4 +1,4 @@
-package com.chiokore.backend;
+package com.chiokore.backend.servidor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

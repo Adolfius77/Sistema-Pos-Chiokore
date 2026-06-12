@@ -35,25 +35,31 @@ public class VentaService implements IVentaService {
 
     @Override
     public Venta procesarVenta(Venta venta) {
-       venta.setFecha_hora(new DateTime());
-       calcularTotal(venta);
-       calcularCambio(venta);
+        venta.setFecha_hora(new DateTime());
 
-       if(venta.getCambio_entregado() < 0){
-           throw new RuntimeException("El monto recibido es insuficiente para cubrir el total de la venta.");
-       }
-       for(DetalleVenta detalleVenta : venta.getDetalles()){
-           Producto productoDB = productoRepository.findById((long) detalleVenta.getProducto().getId())
-                   .orElseThrow(() -> new RuntimeException("Producto no encontrado durante el cobro"));
-           
-           if(productoDB.getStock() < detalleVenta.getCantidad()) {
-               throw new RuntimeException("Stock insuficiente para el producto: " + productoDB.getNombre());
-           }
-           
-           productoDB.setStock(productoDB.getStock() - detalleVenta.getCantidad());
-           productoRepository.save(productoDB);
-       }
-       return ventaRepository.save(venta);
+        for(DetalleVenta detalleVenta : venta.getDetalles()){
+
+            Producto productoDB = productoRepository.findById((long) detalleVenta.getProducto().getId())
+                    .orElseThrow(() -> new RuntimeException("Producto no encontrado durante el cobro"));
+
+            if(productoDB.getStock() < detalleVenta.getCantidad()) {
+                throw new RuntimeException("Stock insuficiente para el producto: " + productoDB.getNombre());
+            }
+
+            productoDB.setStock(productoDB.getStock() - detalleVenta.getCantidad());
+            productoRepository.save(productoDB);
+            detalleVenta.setPrecio_unitario_capturado(productoDB.getPrecio());
+            detalleVenta.setVenta(venta);
+        }
+
+        calcularTotal(venta);
+        calcularCambio(venta);
+
+        if(venta.getCambio_entregado() < 0){
+            throw new RuntimeException("El monto recibido es insuficiente para cubrir el total.");
+        }
+
+        return ventaRepository.save(venta);
     }
 
     @Override
