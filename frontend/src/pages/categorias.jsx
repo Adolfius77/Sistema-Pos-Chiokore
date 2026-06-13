@@ -1,9 +1,8 @@
-const categorias = () => {
+const Categorias = () => {
     return (
         <div>
-            <p>categorias</p>
+            <p>Categorias</p>
         </div>
     )
 }
-
-export default categorias;
+export default Categorias;

@@ -1,22 +1,27 @@
 import './app.scss'
 import Navbar from "./Componentes/Navbar.jsx";
 import SideBar from "./Componentes/sideBar.jsx";
-import {BrowserRouter as Router, Route} from "react-router-dom";
-import carrito from "./pages/carrito.jsx";
-import categorias from "./pages/categorias.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Categorias from "./pages/categorias.jsx";
+import Carrito from "./pages/carrito.jsx";
+
 function App() {
-  return (
-    <Router>
-      <Navbar />
-        <div className="flex">
-            <SideBar />
-            <div className="content">
-                <Route path="/categorias" exact={true} component={categorias}  />
-                <Route path="/carrito" exact={true} component={carrito} />
+    return (
+        <Router>
+            <Navbar />
+            <div className="flex">
+                <SideBar />
+                <div className="content">
+                    <Routes>
+
+                        <Route path="/categorias" element={<Categorias />} />
+                        <Route path="/carrito" element={<Carrito />} />
+                    </Routes>
+                </div>
             </div>
-        </div>
-    </Router>
-  )
+        </Router>
+    )
 }
 
-export default App
+export default App;
