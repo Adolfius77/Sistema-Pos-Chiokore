@@ -1,3 +1,4 @@
+@use "variables";
 //categorias
 .categorias-section {
   padding: 1.5rem; // Espaciado interior
@@ -21,7 +22,7 @@
   overflow-x: auto;       // Permite deslizar si hay muchas
   padding-bottom: 1rem;   // Espacio extra abajo para que la sombra no se corte
   flex-grow: 1;
-  // Opcional: Estilizamos un poco la barra de scroll para que se vea moderna
+
   &::-webkit-scrollbar {
     height: 8px;
   }
@@ -31,7 +32,7 @@
   }
 }
 
-// La tarjeta en sí
+// La tarjeta
 .categoria-card {
   min-width: 200px; // Evita que se aplasten
   background-color: #ffffff;
@@ -47,7 +48,7 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); // La sombra crece
 
     .icono-circulo {
-      transform: scale(1.1); // El icono "late"
+      transform: scale(1.1);
     }
   }
 
@@ -71,7 +72,7 @@
     margin-bottom: 1rem;
     transition: transform 0.3s ease;
 
-    // Leemos los colores que nos manda React
+
     background-color: var(--color-fondo);
     color: var(--color-icono);
   }
@@ -85,7 +86,7 @@
   }
 
   .categoria-items {
-    color: #6c757d; // Color grisáceo sutil
+    color: #6c757d; // Color grisaceo sutil
     font-size: 0.85rem;
     font-family: sans-serif;
   }

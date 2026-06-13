@@ -4,29 +4,25 @@ import { MdShoppingCart } from "react-icons/md";
 
 const SideBar = () => {
     return(
-        <div className="sidebar p-3 bg-light border-end">
-            <ul className="nav flex-column">
+        <div className="sidebar">
+            <ul className="sidebar-menu">
 
-                <li className="nav-item mb-4">
+                <li className="sidebar-item">
                     <NavLink
                         to="/categorias"
-                        className={({ isActive }) =>
-                            `nav-link d-flex align-items-center gap-3 ${isActive ? 'active fw-bold text-primary' : 'text-dark'}`
-                        }
+                        className={({ isActive }) => isActive ? "sidebar-link active-primary" : "sidebar-link"}
                     >
-                        <TbCategoryFilled size={24} className="text-primary" />
+                        <TbCategoryFilled size={24} className="icon-primary" />
                         Categorías
                     </NavLink>
                 </li>
 
-                <li className="nav-item mb-3">
+                <li className="sidebar-item">
                     <NavLink
                         to="/carrito"
-                        className={({ isActive }) =>
-                            `nav-link d-flex align-items-center gap-2 ${isActive ? 'active fw-bold text-success' : 'text-dark'}`
-                        }
+                        className={({ isActive }) => isActive ? "sidebar-link active-success" : "sidebar-link"}
                     >
-                        <MdShoppingCart size={24} className="text-success" />
+                        <MdShoppingCart size={24} className="icon-success" />
                         Carrito
                     </NavLink>
                 </li>

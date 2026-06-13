@@ -1,27 +1,46 @@
+@use "variables" as *;
 
-.flex{
-  display: flex;
-}
-
-.sidebar{
+.sidebar {
   width: 14rem;
   height: calc(100vh - 52px);
   border-right: 1px solid $BordeSideBar;
-  margin-left: 10px;
+  margin-left: 0;
   background-color: $ColorSideBar;
+  padding: 0.1rem;
 
-
-  ul{
+  .sidebar-menu {
     list-style: none;
-    padding: 1rem 2rem;
-    li{
-      margin-bottom: 1rem;
-      a{
-        text-decoration: none;
-        &.active{
-          background-clip: $ColorSideBar;
-        }
-      }
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 20px;
+    font-weight: bold;
+
+  }
+  .sidebar-link{
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: #212529 ;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s ease;
+
+    &:hover{
+      background-color: rgba(0, 0, 0, 0.05);
     }
+    &.active-success{
+      font-weight: bold;
+      color: #198754 ;
+      background-color: rgba(25, 135, 84, 0.1);
+    }
+  }
+  .icon-primary {
+    color: #0d6efd;
+  }
+  .icon-success {
+    color: #198754;
   }
 }

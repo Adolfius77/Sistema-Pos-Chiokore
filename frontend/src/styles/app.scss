@@ -1,14 +1,18 @@
-$ligth: #ffffff;
-$gray: #f1f3f4;
-$ColorSideBar: #EDEDFB;
-$BordeSideBar: #C3C5D9;
+@use "sidebar";
+@use "navbar";
+@use "categorias";
+@use "variables";
 
 *{
   margin: 0;
   padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-@use "sidebar";
-@use "navbar";
-@use "categorias";
+
+.flex{
+  display: flex;
+}
+
+
 
