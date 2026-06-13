@@ -1,7 +1,7 @@
 const Navbar = () => {
     return(
         <div className="navbar">
-            Navbar
+            CHIOKORE
         </div>
     )
 }
