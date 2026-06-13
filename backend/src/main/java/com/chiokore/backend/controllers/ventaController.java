@@ -12,7 +12,7 @@ import com.chiokore.backend.services.IVentaService;
 
 @RestController
 @RequestMapping("/api/ventas")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 public class ventaController {
     private final IVentaService ventaService;

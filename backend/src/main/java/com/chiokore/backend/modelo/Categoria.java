@@ -1,6 +1,7 @@
 package com.chiokore.backend.modelo;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 @Table(name = "categorias")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Categoria {
     @Id
     @Column(name = "id")

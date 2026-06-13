@@ -1,6 +1,7 @@
 package com.chiokore.backend.modelo;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.pojava.datetime.DateTime;
@@ -12,6 +13,7 @@ import java.util.List;
 @Table(name = "venta")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

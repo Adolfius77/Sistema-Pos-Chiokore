@@ -1,5 +1,6 @@
 package com.chiokore.backend.services.impl;
 
+import com.chiokore.backend.services.IProductoService;
 import lombok.RequiredArgsConstructor;
 import com.chiokore.backend.modelo.DetalleVenta;
 import com.chiokore.backend.modelo.Producto;
@@ -7,7 +8,6 @@ import com.chiokore.backend.modelo.Venta;
 import org.pojava.datetime.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.chiokore.backend.repository.ProductoRepository;
 import com.chiokore.backend.repository.VentaRepository;
 import com.chiokore.backend.services.IVentaService;
 
@@ -16,8 +16,9 @@ import com.chiokore.backend.services.IVentaService;
 @Transactional
 @RequiredArgsConstructor
 public class VentaService implements IVentaService {
+
     private final VentaRepository ventaRepository;
-    private final ProductoRepository productoRepository;
+    private final IProductoService productoService;
 
     @Override
     public Venta agregarDetalle(DetalleVenta detalleVenta, Venta venta) {
@@ -39,15 +40,16 @@ public class VentaService implements IVentaService {
 
         for(DetalleVenta detalleVenta : venta.getDetalles()){
 
-            Producto productoDB = productoRepository.findById((long) detalleVenta.getProducto().getId())
-                    .orElseThrow(() -> new RuntimeException("Producto no encontrado durante el cobro"));
+            Producto productoDB = productoService.obtenerPorId((int) detalleVenta.getProducto().getId());
 
             if(productoDB.getStock() < detalleVenta.getCantidad()) {
                 throw new RuntimeException("Stock insuficiente para el producto: " + productoDB.getNombre());
             }
 
             productoDB.setStock(productoDB.getStock() - detalleVenta.getCantidad());
-            productoRepository.save(productoDB);
+
+            productoService.guardar(productoDB);
+
             detalleVenta.setPrecio_unitario_capturado(productoDB.getPrecio());
             detalleVenta.setVenta(venta);
         }
