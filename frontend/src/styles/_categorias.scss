@@ -1,0 +1,92 @@
+//categorias
+.categorias-section {
+  padding: 1.5rem; // Espaciado interior
+  width: 100%;
+  height: calc(100vh - 52px);
+  display: flex;
+  flex-direction: column;
+}
+
+.categorias-title {
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+  font-family: sans-serif;
+  flex-shrink: 0;
+}
+
+// Contenedor que alinea en horizontal y permite el scroll
+.categorias-list {
+  display: flex;
+  gap: 0.5rem;            // Separación entre tarjetas
+  overflow-x: auto;       // Permite deslizar si hay muchas
+  padding-bottom: 1rem;   // Espacio extra abajo para que la sombra no se corte
+  flex-grow: 1;
+  // Opcional: Estilizamos un poco la barra de scroll para que se vea moderna
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 4px;
+  }
+}
+
+// La tarjeta en sí
+.categoria-card {
+  min-width: 200px; // Evita que se aplasten
+  background-color: #ffffff;
+  border-radius: 1rem;
+  cursor: pointer;
+  // Sombra base suave
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+  // Animación al pasar el mouse
+  &:hover {
+    transform: translateY(-5px); // Se levanta un poco
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); // La sombra crece
+
+    .icono-circulo {
+      transform: scale(1.1); // El icono "late"
+    }
+  }
+
+  // Contenido interior centrado
+  .categoria-card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .icono-circulo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+
+    // Leemos los colores que nos manda React
+    background-color: var(--color-fondo);
+    color: var(--color-icono);
+  }
+
+  .categoria-nombre {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    text-align: center;
+    font-family: sans-serif;
+  }
+
+  .categoria-items {
+    color: #6c757d; // Color grisáceo sutil
+    font-size: 0.85rem;
+    font-family: sans-serif;
+  }
+}

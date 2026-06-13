@@ -1,0 +1,14 @@
+$ligth: #ffffff;
+$gray: #f1f3f4;
+$ColorSideBar: #EDEDFB;
+$BordeSideBar: #C3C5D9;
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+@use "sidebar";
+@use "navbar";
+@use "categorias";
+

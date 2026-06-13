@@ -7,11 +7,11 @@ const SideBar = () => {
         <div className="sidebar p-3 bg-light border-end">
             <ul className="nav flex-column">
 
-                <li className="nav-item mb-3">
+                <li className="nav-item mb-4">
                     <NavLink
                         to="/categorias"
                         className={({ isActive }) =>
-                            `nav-link d-flex align-items-center gap-2 ${isActive ? 'active fw-bold text-primary' : 'text-dark'}`
+                            `nav-link d-flex align-items-center gap-3 ${isActive ? 'active fw-bold text-primary' : 'text-dark'}`
                         }
                     >
                         <TbCategoryFilled size={24} className="text-primary" />

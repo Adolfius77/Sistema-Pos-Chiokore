@@ -1,4 +1,4 @@
-import './app.scss'
+import './styles/app.scss'
 import Navbar from "./Componentes/Navbar.jsx";
 import SideBar from "./Componentes/sideBar.jsx";
 

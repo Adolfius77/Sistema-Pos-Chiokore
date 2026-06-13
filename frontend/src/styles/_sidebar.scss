@@ -1,0 +1,27 @@
+
+.flex{
+  display: flex;
+}
+
+.sidebar{
+  width: 14rem;
+  height: calc(100vh - 52px);
+  border-right: 1px solid $BordeSideBar;
+  margin-left: 10px;
+  background-color: $ColorSideBar;
+
+
+  ul{
+    list-style: none;
+    padding: 1rem 2rem;
+    li{
+      margin-bottom: 1rem;
+      a{
+        text-decoration: none;
+        &.active{
+          background-clip: $ColorSideBar;
+        }
+      }
+    }
+  }
+}
