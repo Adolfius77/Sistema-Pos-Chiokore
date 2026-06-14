@@ -26,7 +26,9 @@ const SideBar = () => {
                         Carrito
                     </NavLink>
                 </li>
-
+                <div className="boton-logout">
+                    <input type="button" value="Cerrar Sesion" className="btn-cerar"/>
+                </div>
             </ul>
         </div>
     )

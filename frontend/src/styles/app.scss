@@ -1,17 +1,33 @@
 @use "sidebar";
 @use "navbar";
 @use "categorias";
-@use "variables";
+@use "variables" as *;
 
 *{
   margin: 0;
   padding: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
 }
+.content{
+  flex-grow: 1;
+  height: calc(100vh - 52px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 
+  @media(max-width: $mobile){
+    height: auto;
+  }
+}
 
 .flex{
   display: flex;
+
+  @media(max-width: $mobile){
+    flex-direction: column-reverse;
+    height: calc(100vh - 60px);
+  }
 }
 
 
