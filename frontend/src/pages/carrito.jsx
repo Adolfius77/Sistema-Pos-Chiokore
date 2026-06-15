@@ -1,4 +1,3 @@
-
 const Carrito = () => {
     return(
         <div>
