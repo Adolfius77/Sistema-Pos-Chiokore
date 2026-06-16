@@ -3,6 +3,7 @@ package com.chiokore.backend.controllers;
 import com.chiokore.backend.dtos.CobroDTO;
 import lombok.RequiredArgsConstructor;
 import com.chiokore.backend.modelo.Venta;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,11 +21,7 @@ public class ventaController {
 
     @PostMapping("/cobrar")
     public ResponseEntity<?> ProcesarCobro(@RequestBody CobroDTO venta) {
-        try {
-            Venta ventaCompleta = ventaService.procesarVenta(venta);
-            return ResponseEntity.ok(ventaCompleta);
-        }catch (Exception e) {
-            return ResponseEntity.status(500).body("Error al procesar la venta: " + e.getMessage());
-        }
+      Venta ventaCompleta = ventaService.procesarVenta(venta);
+      return ResponseEntity.status(HttpStatus.CREATED).body(ventaCompleta);
     }
 }

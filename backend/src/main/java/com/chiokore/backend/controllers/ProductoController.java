@@ -17,10 +17,6 @@ public class ProductoController {
 
     @GetMapping("/activos")
     public ResponseEntity<?> obtenerProductos(){
-        try{
-            return ResponseEntity.ok(productoService.obtenerActivos());
-        }catch (Exception e){
-            return ResponseEntity.status(500).body("Error al obtener los productos: " + e.getMessage());
-        }
+        return ResponseEntity.ok(productoService.obtenerActivos());
     }
 }

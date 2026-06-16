@@ -15,10 +15,6 @@ public class CategoriaController {
     private final CategoriaService categoriaService;
 
     public ResponseEntity<?> obtenerCategorias() {
-        try{
-            return ResponseEntity.ok(categoriaService.obtenerTodas());
-        }catch (Exception e){
-            return ResponseEntity.status(500).body("Error al obtener las categorias: " + e.getMessage());
-        }
+        return ResponseEntity.ok(categoriaService.obtenerTodas());
     }
 }
