@@ -5,11 +5,13 @@ import com.chiokore.backend.modelo.DetalleVenta;
 import com.chiokore.backend.modelo.EstadoVenta;
 import com.chiokore.backend.modelo.Producto;
 import com.chiokore.backend.modelo.Venta;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 import java.util.List;
 
+@Component
 public class VentaFactory {
     public DetalleVenta crearDetalle(Producto producto, int cantidad){
         DetalleVenta detalle = new DetalleVenta();

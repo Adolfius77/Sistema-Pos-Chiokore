@@ -27,8 +27,6 @@ public class VentaService implements IVentaService {
     private final IProductoService productoService;
     private final VentaFactory ventaFactory;
 
-
-
     @Override
     public Venta procesarVenta(CobroDTO cobroDTO) {
         List<DetalleVenta> detalles = new ArrayList<>();
@@ -37,8 +35,13 @@ public class VentaService implements IVentaService {
         for(ItemDto item : cobroDTO.getItems()){
             Producto p = productoService.obtenerPorId(item.getProducto_id());
 
+            if (p.getStock() < item.getCantidad()) {
+                throw new RuntimeException("Stock insuficiente para: " + p.getNombre());
+            }
+
             p.setStock(p.getStock() - item.getCantidad());
             productoService.guardar(p);
+
 
             DetalleVenta detalle = ventaFactory.crearDetalle(p, item.getCantidad());
             detalles.add(detalle);
