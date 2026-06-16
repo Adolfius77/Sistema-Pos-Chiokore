@@ -13,5 +13,5 @@ public class CobroDTO {
     private int usuario_id;
     private String metodoPago;
     private double montoRecibido;
-    private List<CarritoDTO> carrito;
+    private List<ItemDto> items;
 }

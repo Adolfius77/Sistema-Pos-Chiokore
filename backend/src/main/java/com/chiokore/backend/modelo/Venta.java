@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.pojava.datetime.DateTime;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Venta {
 
     @Column(name = "fecha_hora", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private DateTime fecha_hora;
+    private LocalDateTime fecha_hora;
 
     @Column(name = "total", nullable = false)
     private double total;
@@ -33,6 +34,9 @@ public class Venta {
     @Column(name = "cambio_entregado", nullable = false)
     private double cambio_entregado;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", nullable = false)
+    private EstadoVenta estado;
 
     @Column(name = "usuario_id", nullable = false)
     private int usuario_id;

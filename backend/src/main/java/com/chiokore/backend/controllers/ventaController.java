@@ -1,5 +1,6 @@
 package com.chiokore.backend.controllers;
 
+import com.chiokore.backend.dtos.CobroDTO;
 import lombok.RequiredArgsConstructor;
 import com.chiokore.backend.modelo.Venta;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ventaController {
     private final IVentaService ventaService;
 
     @PostMapping("/cobrar")
-    public ResponseEntity<?> ProcesarCobro(@RequestBody Venta venta) {
+    public ResponseEntity<?> ProcesarCobro(@RequestBody CobroDTO venta) {
         try {
             Venta ventaCompleta = ventaService.procesarVenta(venta);
             return ResponseEntity.ok(ventaCompleta);

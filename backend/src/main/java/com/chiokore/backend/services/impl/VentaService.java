@@ -1,15 +1,21 @@
 package com.chiokore.backend.services.impl;
 
+import com.chiokore.backend.Factorys.VentaFactory;
+import com.chiokore.backend.dtos.CarritoDTO;
+import com.chiokore.backend.dtos.CobroDTO;
+import com.chiokore.backend.dtos.ItemDto;
+import com.chiokore.backend.modelo.Producto;
 import com.chiokore.backend.services.IProductoService;
 import lombok.RequiredArgsConstructor;
 import com.chiokore.backend.modelo.DetalleVenta;
-import com.chiokore.backend.modelo.Producto;
 import com.chiokore.backend.modelo.Venta;
-import org.pojava.datetime.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.chiokore.backend.repository.VentaRepository;
 import com.chiokore.backend.services.IVentaService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -19,65 +25,27 @@ public class VentaService implements IVentaService {
 
     private final VentaRepository ventaRepository;
     private final IProductoService productoService;
+    private final VentaFactory ventaFactory;
+
+
 
     @Override
-    public Venta agregarDetalle(DetalleVenta detalleVenta, Venta venta) {
+    public Venta procesarVenta(CobroDTO cobroDTO) {
+        List<DetalleVenta> detalles = new ArrayList<>();
+        double total = 0;
 
-        DetalleVenta nuevoDetalle = new DetalleVenta();
-        nuevoDetalle.setProducto(detalleVenta.getProducto());
-        nuevoDetalle.setCantidad(detalleVenta.getCantidad());
-        nuevoDetalle.setPrecio_unitario_capturado(detalleVenta.getPrecio_unitario_capturado());
+        for(ItemDto item : cobroDTO.getItems()){
+            Producto p = productoService.obtenerPorId(item.getProducto_id());
 
-        nuevoDetalle.setVenta(venta);
-        venta.getDetalles().add(nuevoDetalle);
+            p.setStock(p.getStock() - item.getCantidad());
+            productoService.guardar(p);
 
-        return ventaRepository.save(venta);
-    }
+            DetalleVenta detalle = ventaFactory.crearDetalle(p, item.getCantidad());
+            detalles.add(detalle);
 
-    @Override
-    public Venta procesarVenta(Venta venta) {
-        venta.setFecha_hora(new DateTime());
-
-        for(DetalleVenta detalleVenta : venta.getDetalles()){
-
-            Producto productoDB = productoService.obtenerPorId((int) detalleVenta.getProducto().getId());
-
-            if(productoDB.getStock() < detalleVenta.getCantidad()) {
-                throw new RuntimeException("Stock insuficiente para el producto: " + productoDB.getNombre());
-            }
-
-            productoDB.setStock(productoDB.getStock() - detalleVenta.getCantidad());
-
-            productoService.guardar(productoDB);
-
-            detalleVenta.setPrecio_unitario_capturado(productoDB.getPrecio());
-            detalleVenta.setVenta(venta);
+            total += (p.getPrecio() * item.getCantidad());
         }
-
-        calcularTotal(venta);
-        calcularCambio(venta);
-
-        if(venta.getCambio_entregado() < 0){
-            throw new RuntimeException("El monto recibido es insuficiente para cubrir el total.");
-        }
-
-        return ventaRepository.save(venta);
-    }
-
-    @Override
-    public Venta calcularCambio(Venta venta) {
-        double cambio = venta.getMonto_recibido() - venta.getTotal();
-        venta.setCambio_entregado(cambio);
-        return venta;
-    }
-
-    @Override
-    public Venta calcularTotal(Venta venta) {
-        double total = 0.0;
-        for (DetalleVenta detalle : venta.getDetalles()) {
-            total += detalle.getCantidad() * detalle.getPrecio_unitario_capturado();
-        }
-        venta.setTotal(total);
-        return venta;
+        Venta ventafinal = ventaFactory.crearVenta(cobroDTO, detalles, total);
+        return ventaRepository.save(ventafinal);
     }
 }
