@@ -13,18 +13,23 @@ import {useEffect, useState} from "react";
 const KeyCloakOptions = {
     url: "http://localhost:9090",
     realm: "sistema-pos-chiokore",
-    clientId: ""
+    clientId: "react-app-client"
 }
 function App() {
     const [keycloak, setKeycloak] = useState(null)
+    const[autentificado, setAutentificado] = useState(false)
+    const[nombreUsuario, setNombreUsuario] = useState("")
+
     useEffect(() => {
         const initKeycloak = async () =>{
             const keycloakInstance = new Keycloak(KeyCloakOptions);
             try{
-                await keycloakInstance.init({ onLoad: "login-required" });
+                const auth = await keycloakInstance.init({ onLoad: "login-required" });
                 setKeycloak(keycloakInstance);
-                if (keycloakInstance.authenticated) {
-                    console.log(keycloakInstance);
+                setAutentificado(auth);
+                if(auth){
+                    const tokenDatos = keycloakInstance.tokenParsed;
+                    setNombreUsuario(tokenDatos.preferred_username || tokenDatos.name);
                 }
             }catch (error){
                 console.error("Error initializing Keycloak:", error);
@@ -32,6 +37,9 @@ function App() {
         }
         initKeycloak();
     }, []);
+    if(!keycloak){
+        return <div>Cargando...</div>;
+    }
     const handleLogout = () => {
         if(keycloak){
             keycloak.logout();
@@ -39,7 +47,7 @@ function App() {
     }
     return (
         <>
-            <Navbar />
+            <Navbar nombre={nombreUsuario} onLogout={()=>keycloak.logout()} />
             <div className="flex">
                 <SideBar />
                 <div className="content">
