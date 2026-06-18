@@ -1,7 +1,7 @@
 import './styles/app.scss';
 import Navbar from "./Componentes/Navbar.jsx";
 import SideBar from "./Componentes/sideBar.jsx";
-
+import Catalogo from "./pages/Catalogo.jsx";
 import Keycloak from "keycloak-js";
 
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -73,8 +73,11 @@ function App() {
                 <SideBar onLogout={handleLogout}/>
                 <div className="content">
                     <Routes>
+                        <Route path="/" element={<Navigate to="/categorias" replace />} />
                         <Route path="/categorias" element={<Categorias />} />
+                        <Route path="/catalogo/:id" element={<Catalogo />} />
                         <Route path="/carrito" element={<Carrito />} />
+                        <Route path="*" element={<Navigate to="/categorias" replace />} />
                     </Routes>
                 </div>
             </div>
