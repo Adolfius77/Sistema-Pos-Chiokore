@@ -1,4 +1,4 @@
-const Navbar = ({ nombre, onLogout }) => {
+const Navbar = ({ nombre }) => {
     return (
         <div className="navbar">
             <div className="logo">
@@ -7,9 +7,6 @@ const Navbar = ({ nombre, onLogout }) => {
 
             <div className="user-info">
                 <span>Trabajador: {nombre}</span>
-                <button onClick={onLogout} className="btn-logout">
-                    Cerrar Sesión
-                </button>
             </div>
         </div>
     )

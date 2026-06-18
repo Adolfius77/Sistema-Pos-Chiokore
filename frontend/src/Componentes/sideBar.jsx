@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 import { TbCategoryFilled } from "react-icons/tb";
 import { MdShoppingCart } from "react-icons/md";
 
-const SideBar = () => {
+const SideBar = ({onLogout}) => {
     return(
         <div className="sidebar">
             <ul className="sidebar-menu">
@@ -27,7 +27,7 @@ const SideBar = () => {
                     </NavLink>
                 </li>
                 <div className="boton-logout">
-                    <input type="button" value="Cerrar Sesion" className="btn-cerar"/>
+                    <input type="button" value="Cerrar Sesion" className="btn-cerar" onClick={onLogout}/>
                 </div>
             </ul>
         </div>
