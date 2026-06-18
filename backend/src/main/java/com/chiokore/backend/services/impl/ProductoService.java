@@ -23,10 +23,12 @@ public class ProductoService implements IProductoService {
         return productoRepository.findAll();
     }
 
-    //metodo pendiente
+
     @Override
     public List<Producto> encontrarPorCategoria(int id) {
-        return null;
+        return productoRepository.findByCategoriaId((long) id).stream()
+                .filter(Producto::isActivo)
+                .collect(Collectors.toList());
     }
 
     @Override
