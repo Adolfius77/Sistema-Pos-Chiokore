@@ -39,7 +39,7 @@ public class Venta {
     private EstadoVenta estado;
 
     @Column(name = "usuario_id", nullable = false)
-    private int usuario_id;
+    private int usuarioId;
 
     @Column(name = "metodo_pago", nullable = false)
     private String metodo_pago;

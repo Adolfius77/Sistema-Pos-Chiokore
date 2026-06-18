@@ -16,19 +16,19 @@ public class Producto {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "nombre", nullable = false)
+    @Column(name = "nombre", nullable = false, length = 255)
     private String nombre;
 
     @Column(name ="precio", nullable = false)
     private double precio;
 
-    @Column(name = "es_unico", nullable = false)
-    private boolean es_unico;
+    @Column(name = "es_unico", nullable = false, columnDefinition = "bit(1)")
+    private boolean es_Unico;
 
     @Column(name = "url_imagen")
     private String url_imagen;
 
-    @Column(name="activo", nullable = false)
+    @Column(name="activo", nullable = false, columnDefinition = "bit(1)")
     private boolean activo;
 
     @Column(name ="stock", nullable = false)
