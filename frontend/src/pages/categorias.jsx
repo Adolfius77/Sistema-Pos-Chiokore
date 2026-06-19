@@ -35,7 +35,7 @@ const Categorias = () => {
 
     return (
         <div className="categorias-container">
-            <h2 className="titulo-seccion">Selecciona una Categoría</h2>
+            <h2 className="titulo-seccion">SELECCIONA UNA CATEGORIA</h2>
 
             <div className="categorias-grid">
                 {categorias.map((cat) => (
