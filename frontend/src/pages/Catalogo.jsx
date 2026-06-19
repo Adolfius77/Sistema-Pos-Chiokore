@@ -28,12 +28,12 @@ const Catalogo = () =>{
         obtenerProductos();
     }, [id]);
     if (cargando) return (
-        <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <div className="msj-cargando">
             <h2>Cargando inventario... </h2>
         </div>
     );
     if (error) return (
-        <div style={{ padding: '2rem', textAlign: 'center', color: 'red' }}>
+        <div className="error-server">
             <h2>Hubo un problema de conexión con el servidor </h2>
             <p>{error}</p>
             <button onClick={() => navigate('/categorias')}>Volver</button>
@@ -42,8 +42,7 @@ const Catalogo = () =>{
     return (
         <div className="catalogo-container">
             <div className="catalogo-header">
-                <button className="btn-volver" onClick={() => navigate('/categorias')}>Volver</button>
-                <h2>Productos disponibles</h2>
+                <h2 className="name">PRODUCTOS DISPONIBLES</h2>
         </div>
             {productos.length === 0 ? (
                 <div className="sin-productos">
@@ -54,18 +53,17 @@ const Catalogo = () =>{
                     {productos.map((prod) => (
                         <div key={prod.id} className="producto-card">
                             <div className="img-producto">
-                                <img src={prod.imagenUrl || "https://via.placeholder.com/200?text=Sin+Imagen"} alt={prod.nombre} />
-                            </div>
+                                <img src={prod.url_imagen || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"} alt={prod.nombre} />                            </div>
                             <div className="info-producto">
                                 <h4>{prod.nombre}</h4>
                                 <span className="precio">${prod.precio} MXN</span>
-                                <p style={{ fontSize: '0.85rem', color: prod.stock > 0 ? '#6c757d' : 'red' }}>
+                                <p className="stock">
                                     {prod.stock > 0 ? `Stock: ${prod.stock} piezas` : 'Agotado'}
                                 </p>
                                 <button
                                     className="btn-agregar"
                                     disabled={prod.stock === 0}
-                                    style={{ backgroundColor: prod.stock === 0 ? '#ccc' : '#0d6efd' }}
+
                                 >
                                     {prod.stock === 0 ? 'Sin existencias' : 'Agregar al Carrito'}
                                 </button>

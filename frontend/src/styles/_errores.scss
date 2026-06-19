@@ -1,0 +1,6 @@
+@use "variables" as *;
+.error-server{
+  padding: 2rem;
+  text-align: center;
+  color: $ColorErrores
+}
