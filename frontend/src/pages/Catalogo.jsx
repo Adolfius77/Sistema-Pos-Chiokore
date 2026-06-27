@@ -1,5 +1,6 @@
 import React, { useState, useEffect }from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import apiCliente from "../config/api.js";
 
 const Catalogo = () =>{
     const {id } = useParams();
@@ -12,12 +13,9 @@ const Catalogo = () =>{
     useEffect(() =>{
         const obtenerProductos = async () =>{
             try{
-                const respuesta = await fetch(`http://localhost:8080/api/productos/categoria/${id}`);
-                if(!respuesta.ok){
-                    throw new Error("Error al cargar productos");
-                }
-                const datos = await respuesta.json();
-                setProductos(datos);
+                const respuesta = await apiCliente.get(`/productos/categoria/${id}`);
+                console.log("productos recibidos: " ,respuesta.data);
+                setProductos(respuesta.data);
                 setCargando(false);
             }catch (err){
                 console.error("error en el fetch:", err);

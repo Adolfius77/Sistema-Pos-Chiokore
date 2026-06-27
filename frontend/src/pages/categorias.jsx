@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import apiCliente from "../config/api.js";
 
 const Categorias = () => {
     const navigate = useNavigate();
@@ -10,11 +11,9 @@ const Categorias = () => {
     useEffect(() => {
         const obtenerCategorias = async () => {
             try {
-                const respuesta = await fetch('http://localhost:8080/api/categorias');
-                if (respuesta.ok) {
-                    const datos = await respuesta.json();
-                    setCategorias(datos);
-                }
+                const respuesta = await apiCliente.get("/categorias");
+                console.log("Categorías recibidas:", respuesta.data);
+                setCategorias(respuesta.data);
             } catch (error) {
                 console.error("Error al cargar categorías:", error);
             } finally {
