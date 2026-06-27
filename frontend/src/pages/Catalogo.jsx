@@ -1,6 +1,7 @@
 import React, { useState, useEffect }from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import apiCliente from "../config/api.js";
+import BotonAgregar from '../Componentes/BotonAgregar';
 
 const Catalogo = () =>{
     const {id } = useParams();
@@ -58,13 +59,10 @@ const Catalogo = () =>{
                                 <p className="stock">
                                     {prod.stock > 0 ? `Stock: ${prod.stock} piezas` : 'Agotado'}
                                 </p>
-                                <button
-                                    className="btn-agregar"
-                                    disabled={prod.stock === 0}
-
-                                >
-                                    {prod.stock === 0 ? 'Sin existencias' : 'Agregar al Carrito'}
-                                </button>
+                               <BotonAgregar
+                                   producto={prod}
+                                   onAgregar={agregarAlCarrito}
+                                   />
                             </div>
                         </div>
                     ))}

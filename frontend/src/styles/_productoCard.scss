@@ -39,10 +39,19 @@
   width: 100%;
 
   margin-top: auto;
-  transition: opacity 0.2s;
+  transition: all 0.3s ease;
 
   &:hover { opacity: 0.8; }
   &:disabled { background-color: #ccc; cursor: not-allowed; }
+  &.active{
+    transform: scale(0.95);
+  }
+  &.agregado-exito {
+    background-color: #0d6efd;
+    color: white;
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.4);
+  }
 }
 .img-producto{
   height: 180px;
