@@ -4,12 +4,15 @@ import './styles/app.scss'
 import App from './App.jsx'
 
 
-import { CartProvider } from './context/CartContext.jsx';
+import { BrowserRouter } from 'react-router-dom';
+import { CartProvider } from './context/cartContext.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <CartProvider>
-            <App />
-        </CartProvider>
+        <BrowserRouter>
+            <CartProvider>
+                <App />
+            </CartProvider>
+        </BrowserRouter>
     </StrictMode>
 )

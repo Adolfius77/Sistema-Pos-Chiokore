@@ -107,6 +107,22 @@
     min-width: 90px;
     text-align: right;
   }
+  .btn-borrar{
+    margin-left: 25px;
+
+    button{
+      background-color: #93000A;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      &:hover {
+        background-color: #dc2626;
+      }
+    }
+  }
 }
 
 
@@ -162,4 +178,5 @@
       margin-bottom: 2px;
     }
   }
+
 }

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { CartContext } from '../context/CartContext';
+import { CartContext } from '../context/cartContext';
 
 
 const Carrito = () => {
@@ -15,7 +15,11 @@ const Carrito = () => {
                     ) : (
                         cartItems.map((item) => (
                             <div className="carrito-item-card" key={item.id}>
-                                <img src={item.imagen} alt={item.nombre} className="item-img" />
+                                <img
+                                    src={item.url_imagen || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"}
+                                    alt={item.nombre}
+                                    className="item-img"
+                                />
 
                                 <div className="item-info">
                                     <span className="item-nombre">{item.nombre}</span>
@@ -31,6 +35,8 @@ const Carrito = () => {
                                 <div className="item-subtotal">
                                     ${(item.precio * item.cantidad).toFixed(2)}
                                 </div>
+                                <div className="btn-borrar">
+                                    <button onClick={() => eliminarCarrito(item.id)}>borrar</button>                                </div>
                             </div>
                         ))
                     )}

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { CartContext } from "../context/CartContext";
+import { CartContext } from "../context/cartContext";
 
 const BotonAgregar = ({ producto }) => {
     const { addToCart } = useContext(CartContext);
