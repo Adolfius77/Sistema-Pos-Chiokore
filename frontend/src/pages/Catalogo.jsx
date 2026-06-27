@@ -61,7 +61,7 @@ const Catalogo = () =>{
                                 </p>
                                <BotonAgregar
                                    producto={prod}
-                                   onAgregar={agregarAlCarrito}
+
                                    />
                             </div>
                         </div>

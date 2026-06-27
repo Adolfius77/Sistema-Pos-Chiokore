@@ -1,17 +1,23 @@
-import React, {useState} from "react";
+import React, { useState, useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
-const BotonAgregar = ({producto,onAgregar}) => {
-    const[agregado, setAgregado] = useState(false);
+const BotonAgregar = ({ producto }) => {
+    const { addToCart } = useContext(CartContext);
 
-    const manejarClick = () =>{
-        onAgregar(producto);
+    const [agregado, setAgregado] = useState(false);
+
+    const manejarClick = () => {
+        addToCart(producto);
         setAgregado(true);
+
         setTimeout(() => {
             setAgregado(false);
         }, 1000);
     };
+
     const sinStock = producto.stock === 0;
-    return(
+
+    return (
         <button
             className={`btn-agregar ${agregado ? 'agregado-exito' : ''}`}
             disabled={sinStock || agregado}
@@ -26,4 +32,5 @@ const BotonAgregar = ({producto,onAgregar}) => {
         </button>
     );
 };
+
 export default BotonAgregar;

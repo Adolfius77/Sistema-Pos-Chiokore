@@ -1,0 +1,165 @@
+.layout-carrito {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f6fa;
+}
+
+.carrito-container {
+  flex: 1;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 25px;
+  }
+}
+
+.carrito-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+
+.carrito-item-card {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 15px 25px;
+
+  .item-img {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 20px;
+  }
+
+  .item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .item-nombre {
+      font-size: 16px;
+      font-weight: 700;
+      color: #2d3748;
+    }
+
+    .item-precio {
+      font-size: 16px;
+      font-weight: 800;
+      color: #003bcc;
+      margin-top: 4px;
+    }
+  }
+
+
+  .item-controles {
+    display: flex;
+    align-items: center;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-right: 40px;
+
+    button {
+      background-color: #f8fafc;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #475569;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background-color: #e2e8f0;
+      }
+    }
+
+    input {
+      width: 40px;
+      text-align: center;
+      border: none;
+      border-left: 1px solid #cbd5e1;
+      border-right: 1px solid #cbd5e1;
+      font-weight: 800;
+      font-size: 15px;
+      color: #000;
+      outline: none;
+      background: white;
+    }
+  }
+
+  .item-subtotal {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1a1a1a;
+    min-width: 90px;
+    text-align: right;
+  }
+}
+
+
+.carrito-resumen {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .total-box {
+    background-color: #e2e6f0;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 20px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .total-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .total-monto {
+      font-size: 32px;
+      font-weight: 800;
+      color: #003bcc;
+    }
+  }
+
+  .btn-proceder-pago {
+    background-color: #003bcc;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #002aa3;
+    }
+
+    svg {
+      margin-bottom: 2px;
+    }
+  }
+}
