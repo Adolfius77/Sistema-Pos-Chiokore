@@ -8,6 +8,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import Categorias from "./pages/categorias.jsx";
 import Carrito from "./pages/carrito.jsx";
+import MetodoPago from "./pages/MetodoPago.jsx";
 import { useEffect, useState, useRef } from "react";
 
 const KeyCloakOptions = {
@@ -78,6 +79,7 @@ function App() {
                         <Route path="/catalogo/:id" element={<Catalogo />} />
                         <Route path="/carrito" element={<Carrito />} />
                         <Route path="*" element={<Navigate to="/categorias" replace />} />
+                        <Route path="/metodopago" element={<MetodoPago />} />
                     </Routes>
                 </div>
             </div>

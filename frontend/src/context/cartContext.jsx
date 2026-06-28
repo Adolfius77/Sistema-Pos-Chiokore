@@ -29,8 +29,8 @@ export const CartProvider = ({ children }) => {
         return cartItems.reduce((total, item) => total + (item.precio * item.cantidad), 0);
     };
 
-    const eliminarCarrito = () => {
-        setCartItems((prev) => prev.filter(item => item.cantidad !== id));
+    const eliminarCarrito = (id) => {
+        setCartItems((prev) => prev.filter(item => item.id !== id));
     }
 
     return (

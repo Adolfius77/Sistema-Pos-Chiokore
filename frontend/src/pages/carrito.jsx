@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../context/cartContext';
-
+import { useNavigate } from 'react-router-dom';
 
 const Carrito = () => {
-    const { cartItems, updateQuantity, getTotal } = useContext(CartContext);
+    const { cartItems, updateQuantity, getTotal,eliminarCarrito  } = useContext(CartContext);
+    const navigate = useNavigate();
     return (
         <div className="layout-carrito">
             <main className="carrito-container">
@@ -36,7 +37,8 @@ const Carrito = () => {
                                     ${(item.precio * item.cantidad).toFixed(2)}
                                 </div>
                                 <div className="btn-borrar">
-                                    <button onClick={() => eliminarCarrito(item.id)}>borrar</button>                                </div>
+                                    <button onClick={() => eliminarCarrito(item.id)}>borrar</button>
+                                </div>
                             </div>
                         ))
                     )}
@@ -48,7 +50,7 @@ const Carrito = () => {
                         <span className="total-monto">${getTotal().toFixed(2)}</span>
                     </div>
 
-                    <button className="btn-proceder-pago">
+                    <button className="btn-proceder-pago" onClick={() => navigate('/metodopago')}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <rect x="2" y="6" width="20" height="12" rx="2"></rect>
                             <circle cx="12" cy="12" r="2"></circle>
