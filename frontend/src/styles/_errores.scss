@@ -2,5 +2,14 @@
 .error-server{
   padding: 2rem;
   text-align: center;
-  color: $ColorErrores
+  color: $ColorErrores;
+
+  button {
+    margin-top: 12px;
+    margin-right: 8px;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
 }

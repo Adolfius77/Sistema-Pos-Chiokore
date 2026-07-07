@@ -1,10 +1,17 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CartContext } from '../context/cartContext';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/useCart.js";
 
 const MetodoPago = () => {
     const navigate = useNavigate();
-    const { getTotal } = useContext(CartContext);
+    const { getTotal, cartItems } = useCart();
+    const carritoVacio = cartItems.length === 0;
+
+    useEffect(() => {
+        if (carritoVacio) {
+            navigate("/carrito", { replace: true });
+        }
+    }, [carritoVacio, navigate]);
 
     return (
         <div className="layout-pago">
@@ -20,7 +27,8 @@ const MetodoPago = () => {
                     <div className="opciones-pago">
                         <button
                             className="btn-metodo"
-                            onClick={() => navigate('/checkout-efectivo')}
+                            disabled={carritoVacio}
+                            onClick={() => navigate('/checkout/efectivo')}
                         >
 
                             <img
@@ -34,7 +42,8 @@ const MetodoPago = () => {
 
                         <button
                             className="btn-metodo"
-                            onClick={() => navigate('/checkout-tarjeta')}
+                            disabled={carritoVacio}
+                            onClick={() => navigate('/checkout/tarjeta')}
                         >
                             <img
                                 src="/tarjeta-de-credito.png"

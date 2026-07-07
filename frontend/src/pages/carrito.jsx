@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
-import { CartContext } from '../context/cartContext';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from "../context/useCart.js";
 
 const Carrito = () => {
-    const { cartItems, updateQuantity, getTotal,eliminarCarrito  } = useContext(CartContext);
+    const { cartItems, updateQuantity, getTotal,eliminarCarrito  } = useCart();
     const navigate = useNavigate();
     return (
         <div className="layout-carrito">
@@ -12,7 +11,10 @@ const Carrito = () => {
 
                 <div className="carrito-items-list">
                     {cartItems.length === 0 ? (
-                        <p>Tu carrito está vacío.</p>
+                        <div className="carrito-vacio">
+                            <p>Tu carrito está vacío.</p>
+                            <button onClick={() => navigate('/categorias')}>Ir a categorías</button>
+                        </div>
                     ) : (
                         cartItems.map((item) => (
                             <div className="carrito-item-card" key={item.id}>
@@ -50,7 +52,11 @@ const Carrito = () => {
                         <span className="total-monto">${getTotal().toFixed(2)}</span>
                     </div>
 
-                    <button className="btn-proceder-pago" onClick={() => navigate('/metodopago')}>
+                    <button
+                        className="btn-proceder-pago"
+                        disabled={cartItems.length === 0}
+                        onClick={() => navigate('/metodopago')}
+                    >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <rect x="2" y="6" width="20" height="12" rx="2"></rect>
                             <circle cx="12" cy="12" r="2"></circle>

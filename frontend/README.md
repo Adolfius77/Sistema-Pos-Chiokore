@@ -1,16 +1,32 @@
-# React + Vite
+# Frontend - Sistema POS Chiokore
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación React + Vite para el flujo de venta (categorías, catálogo, carrito y cobro).
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 20+
+- Backend corriendo en el proyecto `backend/`
 
-## React Compiler
+## Variables de entorno
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Crea un archivo `.env` en `frontend/`:
 
-## Expanding the ESLint configuration
+```env
+VITE_API_BASE_URL=http://localhost:8080/api
+VITE_KEYCLOAK_URL=http://localhost:9090
+VITE_KEYCLOAK_REALM=sistema-pos-chiokore
+VITE_KEYCLOAK_CLIENT_ID=react-app-client
+VITE_DEFAULT_USUARIO_ID=1
+VITE_ENABLE_KEYCLOAK=true
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Scripts
+
+```powershell
+npm install
+npm run dev
+npm run lint
+npm run build
+```
+
+> Nota: actualmente no existe script `test` en `package.json`.

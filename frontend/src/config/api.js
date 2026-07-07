@@ -1,22 +1,23 @@
 import axios from "axios";
+import { API_BASE_URL, AUTH_TOKEN_STORAGE_KEY } from "./env.js";
 
 const apiCliente = axios.create({
-    baseURL: "http://localhost:8080/api",
+    baseURL: API_BASE_URL,
     timeout: 10000,
-    headers:{
-        "Content-Type": "application/json"
-    }
+    headers: {
+        "Content-Type": "application/json",
+    },
 });
+
 apiCliente.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem("token_keycloaken");
-        if(token){
-            config.headers['Authorization'] = `Bearer ${token}`;
+        const token = localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
     },
-    (error) => {
-        return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
 );
+
 export default apiCliente;

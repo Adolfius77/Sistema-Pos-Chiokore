@@ -1,0 +1,160 @@
+@use "variables" as *;
+
+.layout-efectivo {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5f6fa;
+  padding: 40px;
+  justify-content: center;
+}
+
+.efectivo-container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.panel-resumen {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+}
+
+.efectivo-card {
+  background-color: #E1E1EF;
+  border: 2px solid #D1D1E0;
+  border-radius: 15px;
+  padding: 20px;
+  h1 { color: #434656; font-size: 1.1rem; margin: 0; }
+  p { color: #64748b; font-size: 0.85rem; margin: 5px 0 0 0; }
+}
+
+.efectivo-recibido {
+  background-color: #E1E1EF;
+  border: 2px solid #D1D1E0;
+  border-radius: 15px;
+  padding: 20px;
+  h1 { color: #434656; font-size: 0.9rem; margin: 0; }
+  .monto-recibido { font-size: 2.2rem; font-weight: 800; color: #2D3748; }
+}
+
+.total-pagar {
+  background-color: #2E303A;
+  border-radius: 15px;
+  padding: 20px;
+  h1 { color: #A0AEC0; font-size: 0.9rem; margin: 0; }
+  .total-monto { color: #F6AD55; font-size: 2.2rem; font-weight: 800; }
+}
+
+.panel-teclado {
+  flex: 1;
+  background-color: #E1E1EF;
+  border: 2px solid #D1D1E0;
+  border-radius: 15px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 500px;
+  min-height: 300px;
+
+  h2 {
+    margin-bottom: 12px;
+  }
+}
+
+.input-monto {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  input {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1.2rem;
+  }
+}
+
+.teclado-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(70px, 1fr));
+  gap: 10px;
+
+  button {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 12px;
+    background: white;
+    cursor: pointer;
+    font-weight: 700;
+  }
+}
+
+.acciones-cobro {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-secundario,
+.btn-cobrar {
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  flex: 1;
+}
+
+.btn-secundario {
+  background: #e2e8f0;
+}
+
+.btn-cobrar {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-cobrar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.faltante {
+  color: #fca311;
+}
+
+.cambio {
+  color: #22c55e;
+}
+
+.error-text {
+  color: #93000A;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.venta-ok {
+  margin-top: 10px;
+  border: 1px solid #86efac;
+  background: #f0fdf4;
+  border-radius: 10px;
+  padding: 12px;
+
+  button {
+    margin-top: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #15803d;
+    color: white;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+}

@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
-import { CartContext } from "../context/cartContext";
+import { useState } from "react";
+import { useCart } from "../context/useCart.js";
 
 const BotonAgregar = ({ producto }) => {
-    const { addToCart } = useContext(CartContext);
+    const { addToCart } = useCart();
 
     const [agregado, setAgregado] = useState(false);
 

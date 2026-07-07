@@ -1,0 +1,35 @@
+.layout-tarjeta {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #0f172a;
+}
+
+.tarjeta-card {
+  width: 100%;
+  max-width: 520px;
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.monto-total {
+  margin: 8px 0 18px;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.tarjeta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  input {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+}

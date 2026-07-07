@@ -1,7 +1,7 @@
-import React, { useState, useEffect }from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import apiCliente from "../config/api.js";
-import BotonAgregar from '../Componentes/BotonAgregar';
+import BotonAgregar from "../Componentes/botonAgregar.jsx";
 
 const Catalogo = () =>{
     const {id } = useParams();
@@ -11,21 +11,21 @@ const Catalogo = () =>{
     const [cargando, setCargando] = useState(true);
     const[error, setError] = useState(null);
 
-    useEffect(() =>{
-        const obtenerProductos = async () =>{
-            try{
-                const respuesta = await apiCliente.get(`/productos/categoria/${id}`);
-                console.log("productos recibidos: " ,respuesta.data);
-                setProductos(respuesta.data);
-                setCargando(false);
-            }catch (err){
-                console.error("error en el fetch:", err);
-                setError("No se pudieron cargar los productos");
-                setCargando(false);
-            }
-        };
-        obtenerProductos();
+    const obtenerProductos = useCallback(async () =>{
+        try{
+            const respuesta = await apiCliente.get(`/productos/categoria/${id}`);
+            setProductos(respuesta.data);
+        }catch (err){
+            console.error("error en el fetch:", err);
+            setError("No se pudieron cargar los productos.");
+        } finally {
+            setCargando(false);
+        }
     }, [id]);
+
+    useEffect(() =>{
+        void obtenerProductos();
+    }, [obtenerProductos]);
     if (cargando) return (
         <div className="msj-cargando">
             <h2>Cargando inventario... </h2>
@@ -35,7 +35,18 @@ const Catalogo = () =>{
         <div className="error-server">
             <h2>Hubo un problema de conexión con el servidor </h2>
             <p>{error}</p>
-            <button onClick={() => navigate('/categorias')}>Volver</button>
+            <div className="error-actions">
+                <button
+                    onClick={() => {
+                        setCargando(true);
+                        setError(null);
+                        void obtenerProductos();
+                    }}
+                >
+                    Reintentar
+                </button>
+                <button onClick={() => navigate('/categorias')}>Volver</button>
+            </div>
         </div>
     );
     return (

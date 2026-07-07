@@ -140,6 +140,12 @@
     &:active {
       transform: scale(0.98);
     }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
   }
   @media(max-width: $mobile){
     padding: 20px 15px;

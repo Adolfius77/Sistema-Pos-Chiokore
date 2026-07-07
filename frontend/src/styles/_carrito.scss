@@ -26,6 +26,21 @@
   margin-bottom: 20px;
 }
 
+.carrito-vacio {
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+
+  button {
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+}
+
 
 .carrito-item-card {
   display: flex;
@@ -172,6 +187,12 @@
 
     &:hover {
       background-color: #002aa3;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background-color: #64748b;
     }
 
     svg {

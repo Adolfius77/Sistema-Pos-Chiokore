@@ -5,6 +5,9 @@
 @use "catalogo";
 @use "carrito";
 @use "metodoPago";
+@use "checkoutEfectivo";
+@use "checkoutTarjeta";
+@use "errores";
 @use "variables" as *;
 
 *{
@@ -36,5 +39,11 @@
   }
 }
 
-
+.warning-banner {
+  padding: 8px 12px;
+  background: #fff3cd;
+  color: #6a4d00;
+  border-bottom: 1px solid #ffe69c;
+  text-align: center;
+}
 
