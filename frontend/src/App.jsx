@@ -5,20 +5,18 @@ import Catalogo from "./pages/Catalogo.jsx";
 import CheckoutEfectivo from "./pages/CheckoutEfectivo.jsx";
 import CheckoutTarjeta from "./pages/CheckoutTarjeta.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { AUTH_TOKEN_STORAGE_KEY, URL_LOGIN_EXTERNO, URL_LOGOUT_EXTERNO } from "./config/env.js";
 
 import Categorias from "./pages/categorias.jsx";
 import Carrito from "./pages/carrito.jsx";
 import MetodoPago from "./pages/MetodoPago.jsx";
 import { useEffect, useState } from "react";
 import { AUTH_TOKEN_STORAGE_KEY } from "./config/env.js";
+import { jwtDecode } from "jwt-decode";
 
 function App() {
     const [tokenReady, setTokenReady] = useState(false);
     const [nombreUsuario, setNombreUsuario] = useState("Cajero");
-
-import { jwtDecode } from "jwt-decode"; // Asegúrate de instalar esto: npm install jwt-decode
-
-// ... dentro del componente App ...
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -32,11 +30,15 @@ import { jwtDecode } from "jwt-decode"; // Asegúrate de instalar esto: npm inst
                 setNombreUsuario(decoded.preferred_username || decoded.name || "Cajero");
             } catch (e) {
                 console.error("Token inválido", e);
+                localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+                window.location.removeItem(AUTH_TOKEN_STORAGE_KEY);
+                window.location.href = URL_LOGIN_EXTERNO;
+                return;
             }
             window.history.replaceState({}, document.title, window.location.pathname);
             setTokenReady(true);
         } else {
-            setTokenReady(true);
+            window.location.href = URL_LOGIN_EXTERNO;
         }
     }, []);
 
@@ -50,7 +52,7 @@ import { jwtDecode } from "jwt-decode"; // Asegúrate de instalar esto: npm inst
 
     const handleLogout = () => {
         localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
-        window.location.href = "https://url-sistema-externo.com/logout";
+        window.location.href = URL_LOGOUT_EXTERNO;
     };
 
     return (
