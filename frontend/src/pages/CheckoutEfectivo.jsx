@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/useCart.js";
 import { procesarCobro } from "../services/ventas.js";
-import { DEFAULT_USUARIO_ID } from "../config/env.js";
 
 const teclas = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0"];
 
@@ -38,10 +37,13 @@ const CheckoutEfectivo = () => {
             setProcesando(true);
             setError("");
             const venta = await procesarCobro({
-                usuarioId: DEFAULT_USUARIO_ID,
                 metodoPago: "EFECTIVO",
                 montoRecibido: montoValido,
-                items: cartItems
+                items: cartItems.map(item => ({
+                    producto_id: item.id,
+                    cantidad: item.cantidad,
+                    precio: item.precio
+                }))
             });
             setVentaExitosa(venta);
             clearCart();

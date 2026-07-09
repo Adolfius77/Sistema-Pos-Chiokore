@@ -11,7 +11,6 @@ import Categorias from "./pages/categorias.jsx";
 import Carrito from "./pages/carrito.jsx";
 import MetodoPago from "./pages/MetodoPago.jsx";
 import { useEffect, useState } from "react";
-import { AUTH_TOKEN_STORAGE_KEY } from "./config/env.js";
 import { jwtDecode } from "jwt-decode";
 
 function App() {

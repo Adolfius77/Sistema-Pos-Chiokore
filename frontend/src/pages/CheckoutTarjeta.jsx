@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/useCart.js";
 import { procesarCobro } from "../services/ventas.js";
-import { DEFAULT_USUARIO_ID } from "../config/env.js";
 
 const CheckoutTarjeta = () => {
     const navigate = useNavigate();
@@ -27,16 +26,22 @@ const CheckoutTarjeta = () => {
         try {
             setProcesando(true);
             setError("");
+
+
             await procesarCobro({
-                usuarioId: DEFAULT_USUARIO_ID,
                 metodoPago: "TARJETA",
                 montoRecibido: total,
-                items: cartItems
+                items: cartItems.map(item => ({
+                    producto_id: item.id,
+                    cantidad: item.cantidad,
+                    precio: item.precio
+                }))
             });
+
             clearCart();
             setOkMessage(`Pago aprobado (${referencia || `****${ultimos4}`}).`);
         } catch (errorCobro) {
-            setError(errorCobro.message);
+            setError(errorCobro.message || "Error al procesar el pago.");
         } finally {
             setProcesando(false);
         }
