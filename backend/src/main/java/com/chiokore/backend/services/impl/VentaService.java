@@ -28,7 +28,7 @@ public class VentaService implements IVentaService {
     private final VentaFactory ventaFactory;
 
     @Override
-    public Venta procesarVenta(CobroDTO cobroDTO) {
+    public Venta procesarVenta(CobroDTO cobroDTO, Long idTrabajador) {
         List<DetalleVenta> detalles = new ArrayList<>();
         double total = 0;
 
@@ -49,6 +49,7 @@ public class VentaService implements IVentaService {
             total += (p.getPrecio() * item.getCantidad());
         }
         Venta ventafinal = ventaFactory.crearVenta(cobroDTO, detalles, total);
+        ventafinal.setUsuarioId(Math.toIntExact(idTrabajador));
         return ventaRepository.save(ventafinal);
     }
 }
