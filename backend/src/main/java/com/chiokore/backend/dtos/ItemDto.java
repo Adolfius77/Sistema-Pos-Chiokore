@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class ItemDto {
     private int producto_id;
     private int cantidad;
+    private double precio;
 }

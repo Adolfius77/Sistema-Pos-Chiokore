@@ -22,7 +22,7 @@ public class VentaFactory {
     }
     public Venta crearVenta(CobroDTO cobro, List<DetalleVenta> detalles, double total){
         Venta venta = new Venta();
-        venta.setUsuarioId(cobro.getUsuario_id());
+
         venta.setMetodo_pago(cobro.getMetodoPago());
         venta.setMonto_recibido(cobro.getMontoRecibido());
         venta.setEstado(EstadoVenta.COMPLETADA);

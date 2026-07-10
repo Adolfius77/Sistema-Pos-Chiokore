@@ -13,13 +13,13 @@ export const procesarCobro = async ({ metodoPago, montoRecibido, items }) => {
             metodoPago,
             montoRecibido: Number(montoRecibido),
             items: items.map((item) => ({
-                producto_id: Number(item.id),
+                producto_id: Number(item.producto_id),
                 cantidad: Number(item.cantidad),
                 precio: Number(item.precio)
             })),
         };
 
-        const response = await apiCliente.post("/api/ventas/cobrar", payload);
+        const response = await apiCliente.post("/ventas/cobrar", payload);
         return response.data;
     } catch (error) {
         throw new Error(obtenerMensajeError(error), { cause: error });

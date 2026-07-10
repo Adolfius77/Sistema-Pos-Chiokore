@@ -10,7 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CobroDTO {
-    private int usuario_id;
     private String metodoPago;
     private double montoRecibido;
     private List<ItemDto> items;
