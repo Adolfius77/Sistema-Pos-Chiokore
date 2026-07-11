@@ -1,163 +1,210 @@
 @use "variables" as *;
-
 .layout-efectivo {
   display: flex;
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
-  background-color: #f5f6fa;
-  padding: 40px;
+  padding: $spacing-large;
   justify-content: center;
+  align-items: center;
 }
 
 .efectivo-container {
   display: flex;
   flex-direction: row;
-  gap: 30px;
+  gap: $gap-massive;
   width: 100%;
-  max-width: 900px;
+  max-width: 1100px;
 }
 
 .panel-resumen {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1.5rem;
   flex: 1;
 }
 
-.efectivo-card {
-  background-color: #E1E1EF;
-  border: 2px solid #D1D1E0;
-  border-radius: 15px;
-  padding: 20px;
-  h1 { color: #434656; font-size: 1.1rem; margin: 0; }
-  p { color: #64748b; font-size: 0.85rem; margin: 5px 0 0 0; }
-}
-
+.efectivo-card,
 .efectivo-recibido {
-  background-color: #E1E1EF;
-  border: 2px solid #D1D1E0;
-  border-radius: 15px;
-  padding: 20px;
-  h1 { color: #434656; font-size: 0.9rem; margin: 0; }
-  .monto-recibido { font-size: 2.2rem; font-weight: 800; color: #2D3748; }
+  background-color: $bg-tan;
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: $border-radius-inner;
+  padding: 1.5rem;
+
+  h1 {
+    color: $text-gray;
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 700;
+  }
+  p {
+    color: $text-gray;
+    font-size: 1.1rem;
+    margin: 5px 0 0 0;
+  }
+  .monto-recibido {
+    font-size: 3rem;
+    font-weight: 800;
+    color: $text-charcoal;
+    display: block;
+    margin-top: 0.5rem;
+  }
 }
 
 .total-pagar {
-  background-color: #2E303A;
-  border-radius: 15px;
-  padding: 20px;
-  h1 { color: #A0AEC0; font-size: 0.9rem; margin: 0; }
-  .total-monto { color: #F6AD55; font-size: 2.2rem; font-weight: 800; }
+  background-color: $text-charcoal;
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: $border-radius-inner;
+  padding: 1.5rem;
+
+  h1 {
+    color: $bg-tan;
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 700;
+  }
+  .total-monto {
+    color: $terracotta;
+    font-size: 3.8rem;
+    font-weight: 800;
+    display: block;
+    margin-top: 0.5rem;
+  }
+  .faltante {
+    color: $terracotta;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+  }
+  .cambio {
+    color: $ColorVerde;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+  }
 }
+
 
 .panel-teclado {
   flex: 1;
-  background-color: #E1E1EF;
-  border: 2px solid #D1D1E0;
-  border-radius: 15px;
-  padding: 20px;
-
+  background-color: $bg-tan;
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: $border-radius-soft;
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  max-height: 500px;
-  min-height: 300px;
 
   h2 {
-    margin-bottom: 12px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: $text-charcoal;
+    margin-bottom: 1.5rem;
   }
 }
 
 .input-monto {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  margin-bottom: 2rem;
+
+  label {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: $text-gray;
+  }
 
   input {
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 1.2rem;
+    border: 2px solid $border-color;
+    border-radius: 12px;
+    padding: 1.2rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: $text-charcoal;
+    background-color: white;
+    outline: none;
+
+    &:focus {
+      border-color: $primary-color;
+      background-color: $bg-cream;
+    }
   }
 }
 
 .teclado-grid {
-  margin-top: 12px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(70px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 2rem;
 
   button {
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    padding: 12px;
-    background: white;
+    background-color: white;
+    border: 2px solid $border-color;
+    border-bottom-width: 5px;
+    border-radius: 12px;
+    padding: 1.2rem;
+    font-size: 2rem;
+    font-weight: 800;
+    color: $text-charcoal;
     cursor: pointer;
-    font-weight: 700;
+    transition: transform 0.1s ease, border-bottom-width 0.1s ease;
+
+    &:active {
+      transform: translateY(3px);
+      border-bottom-width: 2px;
+    }
   }
 }
 
 .acciones-cobro {
   margin-top: auto;
   display: flex;
-  gap: 10px;
+  gap: 15px;
 }
 
 .btn-secundario,
 .btn-cobrar {
-  border: none;
-  border-radius: 8px;
-  padding: 12px;
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: 12px;
+  padding: 1.5rem;
+  font-size: 1.6rem;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 800;
   flex: 1;
+  transition: transform 0.1s ease, border-bottom-width 0.1s ease;
+
+  &:active:not(:disabled) {
+    transform: translateY(4px);
+    border-bottom-width: 2px;
+  }
 }
 
 .btn-secundario {
-  background: #e2e8f0;
+  background-color: white;
+  color: $text-charcoal;
 }
 
 .btn-cobrar {
-  background: #2563eb;
+  background-color: $primary-color;
   color: white;
-}
 
-.btn-cobrar:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.faltante {
-  color: #fca311;
-}
-
-.cambio {
-  color: #22c55e;
+  &:disabled {
+    background-color: $text-gray;
+    color: $bg-tan;
+    cursor: not-allowed;
+    border-bottom-width: 2px;
+    transform: translateY(4px);
+  }
 }
 
 .error-text {
-  color: #93000A;
-  font-weight: 600;
-  margin-top: 8px;
-}
-
-.venta-ok {
-  margin-top: 10px;
-  border: 1px solid #86efac;
-  background: #f0fdf4;
-  border-radius: 10px;
-  padding: 12px;
-
-  button {
-    margin-top: 8px;
-    border: none;
-    border-radius: 8px;
-    background: #15803d;
-    color: white;
-    padding: 8px 12px;
-    cursor: pointer;
-  }
-
+  color: $ColorErrores;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-top: 1rem;
 }
 
 .pantalla-exito {
@@ -169,74 +216,88 @@
 
   .exito-card {
     background-color: white;
-    padding: 3rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 4rem;
+    border: 2px solid $border-color;
+    border-bottom-width: 10px; // Tarjeta masiva y sólida
+    border-radius: $border-radius-soft;
     text-align: center;
-    min-width: 500px;
+    min-width: 600px;
 
     .icono-exito {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     h1 {
-      color: #10b981;
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
+      color: $ColorVerde;
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 2.5rem;
       margin-top: 0;
     }
 
     .exito-detalles {
-      background-color: #f9fafb;
-      padding: 1.5rem;
-      border-radius: 8px;
-      margin-bottom: 2rem;
+      background-color: $bg-cream;
+      border: 2px solid $border-color;
+      padding: 2.5rem;
+      border-radius: $border-radius-inner;
+      margin-bottom: 2.5rem;
 
       .fila-detalle {
         display: flex;
         justify-content: space-between;
-        font-size: 1.2rem;
-        color: #4b5563;
-        margin: 0.8rem 0;
+        align-items: center;
+        font-size: 1.6rem;
+        color: $text-gray;
+        margin: 1.2rem 0;
+
+        strong {
+          color: $text-charcoal;
+          font-weight: 800;
+        }
 
         &.cambio-resaltado {
-          color: #10b981;
-          font-size: 1.8rem;
-          font-weight: bold;
-          margin-top: 1.5rem;
+          font-size: 2.5rem;
+          font-weight: 800;
+          margin-top: 2.5rem;
+
+          span { color: $text-charcoal; font-size: 1.8rem;}
+          strong { color: $ColorVerde; }
         }
       }
 
       .separador {
         border: none;
-        border-top: 2px dashed #d1d5db;
-        margin: 1.5rem 0;
+        border-top: 3px dashed $text-gray;
+        margin: 2rem 0;
       }
     }
 
     .folio-texto {
-      color: #9ca3af;
-      margin-bottom: 2rem;
-      font-size: 1.1rem;
+      color: $text-gray;
+      margin-bottom: 3rem;
+      font-size: 1.4rem;
+      font-weight: 700;
     }
 
     .btn-nueva-venta {
       width: 100%;
-      padding: 1.2rem;
-      font-size: 1.3rem;
-      background-color: #10b981;
+      padding: 1.8rem;
+      font-size: 2rem;
+      background-color: $ColorVerde;
       color: white;
-      border: none;
-      border-radius: 8px;
+      border: 2px solid $border-color;
+      border-bottom-width: 8px;
+      border-radius: $border-radius-inner;
       cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s;
+      font-weight: 800;
+      transition: transform 0.1s ease, border-bottom-width 0.1s ease;
 
-      &:hover {
-        background-color: #059669;
+      &:active {
+        transform: translateY(6px);
+        border-bottom-width: 2px;
       }
     }
   }
