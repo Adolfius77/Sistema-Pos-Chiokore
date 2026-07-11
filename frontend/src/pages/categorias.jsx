@@ -18,13 +18,14 @@ const Categorias = () => {
         cargarCategorias();
     }, []);
 
+    
     const obtenerImagen = (nombre) => {
         const nombreLimpio = nombre.toLowerCase();
         if (nombreLimpio.includes('ropa')) return '/ropaA.png';
         if (nombreLimpio.includes('juguete')) return '/JuguetesA.png';
         if (nombreLimpio.includes('mueble')) return '/muebleA.png';
         if (nombreLimpio.includes('electro')) return '/electronicosA.png';
-        return '/camisa.png'; 
+        return '/camisa.png';
     };
 
     return (
@@ -35,7 +36,7 @@ const Categorias = () => {
                 {categorias.map((cat) => (
                     <button
                         key={cat.id}
-                        className="tactile-btn categoria-card"
+                        className="categoria-card"
                         onClick={() => navigate(`/catalogo/${cat.id}`)}
                     >
                         <div className="img-container">

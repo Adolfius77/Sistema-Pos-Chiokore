@@ -1,29 +1,31 @@
 
-// COLORES BASE Y FONDOS
 $ligth: #ffffff;
 $gray: #f1f3f4;
-$bg-main: #fcf9f8;         // Fondo principal de la pantalla (crema cálido)
-$bg-sidebar: #f3dfcb;      // Fondo del menú lateral
-$card-label-bg: #EAD7C3;   // Fondo inferior de las tarjetas de categoría
+$bg-main: #fcf9f8;
+$bg-cream: #FDFBF7;
+$bg-tan: #EBE3D5;
+$bg-tan-active: #D4C7B5;
+$card-label-bg: #EAD7C3;
 
-// COLORES PRIMARIOS Y MARCA
-$primary-color: #99462a;   // Terracota principal (MenU activo, logo, botones)
-$primary-hover: #7a2f15;   // Terracota oscuro para cuando haces clic
+$text-dark: #1b1c1c;
+$text-gray: #55433d;
+$text-charcoal: #2A2A2A;
+$border-color: #1b1c1c;
 
-// TEXTOS Y BORDES (Estilo Táctil / Físico)
-$text-dark: #1b1c1c;       // CarbOn oscuro para textos y bordes
-$text-gray: #55433d;       // Gris cálido para subtítulos
-$border-color: #1b1c1c;    // Color de los bordes gruesos de las tarjetas
+$primary-color: #99462a;
+$primary-hover: #7a2f15;
+$terracotta: #D98364;
+$terracotta-dark: #C56F50;
 
-// ESTADOS Y ALERTAS
-$ColorErrores: #ba1a1a;    // Rojo ajustado para que combine con la paleta cálida
-$ColorVerde: #22C55E;      // Verde brillante para la pantalla de "Venta Exitosa"
+$ColorSideBar: $bg-tan;
+$BordeSideBar: $text-charcoal;
 
-// MEDIDAS Y RESPONSIVE
+$ColorErrores: #ba1a1a;
+$ColorVerde: #22C55E;
+
 $mobile: 768px;
 
-// BORDES Y ESPACIADOS
-$border-radius-inner: 16px; // Redondeo interno (botones del sidebar, imágenes)
-$border-radius-soft: 24px;  // Redondeo suave externo (tarjetas grandes)
-$spacing-large: 3rem;       // Márgenes generales de las pantallas
-$gap-massive: 2rem;         // Separación entre las tarjetas de la cuadrícula
+$border-radius-inner: 16px;
+$border-radius-soft: 24px;
+$spacing-large: 3rem;
+$gap-massive: 2rem;

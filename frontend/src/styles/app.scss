@@ -10,8 +10,8 @@
 }
 
 body {
-  background-color: $bg-main;
-  color: $text-dark;
+  background-color: $bg-cream;
+  color: $text-charcoal;
   overflow: hidden;
 }
 
@@ -26,16 +26,14 @@ body {
   background-color: transparent;
 }
 
-
 .tactile-btn {
-  border: 2px solid $border-color;
-  border-bottom-width: 5px;
-  border-radius: $border-radius-lg;
+  border: 2px solid $text-charcoal;
+  border-bottom-width: 6px;
   transition: transform 0.1s ease, border-bottom-width 0.1s ease;
   cursor: pointer;
 
   &:active {
-    transform: translateY(3px);
+    transform: translateY(4px);
     border-bottom-width: 2px;
   }
 

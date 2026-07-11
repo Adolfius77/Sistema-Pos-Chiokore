@@ -1,19 +1,19 @@
 @import 'variables';
 
 .navbar {
-  background-color: $bg-main;
+  background-color: $bg-cream;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 3rem;
+  padding: 0 $spacing-large;
   height: 96px;
-  border-bottom: 2px solid $border-color;
+  border-bottom: 2px solid $text-charcoal;
   z-index: 20;
 
   .navbar-brand {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: $primary-color;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: $terracotta-dark;
     letter-spacing: -0.01em;
   }
 
@@ -24,15 +24,20 @@
 
     .btn-volume {
       background-color: white;
-      width: 56px;
-      height: 56px;
+      width: 64px;
+      height: 64px;
+      border-radius: $border-radius-inner;
       display: flex;
       align-items: center;
       justify-content: center;
 
       svg {
-        color: $text-dark;
+        color: $text-charcoal;
         stroke-width: 2.5px;
+      }
+
+      &:hover {
+        background-color: $gray;
       }
     }
 
@@ -40,21 +45,23 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      background-color: $bg-sidebar;
+      background-color: $bg-tan;
       padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+      border-radius: $border-radius-inner;
 
       .user-avatar {
         background-color: white;
-        width: 48px;
-        height: 48px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
-        border: 2px solid $border-color;
+        border: 2px solid $text-charcoal;
         display: flex;
         align-items: center;
         justify-content: center;
 
         svg {
-          stroke-width: 1.5px;
+          stroke-width: 2px;
+          color: $text-charcoal;
         }
       }
 
@@ -63,13 +70,14 @@
         flex-direction: column;
 
         .user-name {
-          font-size: 1.2rem;
+          font-size: 1.4rem;
           font-weight: 700;
           line-height: 1.2;
+          color: $text-charcoal;
         }
         .user-shift {
-          font-size: 1.1rem;
-          color: $text-gray;
+          font-size: 1.2rem;
+          color: #55433d;
           font-weight: 500;
         }
       }
