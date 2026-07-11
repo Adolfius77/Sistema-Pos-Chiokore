@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useCart } from "../context/useCart.js";
+import { ShoppingCart } from "lucide-react"; // 1. Importamos el ícono
 
 const BotonAgregar = ({ producto }) => {
     const { addToCart } = useCart();
@@ -23,12 +24,16 @@ const BotonAgregar = ({ producto }) => {
             disabled={sinStock || agregado}
             onClick={manejarClick}
         >
-            {sinStock
-                ? 'Sin existencias'
-                : agregado
-                    ? '¡Agregado! ✔️'
-                    : 'Agregar al Carrito'
-            }
+            {sinStock ? (
+                'Sin existencias'
+            ) : agregado ? (
+                '¡Agregado! ✔️'
+            ) : (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                    <ShoppingCart size={20} />
+                    Agregar al Carrito
+                </div>
+            )}
         </button>
     );
 };

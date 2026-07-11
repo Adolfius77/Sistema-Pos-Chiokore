@@ -3,4 +3,15 @@
   padding: 2rem;
   text-align: center;
 }
+.catalogo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: $spacing-large;
+  padding: 1rem;
+}
+.name{
+  font-weight: 900;
+  padding: 1rem 1.5rem;
+  font-size: 2.5rem;
+}
 

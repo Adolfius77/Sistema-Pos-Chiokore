@@ -1,4 +1,15 @@
-@import 'variables';
+
+@use 'variables' as *;
+@use 'navbar';
+@use 'sidebar';
+@use 'categorias';
+@use "carrito";
+@use "checkoutEfectivo";
+@use "checkoutTarjeta";
+@use "metodoPago";
+@use "catalogo";
+@use "errores";
+@use "productoCard";
 
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&display=swap');
 
@@ -17,15 +28,22 @@ body {
 
 .flex {
   display: flex;
-  height: calc(100vh - 96px);
+  flex-direction: column;
+  height: auto;
+  min-height: calc(100vh - 96px);
+
+  @media (min-width: $tablet) {
+    flex-direction: row;
+    height: calc(100vh - 96px);
+  }
 }
 
 .content {
   flex: 1;
   overflow-y: auto;
   background-color: transparent;
+  width: 100%;
 }
-
 
 .tactile-btn {
   border: 2px solid $border-color;
@@ -42,13 +60,3 @@ body {
     outline: none;
   }
 }
-@import 'navbar';
-@import 'sidebar';
-@import 'categorias';
-@import "carrito";
-@import "checkoutEfectivo";
-@import "checkoutTarjeta";
-@import "metodoPago";
-@import "catalogo";
-@import "errores";
-@import "productoCard";

@@ -1,21 +1,43 @@
-@import 'variables';
+@use 'variables' as *;
 
 .navbar {
   background-color: $bg-main;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 $spacing-large;
+  padding: 1rem 1rem;
   height: 96px;
   border-bottom: 2px solid $border-color;
   z-index: 20;
 
   .navbar-brand {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: $primary-color;
-    letter-spacing: -0.01em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+
+    .brand-logo {
+      width: 70px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-titulo{
+      font-size: 2rem;
+      font-weight: 900;
+      color: $primary-color;
+      line-height: 1;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+    .brand-subtitle{
+      font-size: 0.9rem ;
+      font-weight: 600;
+      color: $text-gray;
+      margin-top: 0.2rem;
+      letter-spacing: 1px;
+    }
   }
+
 
   .navbar-controls {
     display: flex;

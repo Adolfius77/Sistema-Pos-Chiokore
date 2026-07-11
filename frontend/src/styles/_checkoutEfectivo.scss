@@ -1,4 +1,5 @@
 @use "variables" as *;
+
 .layout-efectivo {
   display: flex;
   height: 100%;
@@ -218,7 +219,7 @@
     background-color: white;
     padding: 4rem;
     border: 2px solid $border-color;
-    border-bottom-width: 10px; // Tarjeta masiva y sólida
+    border-bottom-width: 10px;
     border-radius: $border-radius-soft;
     text-align: center;
     min-width: 600px;

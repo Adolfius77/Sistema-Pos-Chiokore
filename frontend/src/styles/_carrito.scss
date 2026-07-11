@@ -1,3 +1,4 @@
+@use "variables" as *;
 .layout-carrito {
   display: flex;
   min-height: 100vh;
@@ -6,13 +7,13 @@
 
 .carrito-container {
   flex: 1;
-  padding: 40px 60px;
+  padding: 40px 50px;
   display: flex;
   flex-direction: column;
   max-width: 900px;
 
   h1 {
-    font-size: 28px;
+    font-size: 2.5rem;
     font-weight: 800;
     color: #1a1a1a;
     margin-bottom: 25px;
@@ -32,13 +33,32 @@
   padding: 20px;
   text-align: center;
 
+  p{
+    font-size: 40px;
+    font-weight: bold;
+  }
   button {
     margin-top: 10px;
     border: none;
     border-radius: 6px;
     padding: 8px 12px;
     cursor: pointer;
+    font-size: 30px;
+    background-color: $primary-color;
+    color: white;
+
+    border: 2px solid $text-dark;
+    border-bottom-width: 6px;
+    border-radius: 12px;
+    transition: transform 0.1s ease, border-bottom-width 0.1s ease, background-color 0.2s;
+    &:active {
+      transform: translateY(4px);
+      border-bottom-width: 2px;
+    }
+    svg { stroke-width: 2.5px; }
   }
+
+
 }
 
 
@@ -48,11 +68,11 @@
   background-color: #ffffff;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  padding: 15px 25px;
+  padding: 45px 25px;
 
   .item-img {
-    width: 65px;
-    height: 65px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 4px;
     margin-right: 20px;
@@ -64,13 +84,13 @@
     flex-direction: column;
 
     .item-nombre {
-      font-size: 16px;
+      font-size: 35px;
       font-weight: 700;
       color: #2d3748;
     }
 
     .item-precio {
-      font-size: 16px;
+      font-size: 30px;
       font-weight: 800;
       color: #003bcc;
       margin-top: 4px;
@@ -90,7 +110,7 @@
       background-color: #f8fafc;
       border: none;
       padding: 10px 15px;
-      font-size: 16px;
+      font-size: 20px;
       font-weight: bold;
       color: #475569;
       cursor: pointer;
@@ -116,7 +136,7 @@
   }
 
   .item-subtotal {
-    font-size: 16px;
+    font-size: 25px;
     font-weight: 800;
     color: #1a1a1a;
     min-width: 90px;
@@ -132,6 +152,8 @@
       border-radius: 25px;
       padding: 8px 12px;
       cursor: pointer;
+      font-size: 20px;
+      font-weight: 800;
       transition: background-color 0.2s;
       &:hover {
         background-color: #dc2626;
@@ -156,7 +178,7 @@
     gap: 2px;
 
     .total-label {
-      font-size: 12px;
+      font-size: 35px;
       font-weight: 700;
       color: #475569;
       text-transform: uppercase;
@@ -164,7 +186,7 @@
     }
 
     .total-monto {
-      font-size: 32px;
+      font-size: 35px;
       font-weight: 800;
       color: #003bcc;
     }
@@ -185,6 +207,15 @@
     gap: 12px;
     transition: background-color 0.3s ease;
 
+    border: 2px solid $text-dark;
+    border-bottom-width: 6px ;
+    border-radius: 12px;
+
+    &:active {
+      transform: translateY(4px);
+      border-bottom-width: 2px;   
+    }
+
     &:hover {
       background-color: #002aa3;
     }
@@ -198,6 +229,7 @@
     svg {
       margin-bottom: 2px;
     }
+
   }
 
 }

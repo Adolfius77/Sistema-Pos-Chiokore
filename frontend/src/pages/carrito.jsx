@@ -7,7 +7,7 @@ const Carrito = () => {
     return (
         <div className="layout-carrito">
             <main className="carrito-container">
-                <h1>Carrito</h1>
+                <h1>CARRITO</h1>
 
                 <div className="carrito-items-list">
                     {cartItems.length === 0 ? (
@@ -39,7 +39,7 @@ const Carrito = () => {
                                     ${(item.precio * item.cantidad).toFixed(2)}
                                 </div>
                                 <div className="btn-borrar">
-                                    <button onClick={() => eliminarCarrito(item.id)}>borrar</button>
+                                    <button onClick={() => eliminarCarrito(item.id)}>Borrar</button>
                                 </div>
                             </div>
                         ))

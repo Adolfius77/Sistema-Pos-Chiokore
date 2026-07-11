@@ -6,7 +6,14 @@ const Navbar = ({ nombre }) => {
 
     return (
         <header className="navbar">
-            <div className="navbar-brand">CHIOKORE</div>
+            <div className="navbar-brand">
+                <img src="/LogoChio.png" alt="Logo Chiokore" className="brand-logo" />
+
+                <div className="brand-text">
+                    <h1 className="brand-titulo">Chiokore</h1>
+                    <span className="brand-subtitle">BAZAR CON CAUSA</span>
+                </div>
+            </div>
 
             <div className="navbar-controls">
                 <button

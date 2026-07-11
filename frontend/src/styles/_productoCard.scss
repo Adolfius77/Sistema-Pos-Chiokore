@@ -1,4 +1,5 @@
 @use "variables" as *;
+
 .productos-grid{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -22,7 +23,7 @@
 
 
 .stock {
-  font-size: 0.85rem;
+  font-size: 1rem;
   margin: 0 0 15px 0;
   margin-bottom: 10px;
 }
@@ -34,7 +35,7 @@
   border: none;
   cursor: pointer;
   padding: 10px;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: bold;
   width: 100%;
 

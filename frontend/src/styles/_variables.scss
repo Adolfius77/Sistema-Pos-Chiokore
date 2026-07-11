@@ -1,10 +1,11 @@
-
+//colores
 $ligth: #ffffff;
 $gray: #f1f3f4;
 $bg-main: #fcf9f8;
 $bg-cream: #FDFBF7;
 $card-label-bg: #EAD7C3;
 
+//colores de los textos
 $text-dark: #1b1c1c;
 $text-gray: #55433d;
 $text-charcoal: #2A2A2A;
@@ -12,19 +13,26 @@ $border-color: #1b1c1c;
 $bg-tan: #EBE3D5;
 $bg-tan-active: #D4C7B5;
 
+//colores primarios de la side bar
 $primary-color: #99462a;
 $primary-hover: #7a2f15;
 $terracotta: #D98364;
 $terracotta-dark: #C56F50;
 
+//colores del borde de la side bar y del fondo de la side bar
 $ColorSideBar: #f3dfcb;
 $BordeSideBar: #1b1c1c;
+
 
 $ColorErrores: #ba1a1a;
 $ColorVerde: #22C55E;
 
-$mobile: 768px;
+//variables responsive
+$mobile: 480px;
+$tablet:  768px;
+$desktop: 1024px;
 
+//bordes rendondos
 $border-radius-inner: 16px;
 $border-radius-soft: 24px;
 $spacing-large: 3rem;
