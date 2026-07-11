@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/useCart.js";
 import { procesarCobro } from "../services/ventas.js";
+import { CheckCircle } from "lucide-react";
 
 const teclas = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0"];
 
@@ -11,6 +12,7 @@ const CheckoutEfectivo = () => {
     const [montoInput, setMontoInput] = useState("");
     const [procesando, setProcesando] = useState(false);
     const [error, setError] = useState("");
+
     const [ventaExitosa, setVentaExitosa] = useState(null);
 
     const total = getTotal();
@@ -36,6 +38,7 @@ const CheckoutEfectivo = () => {
         try {
             setProcesando(true);
             setError("");
+
             const venta = await procesarCobro({
                 metodoPago: "EFECTIVO",
                 montoRecibido: montoValido,
@@ -45,11 +48,18 @@ const CheckoutEfectivo = () => {
                     precio: item.precio
                 }))
             });
-            setVentaExitosa(venta);
+
+            setVentaExitosa({
+                folio: venta.id || venta.venta?.id || "N/A",
+                totalPagado: total,
+                efectivoRecibido: montoValido,
+                cambioEntregado: cambio
+            });
+
             clearCart();
             setMontoInput("");
         } catch (errorCobro) {
-            setError(errorCobro.message);
+            setError(errorCobro.message || "Error al procesar el pago");
         } finally {
             setProcesando(false);
         }
@@ -63,6 +73,49 @@ const CheckoutEfectivo = () => {
             </div>
         );
     }
+
+    if (ventaExitosa) {
+        return (
+            <div className="layout-efectivo">
+                <main className="pantalla-exito">
+                    <div className="exito-card">
+
+                        <div className="icono-exito">
+                            <CheckCircle size={100} strokeWidth={2} color="#10b981" />
+                        </div>
+
+                        <h1>¡VENTA EXITOSA!</h1>
+
+                        <div className="exito-detalles">
+                            <div className="fila-detalle">
+                                <span>Total pagado:</span>
+                                <strong>${ventaExitosa.totalPagado.toFixed(2)}</strong>
+                            </div>
+                            <div className="fila-detalle">
+                                <span>Efectivo recibido:</span>
+                                <strong>${ventaExitosa.efectivoRecibido.toFixed(2)}</strong>
+                            </div>
+                            <hr className="separador" />
+                            <div className="fila-detalle cambio-resaltado">
+                                <span>Cambio a entregar:</span>
+                                <strong>${ventaExitosa.cambioEntregado.toFixed(2)}</strong>
+                            </div>
+                        </div>
+
+                        <p className="folio-texto">Folio de venta: #{ventaExitosa.folio}</p>
+
+                        <button className="btn-nueva-venta" onClick={() => {
+                            setVentaExitosa(null);
+                            navigate("/categorias");
+                        }}>
+                            NUEVA VENTA
+                        </button>
+                    </div>
+                </main>
+            </div>
+        );
+    }
+
 
     return (
         <div className="layout-efectivo">
@@ -83,13 +136,6 @@ const CheckoutEfectivo = () => {
                         {cambio > 0 && <p className="cambio">Cambio ${cambio.toFixed(2)}</p>}
                     </div>
                     {error && <p className="error-text">{error}</p>}
-                    {ventaExitosa && (
-                        <div className="venta-ok">
-                            <p>Venta registrada correctamente.</p>
-                            <small>Folio: #{ventaExitosa?.id || "N/A"}</small>
-                            <button onClick={() => navigate("/categorias")}>Nueva venta</button>
-                        </div>
-                    )}
                 </div>
 
                 <div className="panel-teclado">

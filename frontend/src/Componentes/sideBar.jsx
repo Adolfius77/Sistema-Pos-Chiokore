@@ -1,40 +1,29 @@
-import { NavLink } from 'react-router-dom'
-import { TbCategoryFilled } from "react-icons/tb";
-import { MdShoppingCart, MdLogout } from "react-icons/md";
+import { NavLink } from "react-router-dom";
+import { LayoutGrid, ShoppingCart, LogOut } from "lucide-react";
 
 const SideBar = ({ onLogout }) => {
-    return(
-        <div className="sidebar">
+    return (
+        <nav className="sidebar">
             <ul className="sidebar-menu">
-                <li className="sidebar-item">
-                    <NavLink
-                        to="/categorias"
-                        className={({ isActive }) => isActive ? "sidebar-link active-primary" : "sidebar-link"}
-                    >
-                        <TbCategoryFilled size={24} className="icon-primary" />
-                        <span>Categorías</span>
+                <li className="menu-item">
+                    <NavLink to="/categorias" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>
+                        <LayoutGrid size={32} /> Categorías
                     </NavLink>
                 </li>
-
-                <li className="sidebar-item">
-                    <NavLink
-                        to="/carrito"
-                        className={({ isActive }) => isActive ? "sidebar-link active-success" : "sidebar-link"}
-                    >
-                        <MdShoppingCart size={24} className="icon-success" />
-                        <span>Carrito</span>
+                <li className="menu-item">
+                    <NavLink to="/carrito" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>
+                        <ShoppingCart size={32} /> Carrito
                     </NavLink>
                 </li>
             </ul>
 
             <div className="sidebar-footer">
-                <button className="btn-cerrar" onClick={onLogout}>
-                    <MdLogout size={22} />
-                    <span>Cerrar Sesión</span>
+                <button className="tactile-btn btn-cerrar-sesion" onClick={onLogout}>
+                    <LogOut size={32} /> Cerrar Sesión
                 </button>
             </div>
-        </div>
-    )
-}
+        </nav>
+    );
+};
 
 export default SideBar;
