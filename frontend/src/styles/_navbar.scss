@@ -1,19 +1,19 @@
 @import 'variables';
 
 .navbar {
-  background-color: $bg-cream;
+  background-color: $bg-main;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 $spacing-large;
   height: 96px;
-  border-bottom: 2px solid $text-charcoal;
+  border-bottom: 2px solid $border-color;
   z-index: 20;
 
   .navbar-brand {
-    font-size: 2.8rem;
-    font-weight: 800;
-    color: $terracotta-dark;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $primary-color;
     letter-spacing: -0.01em;
   }
 
@@ -23,21 +23,16 @@
     gap: 1.5rem;
 
     .btn-volume {
-      background-color: white;
+      background-color: $ligth;
       width: 64px;
       height: 64px;
-      border-radius: $border-radius-inner;
       display: flex;
       align-items: center;
       justify-content: center;
 
       svg {
-        color: $text-charcoal;
-        stroke-width: 2.5px;
-      }
-
-      &:hover {
-        background-color: $gray;
+        color: $text-dark;
+        stroke-width: 2px;
       }
     }
 
@@ -45,24 +40,18 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      background-color: $bg-tan;
+      background-color: $ColorSideBar;
       padding: 0.5rem 1.5rem 0.5rem 0.5rem;
-      border-radius: $border-radius-inner;
 
       .user-avatar {
-        background-color: white;
-        width: 50px;
-        height: 50px;
+        background-color: $ligth;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
-        border: 2px solid $text-charcoal;
+        border: 2px solid $border-color;
         display: flex;
         align-items: center;
         justify-content: center;
-
-        svg {
-          stroke-width: 2px;
-          color: $text-charcoal;
-        }
       }
 
       .user-info {
@@ -70,15 +59,13 @@
         flex-direction: column;
 
         .user-name {
-          font-size: 1.4rem;
+          font-size: 1.3rem;
           font-weight: 700;
-          line-height: 1.2;
-          color: $text-charcoal;
+          color: $text-dark;
         }
         .user-shift {
-          font-size: 1.2rem;
-          color: #55433d;
-          font-weight: 500;
+          font-size: 1.1rem;
+          color: $text-gray;
         }
       }
     }

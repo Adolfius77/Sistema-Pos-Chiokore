@@ -1,46 +1,40 @@
 @import 'variables';
 
 .sidebar {
-  background-color: $bg-tan;
+  background-color: $ColorSideBar;
   width: 320px;
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: $spacing-large 1.5rem;
-  border-right: 2px solid $text-charcoal;
+  padding: 2rem 1.5rem;
+  border-right: 2px solid $BordeSideBar;
   z-index: 10;
 
   .sidebar-menu {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     flex-grow: 1;
 
     .menu-item {
       a {
         display: flex;
         align-items: center;
-        gap: 1.2rem;
+        gap: 1rem;
         padding: 1.2rem 1.5rem;
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         font-weight: 700;
-        color: $text-charcoal;
-        background-color: white;
+        color: $text-dark;
+        background-color: $ligth;
         text-decoration: none;
-        border-radius: $border-radius-inner;
 
-        svg {
-          stroke-width: 2.5px;
-        }
+        svg { stroke-width: 2.5px; }
 
         &.active {
-          background-color: $terracotta-dark;
-          color: white;
-
-          svg {
-            color: white;
-          }
+          background-color: $primary-color;
+          color: $ligth;
+          svg { color: $ligth; }
         }
       }
     }
@@ -54,18 +48,15 @@
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 1.2rem;
-      background-color: white;
-      color: $terracotta-dark;
-      padding: 1.2rem;
-      font-size: 1.6rem;
+      justify-content: flex-start;
+      gap: 1rem;
+      background-color: $ligth;
+      color: $primary-color;
+      padding: 1.2rem 1.5rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      border-radius: $border-radius-inner;
 
-      svg {
-        stroke-width: 2.5px;
-      }
+      svg { stroke-width: 2.5px; }
     }
   }
 }

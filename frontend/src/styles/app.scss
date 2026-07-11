@@ -1,5 +1,4 @@
 @import 'variables';
-
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&display=swap');
 
 * {
@@ -10,8 +9,8 @@
 }
 
 body {
-  background-color: $bg-cream;
-  color: $text-charcoal;
+  background-color: $bg-main;
+  color: $text-dark;
   overflow: hidden;
 }
 
@@ -26,18 +25,23 @@ body {
   background-color: transparent;
 }
 
+
 .tactile-btn {
-  border: 2px solid $text-charcoal;
-  border-bottom-width: 6px;
+  border: 2px solid $border-color;
+  border-bottom-width: 5px;
+  border-radius: $border-radius-inner;
   transition: transform 0.1s ease, border-bottom-width 0.1s ease;
   cursor: pointer;
 
   &:active {
-    transform: translateY(4px);
+    transform: translateY(3px);
     border-bottom-width: 2px;
   }
-
   &:focus {
     outline: none;
   }
 }
+
+@import 'navbar';
+@import 'sidebar';
+@import 'categorias';

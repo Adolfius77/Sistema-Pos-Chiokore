@@ -13,12 +13,12 @@ const Navbar = ({ nombre }) => {
                     className="tactile-btn btn-volume"
                     onClick={() => setAudioActivado(!audioActivado)}
                 >
-                    {audioActivado ? <Volume2 size={36}/> : <VolumeX size={36}/>}
+                    {audioActivado ? <Volume2 size={32}/> : <VolumeX size={32}/>}
                 </button>
 
                 <div className="tactile-btn user-profile">
                     <div className="user-avatar">
-                        <User size={30} />
+                        <User size={28} />
                     </div>
                     <div className="user-info">
                         <span className="user-name">{nombre}</span>
