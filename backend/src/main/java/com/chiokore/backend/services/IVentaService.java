@@ -6,4 +6,5 @@ import com.chiokore.backend.modelo.Venta;
 public interface IVentaService {
     Venta procesarVenta(CobroDTO cobroDTO, Long idTrabajador);
 
+    Venta procesarVenta(CobroDTO cobroDTO, Long idTrabajador, String urlComprobante);
 }

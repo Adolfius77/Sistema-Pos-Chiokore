@@ -51,7 +51,7 @@ const MetodoPago = () => {
                                 className="icono-pago"
                             />
                             <span>TARJETA</span>
-                            <p>Saque la terminal y pida la tarjeta</p>
+                            <p>Cobre en la terminal y suba foto del ticket</p>
                         </button>
                     </div>
 

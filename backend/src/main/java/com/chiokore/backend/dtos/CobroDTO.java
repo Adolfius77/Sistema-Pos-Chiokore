@@ -12,5 +12,6 @@ import java.util.List;
 public class CobroDTO {
     private String metodoPago;
     private double montoRecibido;
+    private String referencia;
     private List<ItemDto> items;
 }

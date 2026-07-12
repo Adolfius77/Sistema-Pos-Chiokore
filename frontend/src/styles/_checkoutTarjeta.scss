@@ -1,35 +1,340 @@
+@use "variables" as *;
+
 .layout-tarjeta {
-  min-height: 100vh;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: $spacing-large;
+  justify-content: center;
+  align-items: center;
+}
+
+.tarjeta-container {
+  display: flex;
+  flex-direction: row;
+  gap: $gap-massive;
+  width: 100%;
+  max-width: 1100px;
+
+  @media (max-width: $tablet) {
+    flex-direction: column;
+  }
+}
+
+.layout-tarjeta .panel-resumen {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.tarjeta-info-card {
+  background-color: $bg-tan;
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: $border-radius-inner;
+  padding: 1.5rem;
+
+  h1 {
+    color: $text-gray;
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 700;
+  }
+
+  p {
+    color: $text-gray;
+    font-size: 1.1rem;
+    margin: 5px 0 0 0;
+  }
+}
+
+.layout-tarjeta .total-pagar {
+  background-color: $text-charcoal;
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: $border-radius-inner;
+  padding: 1.5rem;
+
+  h1 {
+    color: $bg-tan;
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .total-monto {
+    color: $terracotta;
+    font-size: 3.8rem;
+    font-weight: 800;
+    display: block;
+    margin-top: 0.5rem;
+  }
+}
+
+.panel-ticket {
+  flex: 1;
+  background-color: $bg-tan;
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: $border-radius-soft;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: $text-charcoal;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.input-foto-oculto {
+  display: none;
+}
+
+.zona-foto {
+  width: 100%;
+  min-height: 280px;
+  border: 3px dashed $border-color;
+  border-radius: $border-radius-inner;
+  background-color: white;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  background: #0f172a;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background-color: $bg-cream;
+    border-color: $primary-color;
+  }
+
+  &.con-preview {
+    border-style: solid;
+    border-width: 2px;
+    border-bottom-width: 5px;
+    min-height: 320px;
+  }
 }
 
-.tarjeta-card {
-  width: 100%;
-  max-width: 520px;
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-}
-
-.monto-total {
-  margin: 8px 0 18px;
-  font-size: 1.3rem;
-  font-weight: 700;
-}
-
-.tarjeta-form {
+.zona-foto-vacia {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  color: $text-gray;
+  text-align: center;
+
+  span {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: $text-charcoal;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.preview-ticket {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  object-fit: contain;
+  background-color: $bg-cream;
+  display: block;
+}
+
+.btn-cambiar-foto {
+  margin-top: 1rem;
+  align-self: flex-start;
+  background-color: white;
+  border: 2px solid $border-color;
+  border-bottom-width: 5px;
+  border-radius: 12px;
+  padding: 0.9rem 1.4rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: $text-charcoal;
+  cursor: pointer;
+  transition: transform 0.1s ease, border-bottom-width 0.1s ease;
+
+  &:active {
+    transform: translateY(3px);
+    border-bottom-width: 2px;
+  }
+}
+
+.input-referencia {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+
+  label {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: $text-gray;
+  }
 
   input {
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 8px;
+    border: 2px solid $border-color;
+    border-radius: 12px;
+    padding: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: $text-charcoal;
+    background-color: white;
+    outline: none;
+
+    &:focus {
+      border-color: $primary-color;
+      background-color: $bg-cream;
+    }
+  }
+}
+
+.layout-tarjeta .acciones-cobro {
+  margin-top: auto;
+  display: flex;
+  gap: 15px;
+}
+
+.layout-tarjeta .btn-secundario,
+.layout-tarjeta .btn-cobrar {
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: 12px;
+  padding: 1.5rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  font-weight: 800;
+  flex: 1;
+  transition: transform 0.1s ease, border-bottom-width 0.1s ease;
+
+  &:active:not(:disabled) {
+    transform: translateY(4px);
+    border-bottom-width: 2px;
+  }
+}
+
+.layout-tarjeta .btn-secundario {
+  background-color: white;
+  color: $text-charcoal;
+}
+
+.layout-tarjeta .btn-cobrar {
+  background-color: $primary-color;
+  color: white;
+
+  &:disabled {
+    background-color: $text-gray;
+    color: $bg-tan;
+    cursor: not-allowed;
+    border-bottom-width: 2px;
+    transform: translateY(4px);
+  }
+}
+
+.layout-tarjeta .error-text {
+  color: $ColorErrores;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-top: 1rem;
+}
+
+.layout-tarjeta .pantalla-exito {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  .exito-card {
+    background-color: white;
+    padding: 4rem;
+    border: 2px solid $border-color;
+    border-bottom-width: 10px;
+    border-radius: $border-radius-soft;
+    text-align: center;
+    min-width: 600px;
+    max-width: 100%;
+
+    .icono-exito {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      color: $ColorVerde;
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 2.5rem;
+      margin-top: 0;
+    }
+
+    .exito-detalles {
+      background-color: $bg-cream;
+      border: 2px solid $border-color;
+      padding: 2.5rem;
+      border-radius: $border-radius-inner;
+      margin-bottom: 2.5rem;
+
+      .fila-detalle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.6rem;
+        color: $text-gray;
+        margin: 1.2rem 0;
+
+        strong {
+          color: $text-charcoal;
+          font-weight: 800;
+        }
+      }
+
+      .separador {
+        border: none;
+        border-top: 3px dashed $text-gray;
+        margin: 2rem 0;
+      }
+    }
+
+    .folio-texto {
+      color: $text-gray;
+      margin-bottom: 3rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .btn-nueva-venta {
+      width: 100%;
+      padding: 1.8rem;
+      font-size: 2rem;
+      background-color: $ColorVerde;
+      color: white;
+      border: 2px solid $border-color;
+      border-bottom-width: 8px;
+      border-radius: $border-radius-inner;
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform 0.1s ease, border-bottom-width 0.1s ease;
+
+      &:active {
+        transform: translateY(6px);
+        border-bottom-width: 2px;
+      }
+    }
   }
 }

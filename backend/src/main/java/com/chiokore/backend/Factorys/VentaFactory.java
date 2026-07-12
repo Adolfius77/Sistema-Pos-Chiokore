@@ -28,8 +28,10 @@ public class VentaFactory {
         venta.setEstado(EstadoVenta.COMPLETADA);
         venta.setFecha_hora(LocalDateTime.now());
         venta.setDetalles(detalles);
+        venta.setReferencia(cobro.getReferencia());
 
-        venta.setTotal(total);if (cobro.getMontoRecibido() < total) {
+        venta.setTotal(total);
+        if (cobro.getMontoRecibido() < total) {
             throw new IllegalArgumentException("El monto recibido (" + cobro.getMontoRecibido() + ") es menor al total de la venta (" + total + ")");
         }
         venta.setCambio_entregado(cobro.getMontoRecibido() - total);
