@@ -21,14 +21,6 @@ const Categorias = () => {
         cargarCategorias();
     }, []);
 
-    const obtenerImagen = (nombre) => {
-        const nombreLimpio = nombre.toLowerCase();
-        if (nombreLimpio.includes('ropa')) return '/ropaA.png';
-        if (nombreLimpio.includes('juguete')) return '/JuguetesA.png';
-        if (nombreLimpio.includes('mueble')) return '/muebleA.png';
-        if (nombreLimpio.includes('electro')) return '/electronicosA.png';
-        return '/camisa.png';
-    };
 
     return (
         <div className="layout-categorias">
@@ -45,7 +37,7 @@ const Categorias = () => {
                             onClick={() => navigate(`/catalogo/${cat.id}`)}
                         >
                             <div className="img-container">
-                                <img src={obtenerImagen(cat.nombre)} alt={cat.nombre} />
+                                <img src={cat.url_imagen || '/camisa.png'} alt={cat.nombre} />
                             </div>
                             <div className="label-container">
                                 <h2>{cat.nombre.toUpperCase()}</h2>
