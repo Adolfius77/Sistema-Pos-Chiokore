@@ -5,21 +5,24 @@ import com.chiokore.backend.modelo.Venta;
 import com.chiokore.backend.services.IVentaService;
 import com.chiokore.backend.services.TicketStorageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-
 
 @RestController
 @RequestMapping("/api/ventas")
@@ -78,5 +81,22 @@ public class ventaController {
             response.put("error", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+    }
+
+    // GET /api/ventas?desde=2026-07-01&hasta=2026-07-15
+    // Resumen de ventas completadas del periodo. Lo consume el modulo de Nomina.
+    @GetMapping
+    public ResponseEntity<?> resumen(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
+        return ResponseEntity.ok(ventaService.resumen(desde, hasta));
+    }
+
+    // GET /api/ventas/diario?desde=...&hasta=...  -> ventas agrupadas por dia
+    @GetMapping("/diario")
+    public ResponseEntity<?> ventasPorDia(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
+        return ResponseEntity.ok(ventaService.ventasPorDia(desde, hasta));
     }
 }
