@@ -1,0 +1,105 @@
+
+.promociones-container {
+  padding: 2rem;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  overflow-y: auto;
+
+  .promociones-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+  }
+
+  .promociones-loading,
+  .promociones-empty {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #6b7280;
+    margin-top: 2rem;
+  }
+
+  .promociones-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 1280px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+
+  .promo-card {
+    border: 3px solid #000000;
+    border-radius: 1rem;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .promo-body {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 12rem;
+      position: relative;
+
+      .promo-icon {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        color: #a64d32;
+      }
+
+      .promo-descuento {
+        font-size: 4rem;
+        font-weight: 900;
+        color: #a64d32;
+        letter-spacing: -2px;
+        line-height: 1;
+        text-align: center;
+      }
+
+      .promo-fecha {
+        color: #6b7280;
+        font-weight: 700;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 1rem;
+        text-align: center;
+      }
+    }
+
+    .promo-base {
+      background-color: #ebdcc9;
+      border-top: 3px solid #000000;
+      padding: 1.5rem;
+      text-align: center;
+
+      .promo-aplica {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #000000;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    }
+  }
+}

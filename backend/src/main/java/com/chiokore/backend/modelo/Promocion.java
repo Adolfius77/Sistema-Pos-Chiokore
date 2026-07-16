@@ -28,7 +28,7 @@ public class Promocion {
 
     @Column(name = "activo", nullable = false)
     private boolean activo;
-    
+
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
