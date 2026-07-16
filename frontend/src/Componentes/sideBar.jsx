@@ -15,6 +15,11 @@ const SideBar = ({ onLogout }) => {
                         <ShoppingCart size={32} /> Carrito
                     </NavLink>
                 </li>
+                <li className="menu-item">
+                    <NavLink to="/Promociones" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>
+                        <ShoppingCart size={32} /> Promociones
+                    </NavLink>
+                </li>
             </ul>
 
             <div className="sidebar-footer">

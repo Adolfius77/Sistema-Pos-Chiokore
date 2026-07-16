@@ -11,6 +11,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { AUTH_TOKEN_STORAGE_KEY, URL_LOGIN_EXTERNO, URL_LOGOUT_EXTERNO } from "./config/env.js";
+import Promociones from "./pages/promociones.jsx";
 
 function App() {
     const [tokenReady, setTokenReady] = useState(false);
@@ -67,6 +68,8 @@ function App() {
                         <Route path="/checkout/efectivo" element={<CheckoutEfectivo />} />
                         <Route path="/checkout/tarjeta" element={<CheckoutTarjeta />} />
                         <Route path="*" element={<Navigate to="/categorias" replace />} />
+                        <Route path="/promociones" element={<Promociones />} />
+
                     </Routes>
                 </div>
             </div>
