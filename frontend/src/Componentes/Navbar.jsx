@@ -1,12 +1,15 @@
-import { Volume2, VolumeX, User } from "lucide-react";
+import { Volume2, VolumeX, User, Menu, X } from "lucide-react";
 import { useState } from "react";
 
-const Navbar = ({ nombre }) => {
+const Navbar = ({ nombre, onToggleSidebar, sidebarOpen }) => {
     const [audioActivado, setAudioActivado] = useState(true);
 
     return (
         <header className="navbar">
             <div className="navbar-brand">
+                <button className="menu-toggle-btn" onClick={onToggleSidebar}>
+                    {sidebarOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
                 <img src="/LogoChio.png" alt="Logo Chiokore" className="brand-logo" />
 
                 <div className="brand-text">

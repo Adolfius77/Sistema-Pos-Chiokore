@@ -1,22 +1,43 @@
 @use 'variables' as *;
 
 .layout-categorias {
-  padding: $spacing-large;
+  padding: 1.5rem;
   height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+
+  @media (min-width: $tablet) {
+    padding: $spacing-large;
+  }
 
   h1.titulo-seccion {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: $text-dark;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     text-transform: uppercase;
+
+    @media (min-width: $tablet) {
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+    }
   }
 
   .categorias-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    max-width: 1200px;
+    gap: 1rem;
+    max-width: 100%;
+
+    @media (min-width: $tablet) {
+      gap: 2rem;
+      max-width: 1200px;
+    }
+
+    @media (min-width: $desktop) {
+      grid-template-columns: repeat(3, 1fr);
+    }
 
     .categoria-card {
       display: flex;
@@ -24,32 +45,54 @@
       background-color: $card-label-bg;
       padding: 0;
       overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
       .img-container {
         width: 100%;
-        aspect-ratio: 1.34 / 1;
+        aspect-ratio: 4 / 3;
         background-color: $ligth;
-        border-bottom: 2px solid $border-color;
+        flex-shrink: 0;
 
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          transition: transform 0.3s ease;
         }
       }
 
       .label-container {
-        padding: 1.5rem;
+        padding: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
+        min-width: 0;
+
+        @media (min-width: $tablet) {
+          padding: 1.5rem;
+        }
 
         h2 {
-          font-size: 2rem;
+          font-size: 1.25rem;
           font-weight: 700;
           color: $text-dark;
           margin: 0;
+          text-align: center;
+          word-break: break-word;
+
+          @media (max-width: $mobile) {
+            font-size: 0.85rem;
+          }
+
+          @media (min-width: $tablet) {
+            font-size: 2rem;
+          }
         }
+      }
+
+      &:hover .img-container img {
+        transform: scale(1.05);
       }
     }
   }

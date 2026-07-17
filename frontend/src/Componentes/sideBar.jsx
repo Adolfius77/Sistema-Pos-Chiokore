@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { LayoutGrid, ShoppingCart, LogOut } from "lucide-react";
 
-const SideBar = ({ onLogout }) => {
+const SideBar = ({ onLogout, sidebarOpen }) => {
     return (
-        <nav className="sidebar">
+        <nav className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
             <ul className="sidebar-menu">
                 <li className="menu-item">
                     <NavLink to="/categorias" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>

@@ -31,11 +31,12 @@ body {
   display: flex;
   flex-direction: column;
   height: auto;
-  min-height: calc(100vh - 96px);
+  min-height: calc(100vh - 72px);
 
   @media (min-width: $tablet) {
     flex-direction: row;
     height: calc(100vh - 96px);
+    min-height: auto;
   }
 }
 
@@ -44,6 +45,7 @@ body {
   overflow-y: auto;
   background-color: transparent;
   width: 100%;
+  max-width: 100%;
 }
 
 .tactile-btn {
@@ -59,5 +61,20 @@ body {
   }
   &:focus {
     outline: none;
+  }
+}
+
+// Warning banner
+.warning-banner {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+
+  @media (min-width: $tablet) {
+    font-size: 1.1rem;
+    padding: 1rem;
   }
 }

@@ -2,10 +2,19 @@
 
 .productos-grid{
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap:30px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 100%;
+
+  @media (min-width: $tablet) {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+    padding: 20px;
+  }
 }
+
 .producto-card{
   border: 1px solid $BordeSideBar;
   border-radius: 12px;
@@ -15,17 +24,75 @@
   flex-direction: column;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
 }
 
+.img-producto{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+
+  img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.info-producto {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 6px;
+
+  @media (min-width: $tablet) {
+    padding: 15px;
+    gap: 8px;
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #333;
+    word-break: break-word;
+    overflow-wrap: break-word;
+
+    @media (min-width: $tablet) {
+      font-size: 1.1rem;
+    }
+  }
+
+  .precio {
+    margin: 0 0 6px 0;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #93000A;
+    border-radius: 10px;
+    border: 3px solid #572000;
+    padding: 4px 8px;
+    text-align: center;
+
+    @media (min-width: $tablet) {
+      font-size: 1.25rem;
+      margin: 0 0 8px 0;
+    }
+  }
+}
 
 .stock {
-  font-size: 1rem;
-  margin: 0 0 15px 0;
-  margin-bottom: 10px;
+  font-size: 0.85rem;
+  margin: 0 0 10px 0;
+
+  @media (min-width: $tablet) {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
 }
 
 .btn-agregar{
@@ -34,19 +101,25 @@
   color: #000;
   border: none;
   cursor: pointer;
-  padding: 10px;
-  font-size: 17px;
+  padding: 8px;
+  font-size: 0.85rem;
   font-weight: bold;
   width: 100%;
-
   margin-top: auto;
   transition: all 0.3s ease;
 
+  @media (min-width: $tablet) {
+    padding: 10px;
+    font-size: 17px;
+  }
+
   &:hover { opacity: 0.8; }
   &:disabled { background-color: #ccc; cursor: not-allowed; }
+
   &.active{
     transform: scale(0.95);
   }
+
   &.agregado-exito {
     background-color: #0d6efd;
     color: white;
@@ -54,39 +127,3 @@
     box-shadow: 0 4px 10px rgba(13, 110, 253, 0.4);
   }
 }
-.img-producto{
-  height: 180px;
-
-  img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-.info-producto {
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 8px;
-
-  h4 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: #333;
-
-  }
-
-  .precio {
-    margin: 0 0 8px 0;
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: white;
-    background-color: #93000A;
-    border-radius: 10px;
-    border:  3px solid #572000 ;
-  }
-
-}
-
-

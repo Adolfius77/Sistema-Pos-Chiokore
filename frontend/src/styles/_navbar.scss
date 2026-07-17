@@ -5,52 +5,93 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1rem;
-  height: 96px;
+  padding: 0.75rem 1rem;
+  height: 72px;
   border-bottom: 2px solid $border-color;
   z-index: 20;
 
+  @media (min-width: $tablet) {
+    padding: 1rem 1.5rem;
+    height: 96px;
+  }
+
   .navbar-brand {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
+
+    @media (min-width: $tablet) {
+      gap: 1rem;
+    }
 
     .brand-logo {
-      width: 70px;
+      width: 50px;
       height: auto;
       object-fit: contain;
+
+      @media (min-width: $tablet) {
+        width: 70px;
+      }
     }
+    .brand-text {
+      min-width: 0;
+      overflow: hidden;
+    }
+
     .brand-titulo{
-      font-size: 2rem;
+      font-size: 1.4rem;
       font-weight: 900;
       color: $primary-color;
       line-height: 1;
       margin: 0;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @media (min-width: $tablet) {
+        font-size: 2rem;
+        letter-spacing: 2px;
+      }
     }
     .brand-subtitle{
-      font-size: 0.9rem ;
+      font-size: 0.6rem;
       font-weight: 600;
       color: $text-gray;
-      margin-top: 0.2rem;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @media (min-width: $tablet) {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        margin-top: 0.2rem;
+      }
     }
   }
-
 
   .navbar-controls {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.75rem;
+
+    @media (min-width: $tablet) {
+      gap: 1.5rem;
+    }
 
     .btn-volume {
       background-color: $ligth;
-      width: 64px;
-      height: 64px;
+      width: 48px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @media (min-width: $tablet) {
+        width: 64px;
+        height: 64px;
+      }
 
       svg {
         color: $text-dark;
@@ -61,33 +102,58 @@
     .user-profile {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.5rem;
       background-color: $ColorSideBar;
-      padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+      padding: 0.4rem 1rem 0.4rem 0.4rem;
+
+      @media (min-width: $tablet) {
+        gap: 1rem;
+        padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+      }
 
       .user-avatar {
         background-color: $ligth;
-        width: 48px;
-        height: 48px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         border: 2px solid $border-color;
         display: flex;
         align-items: center;
         justify-content: center;
+
+        svg {
+          width: 24px;
+          height: 24px;
+        }
       }
 
       .user-info {
         display: flex;
         flex-direction: column;
+        min-width: 0;
+        overflow: hidden;
 
         .user-name {
-          font-size: 1.3rem;
+          font-size: 1rem;
           font-weight: 700;
           color: $text-dark;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100px;
+
+          @media (min-width: $tablet) {
+            font-size: 1.3rem;
+            max-width: 180px;
+          }
         }
         .user-shift {
-          font-size: 1.1rem;
-          color: $text-gray;
+          display: none;
+          @media (min-width: $desktop) {
+            display: block;
+            font-size: 1.1rem;
+            color: $text-gray;
+          }
         }
       }
     }

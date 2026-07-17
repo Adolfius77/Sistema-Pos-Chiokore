@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Tag } from 'lucide-react';
-import axios from 'axios';
-import { API_BASE_URL } from '../config/env';
+import apiCliente from '../config/api';
 
 const Promociones = () => {
     const [promociones, setPromociones] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`${API_BASE_URL}/api/promociones/activas`)
+        apiCliente.get("/promociones/activas")
             .then(response => {
                 setPromociones(response.data);
                 setLoading(false);
@@ -32,19 +31,23 @@ const Promociones = () => {
 
     return (
         <div className="promociones-container">
-            <h1 className="promociones-title">PROMOCIONES ACTIVAS</h1>
+            <h1 className="promociones-title">OFERTAS ESPECIALES</h1>
 
             <div className="promociones-grid">
                 {promociones.map((promo) => (
                     <div key={promo.id} className="promo-card">
+                        {promo.url_imagen && (
+                            <div className="promo-img">
+                                <img src={promo.url_imagen} alt={promo.nombre} />
+                            </div>
+                        )}
                         <div className="promo-body">
                             <Tag className="promo-icon" size={32} />
-                            <span className="promo-descuento">{promo.descuento}</span>
+                            <span className="promo-descuento">{promo.descuento}%</span>
                             <span className="promo-nombre">{promo.nombre}</span>
-                            <span className="promo-fecha">{formatearFecha(promo.fechaFin)}</span>
                         </div>
                         <div className="promo-base">
-                            <span className="promo-aplica">CATEGORÍA ID: {promo.categoriaId}</span>
+                            <span className="promo-aplica">{promo.categoria?.nombre || "Sin categoría"}</span>
                         </div>
                     </div>
                 ))}

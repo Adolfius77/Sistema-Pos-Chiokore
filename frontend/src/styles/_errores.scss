@@ -1,15 +1,77 @@
-@use "variables" as *;
-.error-server{
-  padding: 2rem;
+@use 'variables' as *;
+
+.error-server {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
   text-align: center;
-  color: $ColorErrores;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+
+  h2 {
+    font-size: 1.5rem;
+    color: $ColorErrores;
+    margin-bottom: 1rem;
+    word-break: break-word;
+
+    @media (min-width: $tablet) {
+      font-size: 2rem;
+    }
+  }
+
+  p {
+    font-size: 1rem;
+    color: $text-gray;
+    margin-bottom: 1.5rem;
+
+    @media (min-width: $tablet) {
+      font-size: 1.2rem;
+    }
+  }
 
   button {
-    margin-top: 12px;
-    margin-right: 8px;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 12px;
+    border: 2px solid $border-color;
+    border-bottom-width: 5px;
+    border-radius: $border-radius-inner;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
+    background-color: $primary-color;
+    color: white;
+    transition: transform 0.1s ease, border-bottom-width 0.1s ease;
+
+    @media (min-width: $tablet) {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+    }
+
+    &:active {
+      transform: translateY(3px);
+      border-bottom-width: 2px;
+    }
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.sin-productos,
+.sin-promociones {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: $text-gray;
+
+  @media (min-width: $tablet) {
+    font-size: 1.3rem;
+    padding: 3rem;
   }
 }

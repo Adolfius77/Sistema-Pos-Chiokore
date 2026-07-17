@@ -16,6 +16,7 @@ import Promociones from "./pages/promociones.jsx";
 function App() {
     const [tokenReady, setTokenReady] = useState(false);
     const [nombreUsuario, setNombreUsuario] = useState("Cajero");
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -53,12 +54,21 @@ function App() {
         window.location.href = URL_LOGOUT_EXTERNO;
     };
 
+    const toggleSidebar = () => {
+        setSidebarOpen(prev => !prev);
+    };
+
+    const closeSidebar = () => {
+        setSidebarOpen(false);
+    };
+
     return (
         <>
-            <Navbar nombre={nombreUsuario} />
+            <Navbar nombre={nombreUsuario} onToggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
             <div className="flex">
-                <SideBar onLogout={handleLogout}/>
-                <div className="content">
+                {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar} />}
+                <SideBar onLogout={handleLogout} sidebarOpen={sidebarOpen} />
+                <div className="content" onClick={closeSidebar}>
                     <Routes>
                         <Route path="/" element={<Navigate to="/categorias" replace />} />
                         <Route path="/categorias" element={<Categorias />} />
@@ -69,7 +79,6 @@ function App() {
                         <Route path="/checkout/tarjeta" element={<CheckoutTarjeta />} />
                         <Route path="*" element={<Navigate to="/categorias" replace />} />
                         <Route path="/promociones" element={<Promociones />} />
-
                     </Routes>
                 </div>
             </div>

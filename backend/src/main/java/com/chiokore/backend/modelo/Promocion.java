@@ -1,8 +1,10 @@
 package com.chiokore.backend.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import javax.print.attribute.standard.MediaSize;
 import java.time.LocalDate;
 
 @Data
@@ -29,7 +31,11 @@ public class Promocion {
     @Column(name = "activo", nullable = false)
     private boolean activo;
 
+    @Column(name ="url_imagen")
+    private String url_imagen;
+
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // Evita problemas de serialización
     private Categoria categoria;
 }
