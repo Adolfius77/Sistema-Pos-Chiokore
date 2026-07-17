@@ -28,9 +28,36 @@
   padding: 1rem;
   width: 100%;
   max-width: 100%;
+  min-height: 100%;
   overflow-x: hidden;
 
   @media (min-width: $tablet) {
     padding: 2rem;
+  }
+}
+.btn-volver {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+  border: 2px solid $ColorVerde;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 60px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin: 18px;
+  transition: all 0.3s ease;
+  margin-bottom: 2px;
+  margin-top: 2px
+;
+  &:hover {
+    background-color: $ColorVerde;
+    color: white;
+  }
+
+  svg {
+    font-size: 1.5rem;
   }
 }

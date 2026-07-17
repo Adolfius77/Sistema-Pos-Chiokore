@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { LayoutGrid, ShoppingCart, LogOut } from "lucide-react";
+import { TbHeartDiscount } from "react-icons/tb";
 
 const SideBar = ({ onLogout, sidebarOpen }) => {
     return (
@@ -17,7 +18,7 @@ const SideBar = ({ onLogout, sidebarOpen }) => {
                 </li>
                 <li className="menu-item">
                     <NavLink to="/Promociones" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>
-                        <ShoppingCart size={32} /> Promociones
+                        <TbHeartDiscount size={32}/> Promociones
                     </NavLink>
                 </li>
             </ul>

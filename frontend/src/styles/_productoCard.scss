@@ -1,7 +1,8 @@
 @use "variables" as *;
 
-.productos-grid{
+.productos-grid {
   display: grid;
+  align-items: stretch;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 1rem;
   padding: 1rem;
@@ -15,7 +16,7 @@
   }
 }
 
-.producto-card{
+.producto-card {
   border: 1px solid $BordeSideBar;
   border-radius: 12px;
   overflow: hidden;
@@ -24,6 +25,8 @@
   flex-direction: column;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  height: 100%;
+  width: 100%;
 
   &:hover {
     transform: translateY(-3px);
@@ -31,24 +34,28 @@
   }
 }
 
-.img-producto{
+.img-producto {
   width: 100%;
+  height: 200%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
 
-  img{
+
+  img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    border-radius: 12px 12px 0 0;
   }
 }
 
 .info-producto {
-  padding: 0.75rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  gap: 6px;
+
 
   @media (min-width: $tablet) {
     padding: 15px;
@@ -57,10 +64,17 @@
 
   h4 {
     margin: 0;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #333;
     word-break: break-word;
     overflow-wrap: break-word;
+    min-height: 3em;
+    margin-bottom: auto;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 
     @media (min-width: $tablet) {
       font-size: 1.1rem;
@@ -68,7 +82,7 @@
   }
 
   .precio {
-    margin: 0 0 6px 0;
+    margin: 10px 0;
     font-size: 1rem;
     font-weight: bold;
     color: white;
@@ -80,7 +94,7 @@
 
     @media (min-width: $tablet) {
       font-size: 1.25rem;
-      margin: 0 0 8px 0;
+      margin: 8px 0 8px 0;
     }
   }
 }
@@ -95,7 +109,7 @@
   }
 }
 
-.btn-agregar{
+.btn-agregar {
   background-color: $ColorVerde;
   border-radius: 8px;
   color: #000;
@@ -116,7 +130,7 @@
   &:hover { opacity: 0.8; }
   &:disabled { background-color: #ccc; cursor: not-allowed; }
 
-  &.active{
+  &.active {
     transform: scale(0.95);
   }
 

@@ -11,6 +11,7 @@
 @use "errores";
 @use "productoCard";
 @use "promociones";
+@use "botonAgregar";
 
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&display=swap');
 
@@ -25,18 +26,17 @@ body {
   background-color: $bg-main;
   color: $text-dark;
   overflow: hidden;
+  height: 100vh;
 }
 
 .flex {
   display: flex;
   flex-direction: column;
-  height: auto;
-  min-height: calc(100vh - 72px);
+  height: calc(100vh - 72px);
 
   @media (min-width: $tablet) {
     flex-direction: row;
     height: calc(100vh - 96px);
-    min-height: auto;
   }
 }
 

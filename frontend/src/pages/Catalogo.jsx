@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import apiCliente from "../config/api.js";
 import BotonAgregar from "../Componentes/botonAgregar.jsx";
+import { RiArrowGoBackLine } from "react-icons/ri";
 
 const Catalogo = () =>{
     const {id } = useParams();
@@ -51,6 +52,11 @@ const Catalogo = () =>{
     );
     return (
         <div className="catalogo-container">
+            <button className="btn-volver" onClick={() => navigate('/categorias')}>
+                <RiArrowGoBackLine size={32} />
+
+                <span>Volver</span>
+            </button>
             <div className="catalogo-header">
                 <h2 className="name">PRODUCTOS DISPONIBLES</h2>
         </div>

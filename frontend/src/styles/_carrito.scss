@@ -2,11 +2,10 @@
 
 .layout-carrito {
   display: flex;
-  min-height: 100vh;
+  min-height: 100%;
+  width: 100%;
   background-color: #f5f6fa;
   padding: 1rem;
-  width: 100%;
-  max-width: 100%;
   overflow-x: hidden;
 
   @media (min-width: $tablet) {

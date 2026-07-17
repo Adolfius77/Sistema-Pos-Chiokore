@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCart } from "../context/useCart.js";
-import { ShoppingCart } from "lucide-react"; // 1. Importamos el ícono
+import { ShoppingCart } from "lucide-react";
 
 const BotonAgregar = ({ producto }) => {
     const { addToCart } = useCart();
@@ -29,7 +29,7 @@ const BotonAgregar = ({ producto }) => {
             ) : agregado ? (
                 '¡Agregado! ✔️'
             ) : (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <div className="btn-agregar-content">
                     <ShoppingCart size={20} />
                     Agregar al Carrito
                 </div>

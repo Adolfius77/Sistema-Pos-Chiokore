@@ -2,9 +2,8 @@
 .promociones-container {
   padding: 1rem;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-color: #ffffff;
-  overflow-y: auto;
 
   @media (min-width: 768px) {
     padding: 2rem;
@@ -135,8 +134,8 @@
       text-align: center;
 
       .promo-aplica {
-        font-size: 1.25rem;
-        font-weight: 800;
+        font-size: 1.7rem;
+        font-weight: 1000;
         color: #000000;
         text-transform: uppercase;
         letter-spacing: 1px;

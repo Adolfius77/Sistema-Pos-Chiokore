@@ -2,7 +2,7 @@
 
 .layout-categorias {
   padding: 1.5rem;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
@@ -74,20 +74,13 @@
         }
 
         h2 {
-          font-size: 1.25rem;
+          font-size: clamp(0.9rem, 5.5vw, 1.7rem);
           font-weight: 700;
           color: $text-dark;
           margin: 0;
           text-align: center;
           word-break: break-word;
 
-          @media (max-width: $mobile) {
-            font-size: 0.85rem;
-          }
-
-          @media (min-width: $tablet) {
-            font-size: 2rem;
-          }
         }
       }
 
