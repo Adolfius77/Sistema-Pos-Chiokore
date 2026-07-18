@@ -54,12 +54,11 @@ const Catalogo = () =>{
         <div className="catalogo-container">
             <button className="btn-volver" onClick={() => navigate('/categorias')}>
                 <RiArrowGoBackLine size={32} />
-
                 <span>Volver</span>
             </button>
             <div className="catalogo-header">
                 <h2 className="name">PRODUCTOS DISPONIBLES</h2>
-        </div>
+            </div>
             {productos.length === 0 ? (
                 <div className="sin-productos">
                     <p>No hay productos registrados en esta categoría.</p>
@@ -68,18 +67,21 @@ const Catalogo = () =>{
                 <div className="productos-grid">
                     {productos.map((prod) => (
                         <div key={prod.id} className="producto-card">
-                            <div className="img-producto">
-                                <img src={prod.url_imagen || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"} alt={prod.nombre} />                            </div>
+                            {/* Contenedor nuevo con posición relativa */}
+                            <div className="img-container">
+                                <img src={prod.url_imagen || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"} alt={prod.nombre} />
+                                <div className="etiqueta-precio">
+                                    <span>${prod.precio}</span>
+                                    <span>MXN</span>
+                                </div>
+                            </div>
+
                             <div className="info-producto">
                                 <h4>{prod.nombre}</h4>
-                                <span className="precio">${prod.precio} MXN</span>
                                 <p className="stock">
                                     {prod.stock > 0 ? `Stock: ${prod.stock} piezas` : 'Agotado'}
                                 </p>
-                               <BotonAgregar
-                                   producto={prod}
-
-                                   />
+                                <BotonAgregar producto={prod} />
                             </div>
                         </div>
                     ))}

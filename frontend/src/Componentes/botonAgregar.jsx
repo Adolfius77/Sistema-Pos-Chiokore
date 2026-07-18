@@ -29,10 +29,10 @@ const BotonAgregar = ({ producto }) => {
             ) : agregado ? (
                 '¡Agregado! ✔️'
             ) : (
-                <div className="btn-agregar-content">
-                    <ShoppingCart size={20} />
-                    Agregar al Carrito
-                </div>
+                <>
+                    <span>Agregar al carrito</span>
+                    <ShoppingCart className="icono-carrito" size={20} />
+                </>
             )}
         </button>
     );

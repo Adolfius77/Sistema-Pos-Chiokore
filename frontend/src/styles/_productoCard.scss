@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   height: 100%;
   width: 100%;
 
@@ -34,12 +34,13 @@
   }
 }
 
-.img-producto {
+.img-container {
+  position: relative;
   width: 100%;
-  height: 200%;
+  height: 220px;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-
+  border-bottom: 2px solid #a4a0a0;
 
   img {
     width: 100%;
@@ -50,68 +51,61 @@
   }
 }
 
+.etiqueta-precio {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 65px;
+  height: 65px;
+  background-color: #93000A;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+
+  span { line-height: 1.1; }
+  span:first-child { font-size: 0.95rem; }
+  span:last-child { font-size: 0.65rem; }
+}
+
 .info-producto {
   padding: 1rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 
-
-  @media (min-width: $tablet) {
-    padding: 15px;
-    gap: 8px;
-  }
-
   h4 {
-    margin: 0;
+    margin: 0 0 10px 0;
     font-size: 1rem;
     color: #333;
-    word-break: break-word;
-    overflow-wrap: break-word;
     min-height: 3em;
     margin-bottom: auto;
-
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 
-    @media (min-width: $tablet) {
-      font-size: 1.1rem;
-    }
+    @media (min-width: $tablet) { font-size: 1.1rem; }
   }
 
-  .precio {
-    margin: 10px 0;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background-color: #93000A;
-    border-radius: 10px;
-    border: 3px solid #572000;
-    padding: 4px 8px;
-    text-align: center;
-
-    @media (min-width: $tablet) {
-      font-size: 1.25rem;
-      margin: 8px 0 8px 0;
-    }
-  }
-}
-
-.stock {
-  font-size: 0.85rem;
-  margin: 0 0 10px 0;
-
-  @media (min-width: $tablet) {
-    font-size: 1rem;
-    margin-bottom: 15px;
+  .stock {
+    font-size: 0.85rem;
+    margin: 0 0 10px 0;
+    font-weight: 500;
+    color: red;
+    @media (min-width: $tablet) { font-size: 1rem; }
   }
 }
 
 .btn-agregar {
   background-color: $ColorVerde;
-  border-radius: 8px;
+  border-radius: 30px;
   color: #000;
   border: none;
   cursor: pointer;
@@ -119,25 +113,34 @@
   font-size: 0.85rem;
   font-weight: bold;
   width: 100%;
-  margin-top: auto;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-direction: row-reverse;
 
   @media (min-width: $tablet) {
     padding: 10px;
     font-size: 17px;
   }
 
-  &:hover { opacity: 0.8; }
-  &:disabled { background-color: #ccc; cursor: not-allowed; }
-
-  &.active {
-    transform: scale(0.95);
+  &:hover {
+    opacity: 0.8;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
   }
 
-  &.agregado-exito {
-    background-color: #0d6efd;
-    color: white;
-    transform: scale(1.02);
-    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.4);
+  &.active { transform: scale(0.95); }
+}
+
+.icono-carrito {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5px;
+  @media (min-width: $tablet) {
+    width: 24px;
+    height: 24px;
   }
 }

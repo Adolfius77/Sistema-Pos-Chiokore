@@ -1,6 +1,57 @@
-.btn-agregar{
+@use "variables" as *;
+.btn-agregar {
+  background-color: $ColorVerde;
+  border-radius: 30px;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  width: 100%;
+  margin-top: auto;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px
+  gap: 0;
+  flex-direction: row;
+
+  @media (min-width: $tablet) {
+    padding: 10px;
+    font-size: 17px;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  &.active {
+    transform: scale(0.95);
+  }
+
+  &.agregado-exito {
+    background-color: #0d6efd;
+    color: white;
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.4);
+  }
 }
+.icono-carrito{
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.5px;
+
+
+    @media (min-width: $tablet) {
+        width: 24px;
+        height: 24px;
+    }
+}
+
