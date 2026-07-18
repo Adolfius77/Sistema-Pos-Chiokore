@@ -11,25 +11,50 @@
 }
 
 .catalogo-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  @media (min-width: $tablet){
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   .name {
     font-weight: 900;
-    padding: 1rem 1.5rem;
+    padding: 1.5rem;
     font-size: 1.5rem;
     word-break: break-word;
+    text-align: center;
 
     @media (min-width: $tablet) {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       padding: 1.5rem 2rem;
     }
   }
 }
+.productos-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+  width: 100%;
+  margin-top: 20px;
 
+  @media (min-width: $tablet){
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+  }
+}
 .catalogo-container {
   padding: 1rem;
   width: 100%;
-  max-width: 100%;
-  min-height: 100%;
+  max-width: 1200%;
+  min-height: 100vh;
   overflow-x: hidden;
+  margin:  0 auto; //esta centra el contenido en pantallas grandes
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: $tablet) {
     padding: 2rem;
@@ -42,8 +67,8 @@
   background-color: transparent;
   border: 2px solid $ColorVerde;
   color: #333;
-  padding: 10px 20px;
-  border-radius: 60px;
+  padding:8px 15px;
+  border-radius: 20px;
   font-weight: bold;
   font-size: 1.1rem;
   cursor: pointer;
@@ -51,6 +76,7 @@
   transition: all 0.3s ease;
   margin-bottom: 2px;
   margin-top: 2px;
+  align-self: flex-start;
 
   &:hover {
     background-color: $ColorVerde;

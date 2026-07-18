@@ -53,10 +53,10 @@
 
 .etiqueta-precio {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 65px;
-  height: 65px;
+  bottom: 8px;
+  right: 8px;
+  width: clamp(50px, 15vw , 70px);
+  height: clamp(50px, 15vw , 70px);
   background-color: #93000A;
   border: 3px solid #fff;
   border-radius: 50%;
@@ -75,23 +75,28 @@
 }
 
 .info-producto {
-  padding: 1rem;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+
+  @media(min-width: $tablet){
+    padding: 15px;
+  }
 
   h4 {
     margin: 0 0 10px 0;
     font-size: 1rem;
     color: #333;
     min-height: 3em;
-    margin-bottom: auto;
+    margin-bottom: 5px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 
-    @media (min-width: $tablet) { font-size: 1.1rem; }
+    @media (min-width: $tablet) {
+      font-size: 1.1rem; }
   }
 
   .stock {
@@ -103,44 +108,5 @@
   }
 }
 
-.btn-agregar {
-  background-color: $ColorVerde;
-  border-radius: 30px;
-  color: #000;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  width: 100%;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-direction: row-reverse;
 
-  @media (min-width: $tablet) {
-    padding: 10px;
-    font-size: 17px;
-  }
-
-  &:hover {
-    opacity: 0.8;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-  }
-
-  &.active { transform: scale(0.95); }
-}
-
-.icono-carrito {
-  width: 20px;
-  height: 20px;
-  stroke-width: 2.5px;
-  @media (min-width: $tablet) {
-    width: 24px;
-    height: 24px;
-  }
-}

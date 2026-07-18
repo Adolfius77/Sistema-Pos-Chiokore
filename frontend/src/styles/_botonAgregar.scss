@@ -5,8 +5,8 @@
   color: #000;
   border: none;
   cursor: pointer;
-  padding: 8px;
-  font-size: 0.85rem;
+  padding: 10px;
+  font-size: 0.9rem;
   font-weight: bold;
   width: 100%;
   margin-top: auto;
@@ -20,7 +20,7 @@
 
   @media (min-width: $tablet) {
     padding: 10px;
-    font-size: 17px;
+    font-size: 1rem;
   }
 
   &:hover {
