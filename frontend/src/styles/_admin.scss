@@ -1,0 +1,370 @@
+@use "variables" as *;
+
+.admin-content {
+  padding: 0;
+}
+
+.admin-page {
+  padding: $spacing-large;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-titulo {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: $text-charcoal;
+  margin: 0;
+}
+
+.admin-subtitulo {
+  color: $text-gray;
+  font-size: 1.2rem;
+  margin: 0.4rem 0 1.5rem;
+}
+
+.admin-error {
+  color: $ColorErrores;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+}
+
+.admin-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.admin-resumen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.admin-stat-card {
+  background-color: $bg-tan;
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: $border-radius-inner;
+  padding: 1.25rem;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: $text-gray;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  strong {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 2rem;
+    font-weight: 800;
+    color: $text-charcoal;
+  }
+
+  &.alerta strong {
+    color: $terracotta;
+  }
+}
+
+.admin-home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.admin-home-card {
+  background-color: white;
+  border: 2px solid $border-color;
+  border-bottom-width: 8px;
+  border-radius: $border-radius-soft;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+  color: $text-charcoal;
+
+  span {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+
+  p {
+    margin: 0;
+    color: $text-gray;
+    font-size: 1.05rem;
+  }
+}
+
+.admin-btn-primary,
+.admin-btn-secondary,
+.admin-btn-danger {
+  border: 2px solid $border-color;
+  border-bottom-width: 5px;
+  border-radius: 12px;
+  padding: 1rem 1.4rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.admin-btn-primary {
+  background-color: $primary-color;
+  color: white;
+}
+
+.admin-btn-secondary {
+  background-color: white;
+  color: $text-charcoal;
+}
+
+.admin-btn-danger {
+  background-color: white;
+  color: $ColorErrores;
+}
+
+.admin-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-lista-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background-color: $bg-tan;
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: $border-radius-inner;
+  padding: 1rem 1.25rem;
+  width: 100%;
+  text-align: left;
+
+  &.inactivo {
+    opacity: 0.7;
+  }
+
+  &.compacto {
+    background-color: white;
+  }
+}
+
+.admin-lista-clickable {
+  cursor: pointer;
+}
+
+.admin-lista-foto {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid $border-color;
+  background: white;
+  flex-shrink: 0;
+}
+
+.admin-lista-info {
+  flex: 1;
+  min-width: 0;
+
+  h2 {
+    margin: 0 0 0.35rem;
+    font-size: 1.4rem;
+    color: $text-charcoal;
+  }
+
+  p {
+    margin: 0;
+    color: $text-gray;
+    font-size: 1.05rem;
+  }
+}
+
+.admin-lista-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.admin-lista-total {
+  font-size: 1.8rem;
+  color: $primary-color;
+  font-weight: 800;
+}
+
+.admin-badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: 2px solid $border-color;
+
+  &.ok {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  &.off {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+}
+
+.admin-form,
+.admin-form-panel {
+  background-color: $bg-tan;
+  border: 2px solid $border-color;
+  border-bottom-width: 6px;
+  border-radius: $border-radius-soft;
+  padding: 2rem;
+
+  h2 {
+    margin: 0 0 1.25rem;
+    font-size: 1.5rem;
+    color: $text-charcoal;
+  }
+
+  label {
+    display: block;
+    font-weight: 700;
+    color: $text-gray;
+    margin: 0.8rem 0 0.4rem;
+    font-size: 1.1rem;
+  }
+
+  input,
+  select {
+    width: 100%;
+    border: 2px solid $border-color;
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: $text-charcoal;
+    background: white;
+    outline: none;
+
+    &:focus {
+      border-color: $primary-color;
+      background: $bg-cream;
+    }
+  }
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: $tablet) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-toggles {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.admin-toggle {
+  display: flex !important;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.2rem !important;
+  color: $text-charcoal !important;
+
+  input {
+    width: auto;
+    transform: scale(1.4);
+  }
+}
+
+.admin-zona-foto {
+  width: 100%;
+  min-height: 240px;
+  margin-top: 0.5rem;
+}
+
+.admin-split {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2rem;
+  align-items: start;
+
+  @media (max-width: $tablet) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-filtro-fecha {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label {
+    font-weight: 700;
+    color: $text-gray;
+  }
+
+  input {
+    border: 2px solid $border-color;
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+}
+
+.admin-detalle-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2rem;
+
+  @media (max-width: $tablet) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-detalle-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.8rem 0;
+  font-size: 1.3rem;
+  color: $text-gray;
+
+  strong {
+    color: $text-charcoal;
+    font-weight: 800;
+  }
+}
+
+.admin-detalle-subtitulo {
+  margin: 1.5rem 0 1rem !important;
+  font-size: 1.4rem !important;
+}
+
+.admin-ticket-preview {
+  width: 100%;
+  max-height: 520px;
+  object-fit: contain;
+  border: 2px solid $border-color;
+  border-radius: 12px;
+  background: white;
+}

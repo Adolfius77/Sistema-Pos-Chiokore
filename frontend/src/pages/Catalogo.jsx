@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import apiCliente from "../config/api.js";
 import BotonAgregar from "../Componentes/botonAgregar.jsx";
 import { RiArrowGoBackLine } from "react-icons/ri";
+import { urlUpload } from "../config/env.js";
 
 const Catalogo = () =>{
     const {id } = useParams();
@@ -67,9 +68,8 @@ const Catalogo = () =>{
                 <div className="productos-grid">
                     {productos.map((prod) => (
                         <div key={prod.id} className="producto-card">
-                            {/* Contenedor nuevo con posición relativa */}
                             <div className="img-container">
-                                <img src={prod.url_imagen || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"} alt={prod.nombre} />
+                                <img src={urlUpload(prod.url_imagen) || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"} alt={prod.nombre} />
                                 <div className="etiqueta-precio">
                                     <span>${prod.precio}</span>
                                     <span>MXN</span>

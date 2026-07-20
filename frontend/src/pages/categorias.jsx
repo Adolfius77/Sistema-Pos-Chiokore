@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiCliente from '../config/api';
+import { urlUpload } from '../config/env.js';
 
 const Categorias = () => {
     const [categorias, setCategorias] = useState([]);
@@ -21,6 +22,16 @@ const Categorias = () => {
         cargarCategorias();
     }, []);
 
+    const obtenerImagenFallback = (nombre) => {
+        const nombreLimpio = (nombre || '').toLowerCase();
+        if (nombreLimpio.includes('ropa')) return '/ropaA.png';
+        if (nombreLimpio.includes('juguete')) return '/JuguetesA.png';
+        if (nombreLimpio.includes('mueble')) return '/muebleA.png';
+        if (nombreLimpio.includes('electro')) return '/electronicosA.png';
+        return '/camisa.png';
+    };
+
+    const obtenerImagen = (cat) => urlUpload(cat.url_imagen) || obtenerImagenFallback(cat.nombre);
 
     return (
         <div className="layout-categorias">
@@ -37,7 +48,7 @@ const Categorias = () => {
                             onClick={() => navigate(`/catalogo/${cat.id}`)}
                         >
                             <div className="img-container">
-                                <img src={cat.url_imagen || '/camisa.png'} alt={cat.nombre} />
+                                <img src={obtenerImagen(cat)} alt={cat.nombre} />
                             </div>
                             <div className="label-container">
                                 <h2>{cat.nombre.toUpperCase()}</h2>

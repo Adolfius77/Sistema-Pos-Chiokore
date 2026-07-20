@@ -1,6 +1,6 @@
 package com.chiokore.backend.config;
 
-import com.chiokore.backend.services.TicketStorageService;
+import com.chiokore.backend.services.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -11,11 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final TicketStorageService ticketStorageService;
+    private final ImageStorageService imageStorageService;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String uploadLocation = ticketStorageService.getUploadRoot().toUri().toString();
+        String uploadLocation = imageStorageService.getUploadRoot().toUri().toString();
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations(uploadLocation.endsWith("/") ? uploadLocation : uploadLocation + "/");
     }

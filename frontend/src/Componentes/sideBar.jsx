@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LayoutGrid, ShoppingCart, LogOut } from "lucide-react";
+import { LayoutGrid, ShoppingCart, Settings, LogOut } from "lucide-react";
 import { TbHeartDiscount } from "react-icons/tb";
 
 const SideBar = ({ onLogout, sidebarOpen }) => {
@@ -17,8 +17,13 @@ const SideBar = ({ onLogout, sidebarOpen }) => {
                     </NavLink>
                 </li>
                 <li className="menu-item">
-                    <NavLink to="/Promociones" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>
+                    <NavLink to="/promociones" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>
                         <TbHeartDiscount size={32}/> Promociones
+                    </NavLink>
+                </li>
+                <li className="menu-item">
+                    <NavLink to="/admin" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>
+                        <Settings size={32} /> Admin
                     </NavLink>
                 </li>
             </ul>

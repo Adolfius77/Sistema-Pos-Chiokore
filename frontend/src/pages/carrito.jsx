@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useCart } from "../context/useCart.js";
+import { urlUpload } from "../config/env.js";
 
 const Carrito = () => {
     const { cartItems, updateQuantity, getTotal,eliminarCarrito  } = useCart();
@@ -19,7 +20,7 @@ const Carrito = () => {
                         cartItems.map((item) => (
                             <div className="carrito-item-card" key={item.id}>
                                 <img
-                                    src={item.url_imagen || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"}
+                                    src={urlUpload(item.url_imagen) || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"}
                                     alt={item.nombre}
                                     className="item-img"
                                 />

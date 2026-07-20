@@ -3,7 +3,7 @@ package com.chiokore.backend.controllers;
 import com.chiokore.backend.dtos.CobroDTO;
 import com.chiokore.backend.modelo.Venta;
 import com.chiokore.backend.services.IVentaService;
-import com.chiokore.backend.services.TicketStorageService;
+import com.chiokore.backend.services.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,54 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ventaController {
     private final IVentaService ventaService;
-    private final TicketStorageService ticketStorageService;
+    private final ImageStorageService imageStorageService;
+
+    // GET /api/ventas?desde=2026-07-01&hasta=2026-07-15
+    // Resumen de ventas completadas del periodo. Lo consume el modulo de Nomina.
+    @GetMapping
+    public ResponseEntity<?> resumen(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
+        return ResponseEntity.ok(ventaService.resumen(desde, hasta));
+    }
+
+    // GET /api/ventas/diario?desde=...&hasta=...  -> ventas agrupadas por dia
+    @GetMapping("/diario")
+    public ResponseEntity<?> ventasPorDia(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
+        return ResponseEntity.ok(ventaService.ventasPorDia(desde, hasta));
+    }
+
+    // Admin: lista de ventas de un dia
+    @GetMapping("/dia")
+    public ResponseEntity<?> listarPorFecha(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha
+    ) {
+        LocalDate dia = fecha != null ? fecha : LocalDate.now();
+        return ResponseEntity.ok(ventaService.listarPorFecha(dia));
+    }
+
+    // Admin: resumen del dia (efectivo/tarjeta/stock bajo)
+    @GetMapping("/resumen-dia")
+    public ResponseEntity<?> resumenDia(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha
+    ) {
+        LocalDate dia = fecha != null ? fecha : LocalDate.now();
+        return ResponseEntity.ok(ventaService.resumenPorFecha(dia));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> obtenerDetalle(@PathVariable int id) {
+        try {
+            return ResponseEntity.ok(ventaService.obtenerDetalle(id));
+        } catch (RuntimeException e) {
+            Map<String, String> body = new HashMap<>();
+            body.put("mensaje", e.getMessage());
+            body.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+        }
+    }
 
     @PostMapping(value = "/cobrar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> ProcesarCobro(@RequestBody CobroDTO venta, @AuthenticationPrincipal Jwt jwt) {
@@ -42,7 +90,7 @@ public class ventaController {
             @RequestPart("ticket") MultipartFile ticket,
             @AuthenticationPrincipal Jwt jwt
     ) {
-        String urlComprobante = ticketStorageService.guardarTicket(ticket);
+        String urlComprobante = imageStorageService.guardarTicket(ticket);
         return procesar(venta, urlComprobante, jwt);
     }
 
@@ -81,22 +129,5 @@ public class ventaController {
             response.put("error", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
-    }
-
-    // GET /api/ventas?desde=2026-07-01&hasta=2026-07-15
-    // Resumen de ventas completadas del periodo. Lo consume el modulo de Nomina.
-    @GetMapping
-    public ResponseEntity<?> resumen(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
-        return ResponseEntity.ok(ventaService.resumen(desde, hasta));
-    }
-
-    // GET /api/ventas/diario?desde=...&hasta=...  -> ventas agrupadas por dia
-    @GetMapping("/diario")
-    public ResponseEntity<?> ventasPorDia(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
-        return ResponseEntity.ok(ventaService.ventasPorDia(desde, hasta));
     }
 }

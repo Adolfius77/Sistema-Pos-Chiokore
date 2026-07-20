@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class TicketStorageService {
+public class ImageStorageService {
 
     private static final Set<String> TIPOS_PERMITIDOS = Set.of(
             "image/jpeg",
@@ -23,33 +23,37 @@ public class TicketStorageService {
 
     private final Path uploadRoot;
 
-    public TicketStorageService(@Value("${app.upload.dir:./uploads}") String uploadDir) {
+    public ImageStorageService(@Value("${app.upload.dir:./uploads}") String uploadDir) {
         this.uploadRoot = Paths.get(uploadDir).toAbsolutePath().normalize();
     }
 
-    public String guardarTicket(MultipartFile ticket) {
-        if (ticket == null || ticket.isEmpty()) {
-            throw new IllegalArgumentException("Debe adjuntar la foto del ticket.");
+    public String guardar(String subcarpeta, MultipartFile archivo) {
+        if (archivo == null || archivo.isEmpty()) {
+            throw new IllegalArgumentException("Debe adjuntar una imagen.");
         }
 
-        String contentType = ticket.getContentType();
+        String contentType = archivo.getContentType();
         if (contentType == null || !TIPOS_PERMITIDOS.contains(contentType)) {
-            throw new IllegalArgumentException("El ticket debe ser una imagen JPG, PNG o WEBP.");
+            throw new IllegalArgumentException("La imagen debe ser JPG, PNG o WEBP.");
         }
 
         try {
-            Path ticketsDir = uploadRoot.resolve("tickets");
-            Files.createDirectories(ticketsDir);
+            Path dir = uploadRoot.resolve(subcarpeta);
+            Files.createDirectories(dir);
 
             String extension = extensionDesdeContentType(contentType);
             String filename = LocalDate.now() + "_" + UUID.randomUUID() + extension;
-            Path destino = ticketsDir.resolve(filename);
-            ticket.transferTo(destino);
+            Path destino = dir.resolve(filename);
+            archivo.transferTo(destino);
 
-            return "tickets/" + filename;
+            return subcarpeta + "/" + filename;
         } catch (IOException e) {
-            throw new RuntimeException("No se pudo guardar la foto del ticket.", e);
+            throw new RuntimeException("No se pudo guardar la imagen.", e);
         }
+    }
+
+    public String guardarTicket(MultipartFile ticket) {
+        return guardar("tickets", ticket);
     }
 
     public Path getUploadRoot() {

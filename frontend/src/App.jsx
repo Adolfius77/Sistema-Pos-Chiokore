@@ -1,17 +1,36 @@
 import './styles/app.scss';
 import Navbar from "./Componentes/Navbar.jsx";
 import SideBar from "./Componentes/sideBar.jsx";
+import AdminLayout from "./Componentes/AdminLayout.jsx";
 import Catalogo from "./pages/Catalogo.jsx";
 import CheckoutEfectivo from "./pages/CheckoutEfectivo.jsx";
 import CheckoutTarjeta from "./pages/CheckoutTarjeta.jsx";
 import Categorias from "./pages/categorias.jsx";
 import Carrito from "./pages/carrito.jsx";
 import MetodoPago from "./pages/MetodoPago.jsx";
-import { Routes, Route, Navigate } from "react-router-dom";
+import Promociones from "./pages/Promociones.jsx";
+import AdminHome from "./pages/admin/AdminHome.jsx";
+import AdminProductos from "./pages/admin/AdminProductos.jsx";
+import AdminProductoForm from "./pages/admin/AdminProductoForm.jsx";
+import AdminCategorias from "./pages/admin/AdminCategorias.jsx";
+import AdminVentas from "./pages/admin/AdminVentas.jsx";
+import AdminVentaDetalle from "./pages/admin/AdminVentaDetalle.jsx";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { AUTH_TOKEN_STORAGE_KEY, URL_LOGIN_EXTERNO, URL_LOGOUT_EXTERNO } from "./config/env.js";
-import Promociones from "./pages/promociones.jsx";
+
+function PosLayout({ onLogout, sidebarOpen, onCloseSidebar }) {
+    return (
+        <div className="flex">
+            {sidebarOpen && <div className="sidebar-overlay" onClick={onCloseSidebar} />}
+            <SideBar onLogout={onLogout} sidebarOpen={sidebarOpen} />
+            <div className="content" onClick={onCloseSidebar}>
+                <Outlet />
+            </div>
+        </div>
+    );
+}
 
 function App() {
     const [tokenReady, setTokenReady] = useState(false);
@@ -65,23 +84,46 @@ function App() {
     return (
         <>
             <Navbar nombre={nombreUsuario} onToggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
-            <div className="flex">
-                {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar} />}
-                <SideBar onLogout={handleLogout} sidebarOpen={sidebarOpen} />
-                <div className="content" onClick={closeSidebar}>
-                    <Routes>
-                        <Route path="/" element={<Navigate to="/categorias" replace />} />
-                        <Route path="/categorias" element={<Categorias />} />
-                        <Route path="/catalogo/:id" element={<Catalogo />} />
-                        <Route path="/carrito" element={<Carrito />} />
-                        <Route path="/metodopago" element={<MetodoPago />} />
-                        <Route path="/checkout/efectivo" element={<CheckoutEfectivo />} />
-                        <Route path="/checkout/tarjeta" element={<CheckoutTarjeta />} />
-                        <Route path="*" element={<Navigate to="/categorias" replace />} />
-                        <Route path="/promociones" element={<Promociones />} />
-                    </Routes>
-                </div>
-            </div>
+            <Routes>
+                <Route
+                    path="/admin"
+                    element={
+                        <AdminLayout
+                            onLogout={handleLogout}
+                            sidebarOpen={sidebarOpen}
+                            onCloseSidebar={closeSidebar}
+                        />
+                    }
+                >
+                    <Route index element={<AdminHome />} />
+                    <Route path="productos" element={<AdminProductos />} />
+                    <Route path="productos/nuevo" element={<AdminProductoForm />} />
+                    <Route path="productos/:id" element={<AdminProductoForm />} />
+                    <Route path="categorias" element={<AdminCategorias />} />
+                    <Route path="ventas" element={<AdminVentas />} />
+                    <Route path="ventas/:id" element={<AdminVentaDetalle />} />
+                </Route>
+
+                <Route
+                    element={
+                        <PosLayout
+                            onLogout={handleLogout}
+                            sidebarOpen={sidebarOpen}
+                            onCloseSidebar={closeSidebar}
+                        />
+                    }
+                >
+                    <Route path="/" element={<Navigate to="/categorias" replace />} />
+                    <Route path="/categorias" element={<Categorias />} />
+                    <Route path="/catalogo/:id" element={<Catalogo />} />
+                    <Route path="/carrito" element={<Carrito />} />
+                    <Route path="/metodopago" element={<MetodoPago />} />
+                    <Route path="/checkout/efectivo" element={<CheckoutEfectivo />} />
+                    <Route path="/checkout/tarjeta" element={<CheckoutTarjeta />} />
+                    <Route path="/promociones" element={<Promociones />} />
+                    <Route path="*" element={<Navigate to="/categorias" replace />} />
+                </Route>
+            </Routes>
         </>
     );
 }
