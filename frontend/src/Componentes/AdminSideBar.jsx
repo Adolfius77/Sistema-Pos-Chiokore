@@ -25,11 +25,7 @@ const AdminSideBar = ({ onLogout, sidebarOpen }) => {
                         <Receipt size={32} /> Ventas
                     </NavLink>
                 </li>
-                <li className="menu-item">
-                    <NavLink to="/categorias" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>
-                        <Store size={32} /> Volver al POS
-                    </NavLink>
-                </li>
+
             </ul>
 
             <div className="sidebar-footer">

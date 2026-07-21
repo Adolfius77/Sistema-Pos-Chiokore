@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Tag } from 'lucide-react';
 import apiCliente from '../config/api';
+import { urlUpload } from '../config/env.js';
 
 const Promociones = () => {
     const [promociones, setPromociones] = useState([]);
@@ -38,7 +39,7 @@ const Promociones = () => {
                     <div key={promo.id} className="promo-card">
                         {promo.url_imagen && (
                             <div className="promo-img">
-                                <img src={promo.url_imagen} alt={promo.nombre} />
+                                <img src={urlUpload(promo.url_imagen)} alt={promo.nombre} />
                             </div>
                         )}
                         <div className="promo-body">

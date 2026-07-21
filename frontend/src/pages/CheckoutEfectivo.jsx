@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/useCart.js";
 import { procesarCobro } from "../services/ventas.js";
 import { CheckCircle } from "lucide-react";
+import { sound } from "../utils/sound.js";
 
 const teclas = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0"];
 
@@ -24,13 +25,20 @@ const CheckoutEfectivo = () => {
     const puedeCobrar = cartItems.length > 0 && montoValido >= total && total > 0;
 
     const insertarTecla = (tecla) => {
+        sound.playClick();
         if (tecla === "." && montoInput.includes(".")) return;
         setMontoInput((prev) => `${prev}${tecla}`);
     };
 
-    const borrarUltimo = () => setMontoInput((prev) => prev.slice(0, -1));
+    const borrarUltimo = () => {
+        sound.playClick();
+        setMontoInput((prev) => prev.slice(0, -1));
+    };
 
-    const limpiar = () => setMontoInput("");
+    const limpiar = () => {
+        sound.playClick();
+        setMontoInput("");
+    };
 
     const cobrar = async () => {
         if (!puedeCobrar) return;
@@ -56,6 +64,7 @@ const CheckoutEfectivo = () => {
                 cambioEntregado: cambio
             });
 
+            sound.playSuccess();
             clearCart();
             setMontoInput("");
         } catch (errorCobro) {

@@ -1,8 +1,24 @@
 import { Volume2, VolumeX, User, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { sound } from "../utils/sound.js";
 
 const Navbar = ({ nombre, onToggleSidebar, sidebarOpen }) => {
-    const [audioActivado, setAudioActivado] = useState(true);
+    const [audioActivado, setAudioActivado] = useState(() => {
+        const saved = localStorage.getItem("AUDIO_ENABLED");
+        return saved === null ? true : saved === "true";
+    });
+
+    const toggleAudio = () => {
+        setAudioActivado(prev => {
+            const newVal = !prev;
+            localStorage.setItem("AUDIO_ENABLED", String(newVal));
+            if (newVal) {
+                // Play a test sound to show audio is active
+                setTimeout(() => sound.playClick(), 50);
+            }
+            return newVal;
+        });
+    };
 
     return (
         <header className="navbar">
@@ -21,7 +37,7 @@ const Navbar = ({ nombre, onToggleSidebar, sidebarOpen }) => {
             <div className="navbar-controls">
                 <button
                     className="tactile-btn btn-volume"
-                    onClick={() => setAudioActivado(!audioActivado)}
+                    onClick={toggleAudio}
                 >
                     {audioActivado ? <Volume2 size={32}/> : <VolumeX size={32}/>}
                 </button>

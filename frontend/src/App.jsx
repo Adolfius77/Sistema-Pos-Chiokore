@@ -9,6 +9,7 @@ import Categorias from "./pages/categorias.jsx";
 import Carrito from "./pages/carrito.jsx";
 import MetodoPago from "./pages/MetodoPago.jsx";
 import Promociones from "./pages/Promociones.jsx";
+import Login from "./pages/Login.jsx";
 import AdminHome from "./pages/admin/AdminHome.jsx";
 import AdminProductos from "./pages/admin/AdminProductos.jsx";
 import AdminProductoForm from "./pages/admin/AdminProductoForm.jsx";
@@ -19,6 +20,8 @@ import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { AUTH_TOKEN_STORAGE_KEY, URL_LOGIN_EXTERNO, URL_LOGOUT_EXTERNO } from "./config/env.js";
+import { useIdleTimer } from "./hooks/useIdleTimer.js";
+import IdleOverlay from "./Componentes/IdleOverlay.jsx";
 
 function PosLayout({ onLogout, sidebarOpen, onCloseSidebar }) {
     return (
@@ -36,6 +39,9 @@ function App() {
     const [tokenReady, setTokenReady] = useState(false);
     const [nombreUsuario, setNombreUsuario] = useState("Cajero");
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    
+    // Configurar inactividad: 60 segundos
+    const isIdle = useIdleTimer(60000);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -83,8 +89,10 @@ function App() {
 
     return (
         <>
+            {isIdle && <IdleOverlay />}
             <Navbar nombre={nombreUsuario} onToggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
             <Routes>
+                <Route path="/login" element={<Login />} />
                 <Route
                     path="/admin"
                     element={
@@ -113,7 +121,7 @@ function App() {
                         />
                     }
                 >
-                    <Route path="/" element={<Navigate to="/categorias" replace />} />
+                    <Route path="/" element={<Navigate to="/login" replace />} />
                     <Route path="/categorias" element={<Categorias />} />
                     <Route path="/catalogo/:id" element={<Catalogo />} />
                     <Route path="/carrito" element={<Carrito />} />
@@ -121,7 +129,7 @@ function App() {
                     <Route path="/checkout/efectivo" element={<CheckoutEfectivo />} />
                     <Route path="/checkout/tarjeta" element={<CheckoutTarjeta />} />
                     <Route path="/promociones" element={<Promociones />} />
-                    <Route path="*" element={<Navigate to="/categorias" replace />} />
+                    <Route path="*" element={<Navigate to="/login" replace />} />
                 </Route>
             </Routes>
         </>

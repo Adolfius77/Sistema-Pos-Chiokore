@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCart } from "../context/useCart.js";
 import { ShoppingCart } from "lucide-react";
+import { sound } from "../utils/sound.js";
 
 const BotonAgregar = ({ producto }) => {
     const { addToCart } = useCart();
@@ -10,6 +11,7 @@ const BotonAgregar = ({ producto }) => {
     const manejarClick = () => {
         addToCart(producto);
         setAgregado(true);
+        sound.playAdd();
 
         setTimeout(() => {
             setAgregado(false);

@@ -12,6 +12,8 @@
 @use "promociones";
 @use "botonAgregar";
 @use "admin";
+@use "idle";
+@use "login";
 
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&display=swap');
 
@@ -38,11 +40,13 @@ body {
   display: flex;
   flex-direction: column;
   height: calc(100vh - 72px);
+  height: calc(100dvh - 72px);
   width: 100%;
 
   @media (min-width: $tablet) {
     flex-direction: row;
     height: calc(100vh - 96px);
+    height: calc(100dvh - 96px);
   }
 }
 
@@ -53,6 +57,7 @@ body {
   background-color: transparent;
   width: 100%;
   max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tactile-btn {
