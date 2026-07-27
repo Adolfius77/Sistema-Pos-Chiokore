@@ -1,0 +1,178 @@
+@use "../styles/variables" as *;
+
+.promo-banner-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+
+    @media (min-width: $tablet) {
+        gap: 2rem;
+        padding: 2rem;
+    }
+}
+
+.promo-card-moderno {
+    background: $ligth;
+    border: 3px solid $border-color;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 6px 6px 0px $border-color;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: 10px 10px 0px $border-color;
+    }
+
+    .promo-card-img {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        overflow: hidden;
+        background-color: $bg-cream;
+        border-bottom: 3px solid $border-color;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        &:hover img {
+            transform: scale(1.05);
+        }
+
+        .promo-card-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, $bg-tan, $card-label-bg);
+            color: $primary-color;
+        }
+
+        .promo-badge-descuento {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: $ColorVerde;
+            color: $ligth;
+            border: 2px solid $border-color;
+            border-radius: 12px;
+            padding: 0.4rem 0.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+
+            .promo-badge-num {
+                font-size: 1.8rem;
+                font-weight: 900;
+            }
+
+            .promo-badge-txt {
+                font-size: 0.75rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            @media (min-width: $tablet) {
+                top: 15px;
+                right: 15px;
+                padding: 0.6rem 1rem;
+
+                .promo-badge-num {
+                    font-size: 2.2rem;
+                }
+                .promo-badge-txt {
+                    font-size: 0.85rem;
+                }
+            }
+        }
+    }
+
+    .promo-card-body {
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex: 1;
+
+        @media (min-width: $tablet) {
+            padding: 1.5rem;
+            gap: 1rem;
+        }
+
+        .promo-card-nombre {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: $text-dark;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0;
+            word-break: break-word;
+
+            @media (min-width: $tablet) {
+                font-size: 1.6rem;
+            }
+        }
+
+        .promo-card-paquete {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: $bg-tan;
+            border: 2px solid $border-color;
+            border-radius: 12px;
+            padding: 0.6rem 1rem;
+
+            .promo-paquete-label {
+                font-size: 0.9rem;
+                font-weight: 700;
+                color: $text-gray;
+                text-transform: uppercase;
+            }
+
+            .promo-paquete-valor {
+                font-size: 1.1rem;
+                font-weight: 900;
+                color: $primary-color;
+            }
+
+            @media (min-width: $tablet) {
+                padding: 0.8rem 1.2rem;
+                .promo-paquete-label { font-size: 1rem; }
+                .promo-paquete-valor { font-size: 1.3rem; }
+            }
+        }
+
+        .promo-card-categoria {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: $text-gray;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            svg {
+                color: $primary-color;
+                flex-shrink: 0;
+            }
+
+            @media (min-width: $tablet) {
+                font-size: 0.95rem;
+                gap: 8px;
+            }
+        }
+    }
+}

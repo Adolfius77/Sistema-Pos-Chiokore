@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Package, Tags, Receipt, AlertTriangle } from "lucide-react";
 import { obtenerResumenVentas } from "../../services/ventasAdmin.js";
 
-const hoyIso = () => new Date().toISOString().slice(0, 10);
+const hoyIso = () => {
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
 
 const AdminHome = () => {
     const navigate = useNavigate();

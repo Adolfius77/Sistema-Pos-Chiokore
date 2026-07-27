@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Package, Tags, Receipt, Store, LogOut } from "lucide-react";
+import { LayoutDashboard, Package, Tags, Receipt, Store, LogOut, Tag } from "lucide-react";
 
 const AdminSideBar = ({ onLogout, sidebarOpen }) => {
     return (
@@ -23,6 +23,11 @@ const AdminSideBar = ({ onLogout, sidebarOpen }) => {
                 <li className="menu-item">
                     <NavLink to="/admin/ventas" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>
                         <Receipt size={32} /> Ventas
+                    </NavLink>
+                </li>
+                <li className="menu-item">
+                    <NavLink to="/admin/promociones" className={({ isActive }) => `tactile-btn ${isActive ? "active" : ""}`}>
+                        <Tag size={32} /> Promociones
                     </NavLink>
                 </li>
 

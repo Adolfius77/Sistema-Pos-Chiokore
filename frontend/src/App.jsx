@@ -16,6 +16,8 @@ import AdminProductoForm from "./pages/admin/AdminProductoForm.jsx";
 import AdminCategorias from "./pages/admin/AdminCategorias.jsx";
 import AdminVentas from "./pages/admin/AdminVentas.jsx";
 import AdminVentaDetalle from "./pages/admin/AdminVentaDetalle.jsx";
+import AdminPromociones from "./pages/admin/AdminPromociones.jsx";
+import FormularioPromociones from "./pages/admin/FormularioPromociones.jsx";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
@@ -110,6 +112,9 @@ function App() {
                     <Route path="categorias" element={<AdminCategorias />} />
                     <Route path="ventas" element={<AdminVentas />} />
                     <Route path="ventas/:id" element={<AdminVentaDetalle />} />
+                    <Route path="promociones" element={<AdminPromociones />} />
+                    <Route path="promociones/nuevo" element={<FormularioPromociones />} />
+                    <Route path="promociones/editar/:id" element={<FormularioPromociones />} />
                 </Route>
 
                 <Route

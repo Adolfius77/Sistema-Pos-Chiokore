@@ -40,10 +40,12 @@ public class SecurityConfig {
                 "http://localhost:5175",
                 "http://localhost:5173",
                 "http://192.168.1.69:5175",
-                "http://192.168.1.69:5173"
+                "http://192.168.1.69:5173",
+                "http://192.168.1.77:5175"
+
+
         ));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

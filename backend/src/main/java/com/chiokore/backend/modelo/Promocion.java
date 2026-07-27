@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import javax.print.attribute.standard.MediaSize;
 import java.time.LocalDate;
 
 @Data
@@ -12,9 +11,9 @@ import java.time.LocalDate;
 @Table(name= "promociones")
 public class Promocion {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private long id;
+    private Long id;
 
     @Column(name ="nombre", nullable = false)
     private String nombre;
@@ -36,6 +35,12 @@ public class Promocion {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // Evita problemas de serialización
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Categoria categoria;
+
+    @Column(name = "cantidad_paquete", nullable = false, columnDefinition = "int default 1")
+    private int cantidadPaquete;
+
+    @Column(name = "precio_paquete", nullable = false, columnDefinition = "double default 0.0")
+    private double precioPaquete;
 }

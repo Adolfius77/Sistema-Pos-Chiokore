@@ -24,7 +24,6 @@ public class Venta {
     private int id;
 
     @Column(name = "fecha_hora", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime fecha_hora;
 
     @Column(name = "total", nullable = false)
