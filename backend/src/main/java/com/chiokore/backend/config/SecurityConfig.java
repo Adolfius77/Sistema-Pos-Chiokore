@@ -39,11 +39,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5175",
                 "http://localhost:5173",
-                "http://192.168.1.69:5175",
-                "http://192.168.1.69:5173",
-                "http://192.168.1.77:5175"
-
-
+                "http://192.168.1.64:5175",
+                "http://192.168.1.64:5173"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

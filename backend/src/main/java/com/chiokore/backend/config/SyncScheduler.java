@@ -14,7 +14,7 @@ public class SyncScheduler {
         this.sincronizacionService = sincronizacionService;
     }
     //este metodo se ejecuta cada 2 minutos para sincronizar los usuarios del sistema de asistencia
-    @Scheduled(fixedRate = 120000)
+    @Scheduled(fixedRate = 10000)
     public void ejecutarSincronizacion() {
         System.out.println("Ejecutando sincronización de usuarios del sistema de asistencia....");
         sincronizacionService.sincronizarDatos();

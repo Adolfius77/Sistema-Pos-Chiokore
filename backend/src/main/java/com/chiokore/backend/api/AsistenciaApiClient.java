@@ -1,4 +1,4 @@
-package com.chiokore.backend.clients;
+package com.chiokore.backend.api;
 
 import com.chiokore.backend.dtos.PosStatusDTO;
 import org.springframework.beans.factory.annotation.Value;

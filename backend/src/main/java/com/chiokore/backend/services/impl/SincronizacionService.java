@@ -6,8 +6,7 @@ import com.chiokore.backend.repository.UsuarioAsistenciaRepository;
 import com.chiokore.backend.services.ISincronizacion;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.chiokore.backend.clients.AsistenciaApiClient;
-
+import com.chiokore.backend.api.AsistenciaApiClient;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +38,7 @@ public class SincronizacionService implements ISincronizacion {
             usuario.setNombre(posStatusDTO.getNombre());
             usuario.setRol(posStatusDTO.getRol());
             usuario.setActivo(posStatusDTO.isActivo());
+            usuario.setMarcoAsistencia(posStatusDTO.isMarcoAsistencia());
 
             boolean puedeAcceder = posStatusDTO.isActivo() && posStatusDTO.isMarcoAsistencia();
             usuario.setActivo(puedeAcceder);
