@@ -5,29 +5,136 @@
 }
 
 .admin-page {
-  padding: $spacing-large;
+  padding: 1rem;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  min-height: 100%;
+
+  @media (min-width: $tablet) {
+    padding: 1.5rem 2rem;
+  }
+
+  @media (min-width: $desktop) {
+    padding: 2rem 3rem;
+  }
+
+  // Burbujas flotantes
+  .admin-bg-shape {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    animation: adminFloat 25s ease-in-out infinite;
+
+    &:nth-child(1) {
+      width: 700px;
+      height: 700px;
+      top: -250px;
+      right: -200px;
+      background: radial-gradient(circle, rgba(153, 70, 42, 0.35) 0%, transparent 70%);
+      animation-delay: 0s;
+    }
+
+    &:nth-child(2) {
+      width: 600px;
+      height: 600px;
+      bottom: -200px;
+      left: -150px;
+      background: radial-gradient(circle, rgba(217, 131, 100, 0.3) 0%, transparent 70%);
+      animation-delay: -6s;
+    }
+
+    &:nth-child(3) {
+      width: 400px;
+      height: 400px;
+      top: 30%;
+      right: 0;
+      background: radial-gradient(circle, rgba(180, 100, 65, 0.25) 0%, transparent 70%);
+      animation-delay: -12s;
+    }
+
+    &:nth-child(4) {
+      width: 250px;
+      height: 250px;
+      top: 8%;
+      left: 3%;
+      background: radial-gradient(circle, rgba(153, 70, 42, 0.22) 0%, transparent 70%);
+      animation-delay: -18s;
+    }
+
+    &:nth-child(5) {
+      width: 160px;
+      height: 160px;
+      bottom: 35%;
+      right: 35%;
+      background: radial-gradient(circle, rgba(217, 131, 100, 0.2) 0%, transparent 70%);
+      animation-delay: -10s;
+    }
+
+    &:nth-child(6) {
+      width: 110px;
+      height: 110px;
+      top: 65%;
+      left: 22%;
+      background: radial-gradient(circle, rgba(153, 70, 42, 0.18) 0%, transparent 70%);
+      animation-delay: -15s;
+    }
+  }
+}
+
+@keyframes adminFloat {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(20px, -25px); }
+  50% { transform: translate(-15px, -10px); }
+  75% { transform: translate(25px, 15px); }
+}
+
+@keyframes adminFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(20px, -25px) scale(1.05); }
+  50% { transform: translate(-15px, -10px) scale(0.95); }
+  75% { transform: translate(25px, 10px) scale(1.02); }
+}
+
+.admin-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .admin-titulo {
-  font-size: 2.4rem;
-  font-weight: 800;
-  color: $text-charcoal;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: $primary-color;
   margin: 0;
+
+  @media (min-width: $tablet) {
+    font-size: 2rem;
+  }
 }
 
 .admin-subtitulo {
   color: $text-gray;
-  font-size: 1.2rem;
-  margin: 0.4rem 0 1.5rem;
+  font-size: 0.95rem;
+  margin: 0.25rem 0 0;
+  margin-bottom: 15px;
+
+  @media (min-width: $tablet) {
+    font-size: 1.1rem;
+  }
 }
 
 .admin-error {
   color: $ColorErrores;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin: 1rem 0;
 }
 
@@ -41,70 +148,143 @@
 }
 
 .admin-resumen-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.85rem;
   margin-bottom: 2rem;
+
+  @media (min-width: $tablet) {
+    gap: 1rem;
+  }
 }
 
 .admin-stat-card {
-  background-color: $bg-tan;
   border: 2px solid $border-color;
-  border-bottom-width: 6px;
+  border-bottom-width: 5px;
   border-radius: $border-radius-inner;
-  padding: 1.25rem;
+  padding: 1rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 
-  span {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0 $border-color;
+  }
+
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    border: 2px solid $border-color;
+  }
+
+  .stat-label {
+    display: block;
     color: $text-gray;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  strong {
+  .stat-value {
     display: block;
-    margin-top: 0.5rem;
-    font-size: 2rem;
-    font-weight: 800;
-    color: $text-charcoal;
-  }
+    margin-top: 0.35rem;
+    font-size: 1.6rem;
+    font-weight: 900;
 
-  &.alerta strong {
-    color: $terracotta;
+    @media (min-width: $tablet) {
+      font-size: 1.8rem;
+    }
   }
 }
 
 .admin-home-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (min-width: $mobile) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: $tablet) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
 }
 
 .admin-home-card {
   background-color: white;
   border: 2px solid $border-color;
-  border-bottom-width: 8px;
+  border-bottom-width: 6px;
   border-radius: $border-radius-soft;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   text-align: center;
   color: $text-charcoal;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 6px 6px 0 $border-color;
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  svg {
+    color: $primary-color;
+    margin-bottom: 0.25rem;
+    transition: transform 0.2s;
+  }
+
+  &:hover svg {
+    transform: scale(1.15);
+  }
 
   span {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-weight: 800;
+
+    @media (min-width: $tablet) {
+      font-size: 1.5rem;
+    }
   }
 
   p {
     margin: 0;
     color: $text-gray;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
   }
+
+  &.home-card--productos::before { background: $primary-color; }
+  &.home-card--categorias::before { background: $ColorSideBar; }
+  &.home-card--ventas::before { background: $terracotta; }
 }
 
 .admin-btn-primary,

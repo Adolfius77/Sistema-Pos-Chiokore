@@ -4,13 +4,13 @@
   display: flex;
   min-height: 100%;
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem;
+  padding: env(safe-area-inset-top, 1rem) env(safe-area-inset-right, 1rem) env(safe-area-inset-bottom, 1rem) env(safe-area-inset-left, 1rem);
   justify-content: center;
   align-items: flex-start;
 
   @media (min-width: $tablet) {
-    padding: $spacing-large;
-    align-items: center;
+    padding: 1.5rem;
   }
 }
 
@@ -19,89 +19,72 @@
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1000px;
 
   @media (min-width: $tablet) {
     flex-direction: row;
-    gap: $gap-massive;
+    gap: 1.5rem;
+    align-items: stretch;
   }
 }
 
 .layout-tarjeta .panel-resumen {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.85rem;
   flex: 1;
-
-  @media (min-width: $tablet) {
-    gap: 1.5rem;
-  }
 }
 
 .tarjeta-info-card {
   background-color: $bg-tan;
   border: 2px solid $border-color;
-  border-bottom-width: 6px;
+  border-bottom-width: 5px;
   border-radius: $border-radius-inner;
   padding: 1rem;
 
-  @media (min-width: $tablet) {
-    padding: 1.5rem;
-  }
-
   h1 {
     color: $text-gray;
-    font-size: 1rem;
+    font-size: 0.95rem;
     margin: 0;
     font-weight: 700;
-
-    @media (min-width: $tablet) {
-      font-size: 1.2rem;
-    }
+    text-transform: uppercase;
   }
 
   p {
     color: $text-gray;
-    font-size: 0.95rem;
-    margin: 5px 0 0 0;
-
-    @media (min-width: $tablet) {
-      font-size: 1.1rem;
-    }
+    font-size: 0.85rem;
+    margin: 4px 0 0 0;
   }
 }
 
 .layout-tarjeta .total-pagar {
   background-color: $text-charcoal;
   border: 2px solid $border-color;
-  border-bottom-width: 6px;
+  border-bottom-width: 5px;
   border-radius: $border-radius-inner;
   padding: 1rem;
 
   @media (min-width: $tablet) {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
   h1 {
     color: $bg-tan;
-    font-size: 1rem;
+    font-size: 0.95rem;
     margin: 0;
     font-weight: 700;
-
-    @media (min-width: $tablet) {
-      font-size: 1.2rem;
-    }
+    text-transform: uppercase;
   }
 
   .total-monto {
     color: $terracotta;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 800;
     display: block;
-    margin-top: 0.5rem;
+    margin-top: 0.35rem;
 
     @media (min-width: $tablet) {
-      font-size: 3.8rem;
+      font-size: 2.8rem;
     }
   }
 }
@@ -110,26 +93,23 @@
   flex: 1;
   background-color: $bg-tan;
   border: 2px solid $border-color;
-  border-bottom-width: 6px;
+  border-bottom-width: 5px;
   border-radius: $border-radius-soft;
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
 
   @media (min-width: $tablet) {
-    padding: 2.5rem;
+    padding: 1.25rem;
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 800;
     color: $text-charcoal;
-    margin-bottom: 0.75rem;
-
-    @media (min-width: $tablet) {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-    }
+    margin: 0;
+    text-transform: uppercase;
   }
 }
 
@@ -139,7 +119,7 @@
 
 .zona-foto {
   width: 100%;
-  min-height: 140px;
+  min-height: 120px;
   border: 3px dashed $border-color;
   border-radius: $border-radius-inner;
   background-color: white;
@@ -152,7 +132,7 @@
   transition: background-color 0.15s ease, border-color 0.15s ease;
 
   @media (min-width: $tablet) {
-    min-height: 280px;
+    min-height: 180px;
   }
 
   &:hover {
@@ -163,11 +143,11 @@
   &.con-preview {
     border-style: solid;
     border-width: 2px;
-    border-bottom-width: 5px;
-    min-height: 160px;
+    border-bottom-width: 4px;
+    min-height: 140px;
 
     @media (min-width: $tablet) {
-      min-height: 320px;
+      min-height: 200px;
     }
   }
 }
@@ -216,7 +196,6 @@
 }
 
 .btn-cambiar-foto {
-  margin-top: 0.75rem;
   align-self: flex-start;
   background-color: white;
   border: 2px solid $border-color;
@@ -230,15 +209,13 @@
   transition: transform 0.1s ease, border-bottom-width 0.1s ease;
 
   @media (min-width: $tablet) {
-    padding: 0.9rem 1.4rem;
-    font-size: 1.1rem;
-    margin-top: 1rem;
-    border-bottom-width: 5px;
-    border-radius: 12px;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 10px;
   }
 
   &:active {
-    transform: translateY(3px);
+    transform: translateY(2px);
     border-bottom-width: 2px;
   }
 }
@@ -246,41 +223,24 @@
 .input-referencia {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-
-  @media (min-width: $tablet) {
-    gap: 10px;
-    margin-top: 1.5rem;
-    margin-bottom: 2rem;
-  }
+  gap: 4px;
 
   label {
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: $text-gray;
-
-    @media (min-width: $tablet) {
-      font-size: 1.2rem;
-    }
   }
 
   input {
     border: 2px solid $border-color;
-    border-radius: 8px;
-    padding: 0.7rem;
-    font-size: 1rem;
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: $text-charcoal;
     background-color: white;
     outline: none;
-
-    @media (min-width: $tablet) {
-      padding: 1.2rem;
-      font-size: 1.4rem;
-      border-radius: 12px;
-    }
+    transition: border-color 0.15s ease, background-color 0.15s ease;
 
     &:focus {
       border-color: $primary-color;
@@ -290,36 +250,28 @@
 }
 
 .layout-tarjeta .acciones-cobro {
-  margin-top: auto;
   display: flex;
-  gap: 8px;
-
-  @media (min-width: $tablet) {
-    gap: 15px;
-  }
+  gap: 10px;
+  margin-top: 0.25rem;
 }
 
 .layout-tarjeta .btn-secundario,
 .layout-tarjeta .btn-cobrar {
   border: 2px solid $border-color;
-  border-bottom-width: 5px;
-  border-radius: 12px;
-  padding: 0.8rem;
-  font-size: 1rem;
+  border-bottom-width: 4px;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  font-size: 1.05rem;
   cursor: pointer;
   font-weight: 800;
   flex: 1;
   transition: transform 0.1s ease, border-bottom-width 0.1s ease;
   text-align: center;
-
-  @media (min-width: $tablet) {
-    padding: 1.5rem;
-    font-size: 1.6rem;
-    border-bottom-width: 6px;
-  }
+  touch-action: manipulation;
+  white-space: nowrap;
 
   &:active:not(:disabled) {
-    transform: translateY(4px);
+    transform: translateY(2px);
     border-bottom-width: 2px;
   }
 }
@@ -345,19 +297,14 @@
 .layout-tarjeta .error-text {
   color: $ColorErrores;
   font-weight: 700;
-  font-size: 1.1rem;
-  margin-top: 1rem;
-
-  @media (min-width: $tablet) {
-    font-size: 1.4rem;
-  }
+  font-size: 1rem;
+  margin: 0;
 }
 
 .layout-tarjeta .pantalla-exito {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
   width: 100%;
   padding: 1rem;
 
@@ -365,64 +312,40 @@
     background-color: white;
     padding: 2rem;
     border: 2px solid $border-color;
-    border-bottom-width: 10px;
+    border-bottom-width: 8px;
     border-radius: $border-radius-soft;
     text-align: center;
     width: 100%;
-    max-width: 600px;
-
-    @media (min-width: $tablet) {
-      padding: 4rem;
-    }
+    max-width: 520px;
 
     .icono-exito {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 1.5rem;
-
-      @media (min-width: $tablet) {
-        margin-bottom: 2rem;
-      }
+      margin-bottom: 1rem;
     }
 
     h1 {
       color: $ColorVerde;
       font-size: 2rem;
       font-weight: 800;
-      margin-bottom: 1.5rem;
-      margin-top: 0;
-
-      @media (min-width: $tablet) {
-        font-size: 3.5rem;
-        margin-bottom: 2.5rem;
-      }
+      margin: 0 0 1.25rem 0;
     }
 
     .exito-detalles {
       background-color: $bg-cream;
       border: 2px solid $border-color;
-      padding: 1.5rem;
+      padding: 1.25rem;
       border-radius: $border-radius-inner;
-      margin-bottom: 1.5rem;
-
-      @media (min-width: $tablet) {
-        padding: 2.5rem;
-        margin-bottom: 2.5rem;
-      }
+      margin-bottom: 1.25rem;
 
       .fila-detalle {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: $text-gray;
-        margin: 0.8rem 0;
-
-        @media (min-width: $tablet) {
-          font-size: 1.6rem;
-          margin: 1.2rem 0;
-        }
+        margin: 0.5rem 0;
 
         strong {
           color: $text-charcoal;
@@ -432,47 +355,33 @@
 
       .separador {
         border: none;
-        border-top: 3px dashed $text-gray;
-        margin: 1.5rem 0;
-
-        @media (min-width: $tablet) {
-          margin: 2rem 0;
-        }
+        border-top: 2px dashed $text-gray;
+        margin: 1rem 0;
       }
     }
 
     .folio-texto {
       color: $text-gray;
-      margin-bottom: 1.5rem;
-      font-size: 1.1rem;
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
       font-weight: 700;
-
-      @media (min-width: $tablet) {
-        margin-bottom: 3rem;
-        font-size: 1.4rem;
-      }
     }
 
     .btn-nueva-venta {
       width: 100%;
-      padding: 1.2rem;
-      font-size: 1.3rem;
+      padding: 1rem;
+      font-size: 1.2rem;
       background-color: $ColorVerde;
       color: white;
       border: 2px solid $border-color;
-      border-bottom-width: 8px;
+      border-bottom-width: 6px;
       border-radius: $border-radius-inner;
       cursor: pointer;
       font-weight: 800;
       transition: transform 0.1s ease, border-bottom-width 0.1s ease;
 
-      @media (min-width: $tablet) {
-        padding: 1.8rem;
-        font-size: 2rem;
-      }
-
       &:active {
-        transform: translateY(6px);
+        transform: translateY(4px);
         border-bottom-width: 2px;
       }
     }

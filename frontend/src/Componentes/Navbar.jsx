@@ -35,13 +35,6 @@ const Navbar = ({ nombre, onToggleSidebar, sidebarOpen }) => {
             </div>
 
             <div className="navbar-controls">
-                <button
-                    className="tactile-btn btn-volume"
-                    onClick={toggleAudio}
-                >
-                    {audioActivado ? <Volume2 size={32}/> : <VolumeX size={32}/>}
-                </button>
-
                 <div className="tactile-btn user-profile">
                     <div className="user-avatar">
                         <User size={28} />

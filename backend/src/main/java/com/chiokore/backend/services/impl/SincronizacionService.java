@@ -39,22 +39,17 @@ public class SincronizacionService implements ISincronizacion {
             usuario.setRol(posStatusDTO.getRol());
             usuario.setActivo(posStatusDTO.isActivo());
             usuario.setMarcoAsistencia(posStatusDTO.isMarcoAsistencia());
-
-            boolean puedeAcceder = posStatusDTO.isActivo() && posStatusDTO.isMarcoAsistencia();
-            usuario.setActivo(puedeAcceder);
             usuarioAsistenciaRepository.save(usuario);
+        }
 
-            //esto desactiva a los usuario que ya no existen en el sistema de asistencia
-            List<usuario_asistencia>usuariosLocales = usuarioAsistenciaRepository.findAll();
-            for (usuario_asistencia local : usuariosLocales) {
-                if(!idsRemotos.contains(local.getIdAsistencia())){
-                    local.setActivo(false);
-                    local.setMarcoAsistencia(false);
-                    usuarioAsistenciaRepository.save(local);
-
-                }
+        // Desactiva usuarios que ya no existen en el sistema de asistencia
+        List<usuario_asistencia> usuariosLocales = usuarioAsistenciaRepository.findAll();
+        for (usuario_asistencia local : usuariosLocales) {
+            if (!idsRemotos.contains(local.getIdAsistencia())) {
+                local.setActivo(false);
+                local.setMarcoAsistencia(false);
+                usuarioAsistenciaRepository.save(local);
             }
-
         }
     }
 }

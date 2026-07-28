@@ -45,9 +45,12 @@ body {
   width: 100%;
 
   @media (min-width: $tablet) {
-    flex-direction: row;
     height: calc(100vh - 96px);
     height: calc(100dvh - 96px);
+  }
+
+  @media (min-width: $desktop) {
+    flex-direction: row;
   }
 }
 

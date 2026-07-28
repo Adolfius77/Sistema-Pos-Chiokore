@@ -18,9 +18,10 @@ public class JwtService {
 
     private final long jwtExpirationInMs = 28800000;
 
-    public String generateToken(String nombre, String rol) {
+    public String generateToken(String nombre, String rol, Long empleadoId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("rol", rol);
+        claims.put("empleadoId", empleadoId);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -29,6 +30,10 @@ public class JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public String generateToken(String nombre, String rol) {
+        return generateToken(nombre, rol, null);
     }
     private Key getKey() {
         byte[] keyBytes = secretKey.getBytes();

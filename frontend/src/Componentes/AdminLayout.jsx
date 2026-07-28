@@ -5,7 +5,7 @@ const AdminLayout = ({ onLogout, sidebarOpen, onCloseSidebar }) => {
     return (
         <div className="flex">
             {sidebarOpen && <div className="sidebar-overlay" onClick={onCloseSidebar} />}
-            <AdminSideBar onLogout={onLogout} sidebarOpen={sidebarOpen} />
+            <AdminSideBar onLogout={onLogout} sidebarOpen={sidebarOpen} onCloseSidebar={onCloseSidebar} />
             <div className="content admin-content" onClick={onCloseSidebar}>
                 <Outlet />
             </div>

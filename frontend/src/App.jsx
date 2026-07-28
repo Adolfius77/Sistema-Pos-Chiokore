@@ -18,7 +18,7 @@ import AdminVentas from "./pages/admin/AdminVentas.jsx";
 import AdminVentaDetalle from "./pages/admin/AdminVentaDetalle.jsx";
 import AdminPromociones from "./pages/admin/AdminPromociones.jsx";
 import FormularioPromociones from "./pages/admin/FormularioPromociones.jsx";
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { AUTH_TOKEN_STORAGE_KEY, URL_LOGIN_EXTERNO, URL_LOGOUT_EXTERNO } from "./config/env.js";
@@ -29,7 +29,7 @@ function PosLayout({ onLogout, sidebarOpen, onCloseSidebar }) {
     return (
         <div className="flex">
             {sidebarOpen && <div className="sidebar-overlay" onClick={onCloseSidebar} />}
-            <SideBar onLogout={onLogout} sidebarOpen={sidebarOpen} />
+            <SideBar onLogout={onLogout} sidebarOpen={sidebarOpen} onCloseSidebar={onCloseSidebar} />
             <div className="content" onClick={onCloseSidebar}>
                 <Outlet />
             </div>
@@ -54,7 +54,7 @@ function App() {
             try {
                 const decoded = jwtDecode(tokenFinal);
                 localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, tokenFinal);
-                setNombreUsuario(decoded.preferred_username || decoded.name || "Cajero");
+                setNombreUsuario(decoded.sub || decoded.preferred_username || decoded.name || "Cajero");
                 window.history.replaceState({}, document.title, window.location.pathname);
                 setTokenReady(true);
             } catch (e) {
@@ -67,6 +67,8 @@ function App() {
             setTokenReady(true);
         }
     }, []);
+
+    const location = useLocation();
 
     if (!tokenReady) {
         return (
@@ -89,10 +91,14 @@ function App() {
         setSidebarOpen(false);
     };
 
+    const mostrarNavbar = location.pathname !== "/login";
+
     return (
         <>
             {isIdle && <IdleOverlay />}
-            <Navbar nombre={nombreUsuario} onToggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
+            {mostrarNavbar && (
+                <Navbar nombre={nombreUsuario} onToggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
+            )}
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route
