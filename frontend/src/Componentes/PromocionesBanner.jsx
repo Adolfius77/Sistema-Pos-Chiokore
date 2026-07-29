@@ -17,8 +17,8 @@ const PromocionesBanner = ({ promociones }) => {
                             </div>
                         )}
                         <div className="promo-badge-descuento">
-                            <span className="promo-badge-num">{promo.descuento}%</span>
-                            <span className="promo-badge-txt">OFF</span>
+                            <span className="promo-badge-num">${Number(promo.precioPromocional).toFixed(2)}</span>
+                            <span className="promo-badge-txt">c/u</span>
                         </div>
                     </div>
 

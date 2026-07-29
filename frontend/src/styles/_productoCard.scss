@@ -72,6 +72,30 @@
   span { line-height: 1.1; }
   span:first-child { font-size: 0.95rem; }
   span:last-child { font-size: 0.65rem; }
+
+  .precio-original {
+    text-decoration: line-through;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+  }
+  .precio-promo {
+    font-size: 1rem;
+  }
+}
+
+.badge-promo {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #16a34a;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  z-index: 2;
 }
 
 .info-producto {

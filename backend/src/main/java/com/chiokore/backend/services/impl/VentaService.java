@@ -8,10 +8,12 @@ import com.chiokore.backend.dtos.VentaResumenDTO;
 import com.chiokore.backend.dtos.VentasResumenDTO;
 import com.chiokore.backend.modelo.DetalleVenta;
 import com.chiokore.backend.modelo.Producto;
+import com.chiokore.backend.modelo.Promocion;
 import com.chiokore.backend.modelo.Venta;
 import com.chiokore.backend.repository.ProductoRepository;
 import com.chiokore.backend.repository.VentaRepository;
 import com.chiokore.backend.services.IProductoService;
+import com.chiokore.backend.services.IPromocionService;
 import com.chiokore.backend.services.IVentaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 
@@ -34,6 +37,7 @@ public class VentaService implements IVentaService {
     private final VentaRepository ventaRepository;
     private final ProductoRepository productoRepository;
     private final IProductoService productoService;
+    private final IPromocionService promocionService;
     private final VentaFactory ventaFactory;
 
     @Override
@@ -50,6 +54,7 @@ public class VentaService implements IVentaService {
 
         List<DetalleVenta> detalles = new ArrayList<>();
         double total = 0;
+        LocalDate hoy = LocalDate.now();
 
         for (ItemDto item : cobroDTO.getItems()) {
             Producto p = productoService.obtenerPorId(item.getProducto_id());
@@ -61,10 +66,13 @@ public class VentaService implements IVentaService {
             p.setStock(p.getStock() - item.getCantidad());
             productoService.guardar(p);
 
-            DetalleVenta detalle = ventaFactory.crearDetalle(p, item.getCantidad());
+            double precioUnitario = calcularPrecioConPromocion(p, item.getCantidad(), hoy);
+            double subtotal = precioUnitario * item.getCantidad();
+
+            DetalleVenta detalle = ventaFactory.crearDetalle(p, item.getCantidad(), precioUnitario);
             detalles.add(detalle);
 
-            total += (p.getPrecio() * item.getCantidad());
+            total += subtotal;
         }
 
         Venta ventafinal = ventaFactory.crearVenta(cobroDTO, detalles, total);
@@ -73,6 +81,29 @@ public class VentaService implements IVentaService {
             ventafinal.setUrl_comprobante(urlComprobante);
         }
         return ventaRepository.save(ventafinal);
+    }
+
+    private double calcularPrecioConPromocion(Producto producto, int cantidad, LocalDate fecha) {
+        if (producto.getCategoria() == null) return producto.getPrecio();
+
+        Optional<Promocion> promoOpt = promocionService.buscarPromocionActivaPorCategoria(
+                producto.getCategoria().getId(), fecha);
+
+        if (promoOpt.isEmpty()) return producto.getPrecio();
+
+        Promocion promo = promoOpt.get();
+
+        if (promo.getCantidadPaquete() > 0 && promo.getPrecioPaquete() > 0) {
+            int paquetes = cantidad / promo.getCantidadPaquete();
+            int resto = cantidad % promo.getCantidadPaquete();
+            return Math.round((paquetes * promo.getPrecioPaquete() + resto * producto.getPrecio()) / (double) cantidad * 100.0) / 100.0;
+        }
+
+        if (promo.getPrecioPromocional() > 0) {
+            return Math.round(promo.getPrecioPromocional() * 100.0) / 100.0;
+        }
+
+        return producto.getPrecio();
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.chiokore.backend.controllers;
 
 import com.chiokore.backend.dtos.ProductoAdminDTO;
+import com.chiokore.backend.dtos.ProductoConPromoDTO;
 import com.chiokore.backend.modelo.Categoria;
 import com.chiokore.backend.modelo.Producto;
+import com.chiokore.backend.modelo.Promocion;
 import com.chiokore.backend.services.ICategoriasService;
 import com.chiokore.backend.services.IProductoService;
+import com.chiokore.backend.services.IPromocionService;
 import com.chiokore.backend.services.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,8 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -23,6 +30,7 @@ public class ProductoController {
     private final IProductoService productoService;
     private final ICategoriasService categoriasService;
     private final ImageStorageService imageStorageService;
+    private final IPromocionService promocionService;
 
     @GetMapping("/activos")
     public ResponseEntity<?> obtenerProductos() {
@@ -32,6 +40,52 @@ public class ProductoController {
     @GetMapping("/categoria/{id}")
     public ResponseEntity<?> obtenerPorCategoria(@PathVariable int id) {
         return ResponseEntity.ok(productoService.encontrarPorCategoria(id));
+    }
+
+    @GetMapping("/categoria/{id}/con-promo")
+    public ResponseEntity<?> obtenerPorCategoriaConPromo(@PathVariable int id) {
+        List<Producto> productos = productoService.encontrarPorCategoria(id);
+        LocalDate hoy = LocalDate.now();
+        List<ProductoConPromoDTO> resultado = productos.stream().map(p -> {
+            double precioOriginal = p.getPrecio();
+            double precioFinal = precioOriginal;
+            boolean tienePromo = false;
+            double descuento = 0;
+            String promocionNombre = null;
+
+            if (p.getCategoria() != null) {
+                Optional<Promocion> promoOpt = promocionService.buscarPromocionActivaPorCategoria(p.getCategoria().getId(), hoy);
+                    if (promoOpt.isPresent()) {
+                        Promocion promo = promoOpt.get();
+                        promocionNombre = promo.getNombre();
+
+                        if (promo.getCantidadPaquete() > 0 && promo.getPrecioPaquete() > 0 && promo.getPrecioPaquete() < promo.getCantidadPaquete() * precioOriginal) {
+                            double precioUnitarioPaquete = promo.getPrecioPaquete() / (double) promo.getCantidadPaquete();
+                            precioFinal = Math.round(precioUnitarioPaquete * 100.0) / 100.0;
+                            descuento = Math.round((1 - precioFinal / precioOriginal) * 10000.0) / 100.0;
+                            if (descuento > 0) tienePromo = true;
+                        } else if (promo.getPrecioPromocional() > 0) {
+                            precioFinal = Math.round(promo.getPrecioPromocional() * 100.0) / 100.0;
+                            descuento = Math.round((1 - precioFinal / precioOriginal) * 10000.0) / 100.0;
+                            if (precioFinal < precioOriginal) tienePromo = true;
+                        }
+                    }
+            }
+
+            return ProductoConPromoDTO.builder()
+                    .id(p.getId())
+                    .nombre(p.getNombre())
+                    .precioOriginal(precioOriginal)
+                    .precioFinal(precioFinal)
+                    .url_imagen(p.getUrl_imagen())
+                    .stock(p.getStock())
+                    .activo(p.isActivo())
+                    .tienePromo(tienePromo)
+                    .descuento(descuento)
+                    .promocionNombre(promocionNombre)
+                    .build();
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(resultado);
     }
 
     @GetMapping

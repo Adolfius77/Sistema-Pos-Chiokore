@@ -15,7 +15,7 @@ const Catalogo = () =>{
 
     const obtenerProductos = useCallback(async () =>{
         try{
-            const respuesta = await apiCliente.get(`/productos/categoria/${id}`);
+            const respuesta = await apiCliente.get(`/productos/categoria/${id}/con-promo`);
             setProductos(respuesta.data);
         }catch (err){
             console.error("error en el fetch:", err);
@@ -71,9 +71,11 @@ const Catalogo = () =>{
                             <div className="img-container">
                                 <img src={urlUpload(prod.url_imagen) || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"} alt={prod.nombre} />
                                 <div className="etiqueta-precio">
-                                    <span>${prod.precio}</span>
+                                    {prod.tienePromo && <span className="precio-original">${prod.precioOriginal.toFixed(2)}</span>}
+                                    <span className={prod.tienePromo ? 'precio-promo' : ''}>${prod.precioFinal.toFixed(2)}</span>
                                     <span>MXN</span>
                                 </div>
+                                {prod.tienePromo && <div className="badge-promo">OFERTA</div>}
                             </div>
 
                             <div className="info-producto">
@@ -81,7 +83,7 @@ const Catalogo = () =>{
                                 <p className="stock">
                                     {prod.stock > 0 ? `Stock: ${prod.stock} piezas` : 'Agotado'}
                                 </p>
-                                <BotonAgregar producto={prod} />
+                                <BotonAgregar producto={{...prod, precio: prod.precioFinal}} />
                             </div>
                         </div>
                     ))}

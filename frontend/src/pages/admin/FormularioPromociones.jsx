@@ -18,6 +18,7 @@ const FormularioPromociones = () => {
         fechaInicio: '',
         fechaFin: '',
         descuento: 0,
+        precioPromocional: 0,
         activo: true,
         categoria: { id: '' }
     });
@@ -70,8 +71,8 @@ const FormularioPromociones = () => {
                             {categorias.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
                         </select>
 
-                        <label>Descuento %</label>
-                        <input type="number" value={promo.descuento} onChange={e => setPromo({...promo, descuento: parseFloat(e.target.value)})} required />
+                        <label>Precio por pieza $</label>
+                        <input type="number" step="0.01" value={promo.precioPromocional} onChange={e => setPromo({...promo, precioPromocional: parseFloat(e.target.value)})} required />
                         
                         <label>Fechas</label>
                         <div style={{display: 'flex', gap: '10px'}}>

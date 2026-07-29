@@ -31,7 +31,7 @@ public class PromocionController {
 
     @GetMapping("/{id}")
     public Promocion obtenerPorId(@PathVariable Long id) {
-        return repo.findById(Math.toIntExact(id)).orElseThrow();
+        return repo.findById(id).orElseThrow();
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -46,9 +46,10 @@ public class PromocionController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Promocion> actualizar(@PathVariable Long id, @RequestPart("promocion") Promocion promocion, @RequestPart(value = "imagen", required = false) MultipartFile imagen) {
-        Promocion existente = repo.findById(Math.toIntExact(id)).orElseThrow();
+        Promocion existente = repo.findById(id).orElseThrow();
         existente.setNombre(promocion.getNombre());
         existente.setDescuento(promocion.getDescuento());
+        existente.setPrecioPromocional(promocion.getPrecioPromocional());
         existente.setCantidadPaquete(promocion.getCantidadPaquete());
         existente.setPrecioPaquete(promocion.getPrecioPaquete());
         existente.setActivo(promocion.isActivo());
@@ -61,7 +62,7 @@ public class PromocionController {
 
     @PatchMapping("/{id}/activo")
     public ResponseEntity<Promocion> cambiarActivo(@PathVariable Long id, @RequestBody Map<String, Boolean> body) {
-        Promocion promo = repo.findById(Math.toIntExact(id)).orElseThrow();
+        Promocion promo = repo.findById(id).orElseThrow();
         promo.setActivo(body.get("activo"));
         return ResponseEntity.ok(repo.save(promo));
     }

@@ -18,8 +18,11 @@ public class Promocion {
     @Column(name ="nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "descuento", nullable = false)
-    private double descuento;
+    @Column(name = "descuento", nullable = false, columnDefinition = "double default 0.0")
+    private double descuento = 0.0;
+
+    @Column(name = "precio_promocional", nullable = false, columnDefinition = "double default 0.0")
+    private double precioPromocional = 0.0;
 
     @Column(name = "fechaInicio", nullable = false)
     private LocalDate fechaInicio;

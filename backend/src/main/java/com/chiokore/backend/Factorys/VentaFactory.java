@@ -13,11 +13,11 @@ import java.util.List;
 
 @Component
 public class VentaFactory {
-    public DetalleVenta crearDetalle(Producto producto, int cantidad){
+    public DetalleVenta crearDetalle(Producto producto, int cantidad, double precioUnitario){
         DetalleVenta detalle = new DetalleVenta();
         detalle.setProducto(producto);
         detalle.setCantidad(cantidad);
-        detalle.setPrecio_unitario_capturado(producto.getPrecio());
+        detalle.setPrecio_unitario_capturado(precioUnitario);
         return detalle;
     }
     public Venta crearVenta(CobroDTO cobro, List<DetalleVenta> detalles, double total){
