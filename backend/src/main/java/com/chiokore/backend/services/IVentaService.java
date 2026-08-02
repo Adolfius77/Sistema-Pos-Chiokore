@@ -10,17 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IVentaService {
-    Venta procesarVenta(CobroDTO cobroDTO, Long idTrabajador);
 
-    Venta procesarVenta(CobroDTO cobroDTO, Long idTrabajador, String urlComprobante);
-    Venta procesarVenta(
-            CobroDTO cobroDTO,
-            Long idTrabajador,
-            String urlComprobante,
-            String cajeroNombre,
-            String dispositivoModelo,
-            String ipOrigen
-    );
+    Venta procesarVenta(CobroDTO cobroDTO, Long idTrabajador, String urlComprobante, String cajeroNombre, String dispositivoModelo, String ipOrigen);
 
     VentasResumenDTO resumen(LocalDate desde, LocalDate hasta);
 

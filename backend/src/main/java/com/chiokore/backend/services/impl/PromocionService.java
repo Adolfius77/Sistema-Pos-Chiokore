@@ -14,9 +14,11 @@ import java.util.Optional;
 public class PromocionService implements IPromocionService {
 
     private final PromocionesRepository repo;
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(PromocionService.class);
 
     @Override
     public Optional<Promocion> buscarPromocionActivaPorCategoria(int categoriaId, LocalDate fecha) {
+        logger.info("Buscando promocion activa por categoria");
         return repo.findActivaByCategoriaAndFecha(categoriaId, fecha);
     }
 }

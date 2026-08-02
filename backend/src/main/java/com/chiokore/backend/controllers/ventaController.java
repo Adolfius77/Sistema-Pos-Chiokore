@@ -32,6 +32,7 @@ import java.util.Map;
 @RequestMapping("/api/ventas")
 @RequiredArgsConstructor
 public class ventaController {
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ventaController.class);
     private final IVentaService ventaService;
     private final ImageStorageService imageStorageService;
 
@@ -104,6 +105,7 @@ public class ventaController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", e.getMessage(), "error", e.getMessage()));
         } catch (Exception e) {
+            logger.error("Error al cancelar la venta", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al cancelar la venta", "error", e.getMessage()));
         }
     }
@@ -192,6 +194,7 @@ public class ventaController {
             response.put("error", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } catch (Exception e) {
+            logger.error("Error interno al procesar el cobro", e);
             response.put("mensaje", "Error interno al procesar el cobro");
             response.put("error", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
@@ -204,6 +207,7 @@ public class ventaController {
             int updated = ventaService.recalcularTotales();
             return ResponseEntity.ok(Map.of("mensaje", "Totales recalculados", "actualizados", updated));
         } catch (Exception e) {
+            logger.error("Error al recalcular totales", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al recalcular totales", "error", e.getMessage()));
         }
     }
@@ -216,6 +220,7 @@ public class ventaController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", e.getMessage(), "error", e.getMessage()));
         } catch (Exception e) {
+            logger.error("Error al recalcular la venta", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al recalcular la venta", "error", e.getMessage()));
         }
     }
@@ -226,6 +231,7 @@ public class ventaController {
             int updated = ventaService.recalcularPrecios();
             return ResponseEntity.ok(Map.of("mensaje", "Precios recalculados", "actualizados", updated));
         } catch (Exception e) {
+            logger.error("Error al recalcular precios", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al recalcular precios", "error", e.getMessage()));
         }
     }
@@ -238,6 +244,7 @@ public class ventaController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", e.getMessage(), "error", e.getMessage()));
         } catch (Exception e) {
+            logger.error("Error al recalcular precios de la venta", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al recalcular precios de la venta", "error", e.getMessage()));
         }
     }

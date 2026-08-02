@@ -18,8 +18,7 @@ public class DataSeeder {
                 
                
                 // CREACION DE LAS 4 CATEGORÍAS
-                
-                
+
                 Categoria ropa = new Categoria();
                 ropa.setNombre("Ropa");
                 ropa.setUrl_imagen("/ropaA.png");

@@ -10,7 +10,6 @@ const AdminPromociones = () => {
     const cargar = async () => {
         try {
             const res = await apiCliente.get("/promociones");
-            console.log("Datos recibidos:", res.data); // <-- Debug aquí
             setPromociones(Array.isArray(res.data) ? res.data : []);
         } catch (error) {
             console.error("Error al cargar:", error);

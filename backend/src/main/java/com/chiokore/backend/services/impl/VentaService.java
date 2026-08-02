@@ -6,10 +6,7 @@ import com.chiokore.backend.dtos.ItemDto;
 import com.chiokore.backend.dtos.VentaDiaDTO;
 import com.chiokore.backend.dtos.VentaResumenDTO;
 import com.chiokore.backend.dtos.VentasResumenDTO;
-import com.chiokore.backend.modelo.DetalleVenta;
-import com.chiokore.backend.modelo.Producto;
-import com.chiokore.backend.modelo.Promocion;
-import com.chiokore.backend.modelo.Venta;
+import com.chiokore.backend.modelo.*;
 import com.chiokore.backend.repository.ProductoRepository;
 import com.chiokore.backend.repository.VentaRepository;
 import com.chiokore.backend.services.IProductoService;
@@ -48,26 +45,10 @@ public class VentaService implements IVentaService {
     private final IProductoService productoService;
     private final IPromocionService promocionService;
     private final VentaFactory ventaFactory;
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(VentaService.class);
 
     @Override
-    public Venta procesarVenta(CobroDTO cobroDTO, Long idTrabajador) {
-        return procesarVenta(cobroDTO, idTrabajador, null);
-    }
-
-    @Override
-    public Venta procesarVenta(CobroDTO cobroDTO, Long idTrabajador, String urlComprobante) {
-        return procesarVenta(cobroDTO, idTrabajador, urlComprobante, null, null, null);
-    }
-
-    @Override
-    public Venta procesarVenta(
-            CobroDTO cobroDTO,
-            Long idTrabajador,
-            String urlComprobante,
-            String cajeroNombre,
-            String dispositivoModelo,
-            String ipOrigen
-    ) {
+    public Venta procesarVenta(CobroDTO cobroDTO, Long idTrabajador, String urlComprobante, String cajeroNombre, String dispositivoModelo, String ipOrigen) {
         if ("TARJETA".equalsIgnoreCase(cobroDTO.getMetodoPago())
                 && (urlComprobante == null || urlComprobante.isBlank())) {
             throw new IllegalArgumentException("El cobro con tarjeta requiere la foto del ticket.");
@@ -203,7 +184,7 @@ public class VentaService implements IVentaService {
             }
         }
 
-        venta.setEstado(com.chiokore.backend.modelo.EstadoVenta.CANCELADA);
+        venta.setEstado(EstadoVenta.CANCELADA);
         return ventaRepository.save(venta);
     }
 

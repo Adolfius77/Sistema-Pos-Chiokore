@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/productos")
 @RequiredArgsConstructor
 public class ProductoController {
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ProductoController.class);
     private final IProductoService productoService;
     private final ICategoriasService categoriasService;
     private final ImageStorageService imageStorageService;
@@ -98,6 +99,7 @@ public class ProductoController {
         try {
             return ResponseEntity.ok(productoService.obtenerPorId(id));
         } catch (RuntimeException e) {
+            logger.error("Error al listar todos los productos", e);
             return error(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
@@ -115,8 +117,10 @@ public class ProductoController {
             Producto guardado = productoService.guardar(producto);
             return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
         } catch (IllegalArgumentException e) {
+            logger.error("Error al crear el producto", e);
             return error(HttpStatus.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
+            logger.error("Error del servidor", e);
             return error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
@@ -135,10 +139,13 @@ public class ProductoController {
             }
             return ResponseEntity.ok(productoService.guardar(existente));
         } catch (IllegalArgumentException e) {
+            logger.error("Error al actualizar el producto", e);
             return error(HttpStatus.BAD_REQUEST, e.getMessage());
         } catch (RuntimeException e) {
+            logger.error("Error no se encontro el producto", e);
             return error(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (Exception e) {
+            logger.error("Error en el servidor", e);
             return error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
@@ -154,6 +161,7 @@ public class ProductoController {
             producto.setActivo(activo);
             return ResponseEntity.ok(productoService.guardar(producto));
         } catch (RuntimeException e) {
+            logger.error("Error al cambiar el estado activo del producto", e);
             return error(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

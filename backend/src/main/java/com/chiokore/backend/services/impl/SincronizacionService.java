@@ -15,6 +15,7 @@ public class SincronizacionService implements ISincronizacion {
 
     private final AsistenciaApiClient asistenciaApiClient;
     private final UsuarioAsistenciaRepository usuarioAsistenciaRepository;
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SincronizacionService.class);
 
     public SincronizacionService(AsistenciaApiClient asistenciaApiClient,UsuarioAsistenciaRepository usuarioAsistenciaRepository) {
         this.asistenciaApiClient = asistenciaApiClient;
@@ -39,6 +40,7 @@ public class SincronizacionService implements ISincronizacion {
             usuario.setRol(posStatusDTO.getRol());
             usuario.setActivo(posStatusDTO.isActivo());
             usuario.setMarcoAsistencia(posStatusDTO.isMarcoAsistencia());
+            logger.info("Sincronizando usuarios del sistema de asistencia");
             usuarioAsistenciaRepository.save(usuario);
         }
 
@@ -49,6 +51,7 @@ public class SincronizacionService implements ISincronizacion {
                 local.setActivo(false);
                 local.setMarcoAsistencia(false);
                 usuarioAsistenciaRepository.save(local);
+
             }
         }
     }
