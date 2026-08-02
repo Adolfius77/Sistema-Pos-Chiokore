@@ -53,8 +53,3 @@ Endpoints principales
 Uploads
 - Archivos subidos se sirven desde `/uploads/**`. Ajustar `ImageStorageService` si cambia la ubicación física.
 
-Contribuir
-- Crear ramas por feature y PRs pequeñas. Incluir el trailer de coautor cuando corresponda:
-  `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`
-
-¿Quieres que añada ejemplos de comandos (curl) para ejecutar los endpoints principales o un CONTRIBUTING.md? Si no, queda listo.
