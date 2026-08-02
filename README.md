@@ -1,19 +1,27 @@
 # Sistema Pos Chiokore
 
-Punto de venta (POS) — Monorepo con backend Spring Boot y frontend React (Vite).
+Sistema de punto de venta (POS). Monorepo con backend en Spring Boot y frontend en React (Vite).
 
-Estructura:
-- backend/  — Java 17+, Spring Boot, Maven
-- frontend/ — React + Vite, Node 18+
+Estructura
+- backend/  — Java + Spring Boot (Maven)
+- frontend/ — React + Vite
 
-Requisitos:
-- Java 17+, Maven (o usar el wrapper), Node 18+, npm
+Requisitos (local)
+- JDK 21 (requerido)
+- Maven (o usar el wrapper incluido)
+- Node 18+ y npm
 
-Inicio rápido (Windows):
+Arrancar en tu máquina (Windows)
 1) Backend
 ```powershell
 cd backend
 .\mvnw.cmd spring-boot:run
+```
+O empaquetar y ejecutar jar:
+```powershell
+cd backend
+.\mvnw.cmd clean package
+java -jar target/*.jar
 ```
 2) Frontend
 ```powershell
@@ -22,32 +30,31 @@ npm install
 npm run dev
 ```
 
-Variables importantes (frontend .env — `frontend/.env`):
-- VITE_API_BASE_URL=http://localhost:8082   # sin "/api" al final
-- VITE_AUTH_TOKEN_KEY=token_pos_chiokore     # clave localStorage donde se guarda el JWT
-- VITE_AUTH_ROLE_KEY=rol_pos_chiokore
-- Otros: VITE_URL_LOGIN_EXTERNO, VITE_URL_LOGOUT_EXTERNO según integración
+Variables importantes
+- Frontend (`frontend/.env`):
+  - VITE_API_BASE_URL=http://localhost:8082
+  - VITE_AUTH_TOKEN_KEY=token_pos_chiokore
+  - VITE_AUTH_ROLE_KEY=rol_pos_chiokore
+- Backend (`application.properties` / env):
+  - asistencia.api.token = <JWT_SECRET_HS256>
+  - server.port (por defecto 8082)
 
-Backend — variables (application.properties / environment):
-- asistencia.api.token = <JWT_SECRET_HS256>
-- Configura puerto (server.port) y rutas de uploads si cambia.
+Uso básico
+- Abrir frontend en la URL que indique Vite (por defecto http://localhost:5175) y autenticarse.
+- Las rutas administrativas requieren rol; el cliente inyecta el JWT desde localStorage.
 
-Endpoints principales:
-- POST /api/ventas/{id}/cancelar       — Cancelar venta (restaura stock)
-- POST /api/ventas/{id}/recalcular     — Recalcula total de una venta
-- POST /api/ventas/recalcular-totales  — Recalcula totales para todas las ventas (hacer backup antes)
-- POST /api/ventas/recalcular-precios  — Recalcula precios históricos desde producto/detalles
-- GET  /api/debug/claims               — Dev-only: devuelve claims del JWT
+Endpoints principales
+- POST /api/ventas/{id}/cancelar
+- POST /api/ventas/{id}/recalcular
+- POST /api/ventas/recalcular-totales
+- POST /api/ventas/recalcular-precios
+- GET  /api/debug/claims (dev)
 
-Recomendaciones básicas:
-- Hacer backup de la base de datos antes de ejecutar operaciones masivas (recalcular-totales / recalcular-precios).
-- Reiniciar el backend después de cambiar configuración de seguridad o recursos estáticos.
+Uploads
+- Archivos subidos se sirven desde `/uploads/**`. Ajustar `ImageStorageService` si cambia la ubicación física.
 
-Contribuir / Git
-- Sigue la convención del repo. Al crear commits, incluye el trailer:
-  Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+Contribuir
+- Crear ramas por feature y PRs pequeñas. Incluir el trailer de coautor cuando corresponda:
+  `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`
 
-Cambios recientes relevantes
-- Endpoint de cancelación de ventas, manejo de ventas pendientes (pagos parciales), recalculadores de precios/totales, mejoras en export Excel y hardening de JWT/CORS.
-
-¿Deseas un README en inglés o ejemplos curl para los endpoints principales? Si prefieres, creo un CONTRIBUTING.md separado.
+¿Quieres que añada ejemplos de comandos (curl) para ejecutar los endpoints principales o un CONTRIBUTING.md? Si no, queda listo.
