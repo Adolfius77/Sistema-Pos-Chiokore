@@ -41,7 +41,6 @@ const Navbar = ({ nombre, onToggleSidebar, sidebarOpen }) => {
                     </div>
                     <div className="user-info">
                         <span className="user-name">{nombre}</span>
-                        <span className="user-shift">Turno Mañana</span>
                     </div>
                 </div>
             </div>

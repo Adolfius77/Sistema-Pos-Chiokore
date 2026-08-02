@@ -20,7 +20,9 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     List<Venta> findCompletadasEntre(@Param("desde") LocalDateTime desde, @Param("hasta") LocalDateTime hasta);
 
     @Query("""
-            SELECT v FROM Venta v
+            SELECT DISTINCT v FROM Venta v
+            LEFT JOIN FETCH v.detalles d
+            LEFT JOIN FETCH d.producto p
             WHERE v.fecha_hora >= :inicio AND v.fecha_hora < :fin
             ORDER BY v.fecha_hora DESC
             """)

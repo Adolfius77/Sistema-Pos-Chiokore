@@ -24,6 +24,8 @@ import { jwtDecode } from "jwt-decode";
 import { AUTH_TOKEN_STORAGE_KEY, URL_LOGIN_EXTERNO, URL_LOGOUT_EXTERNO } from "./config/env.js";
 import { useIdleTimer } from "./hooks/useIdleTimer.js";
 import IdleOverlay from "./Componentes/IdleOverlay.jsx";
+import RequireAdmin from "./Componentes/RequireAdmin.jsx";
+import RequireAuth from "./Componentes/RequireAuth.jsx";
 
 function PosLayout({ onLogout, sidebarOpen, onCloseSidebar }) {
     return (
@@ -48,12 +50,14 @@ function App() {
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const tokenUrl = params.get('token');
-        let tokenFinal = tokenUrl || localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+        const tokenFinal = tokenUrl || localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
 
         if (tokenFinal) {
             try {
                 const decoded = jwtDecode(tokenFinal);
                 localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, tokenFinal);
+
+                // Nombre de usuario desde el token
                 setNombreUsuario(decoded.sub || decoded.preferred_username || decoded.name || "Cajero");
                 window.history.replaceState({}, document.title, window.location.pathname);
                 setTokenReady(true);
@@ -104,11 +108,13 @@ function App() {
                 <Route
                     path="/admin"
                     element={
-                        <AdminLayout
-                            onLogout={handleLogout}
-                            sidebarOpen={sidebarOpen}
-                            onCloseSidebar={closeSidebar}
-                        />
+                        <RequireAdmin>
+                            <AdminLayout
+                                onLogout={handleLogout}
+                                sidebarOpen={sidebarOpen}
+                                onCloseSidebar={closeSidebar}
+                            />
+                        </RequireAdmin>
                     }
                 >
                     <Route index element={<AdminHome />} />
@@ -125,11 +131,13 @@ function App() {
 
                 <Route
                     element={
-                        <PosLayout
-                            onLogout={handleLogout}
-                            sidebarOpen={sidebarOpen}
-                            onCloseSidebar={closeSidebar}
-                        />
+                        <RequireAuth>
+                            <PosLayout
+                                onLogout={handleLogout}
+                                sidebarOpen={sidebarOpen}
+                                onCloseSidebar={closeSidebar}
+                            />
+                        </RequireAuth>
                     }
                 >
                     <Route path="/" element={<Navigate to="/login" replace />} />
@@ -148,3 +156,5 @@ function App() {
 }
 
 export default App;
+
+

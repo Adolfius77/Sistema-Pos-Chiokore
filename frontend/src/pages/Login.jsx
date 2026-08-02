@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLock } from "react-icons/fa";
 import apiCliente from "../config/api.js";
-import { AUTH_TOKEN_STORAGE_KEY } from "../config/env.js";
+import { AUTH_TOKEN_STORAGE_KEY, AUTH_ROLE_STORAGE_KEY } from "../config/env.js";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -28,6 +28,7 @@ const Login = () => {
             const { token, rol } = res.data;
 
             localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
+            try { localStorage.setItem(AUTH_ROLE_STORAGE_KEY, rol); } catch(e) {}
             window.location.href = rol === "ADMINISTRADOR" ? "/admin" : "/categorias";
         } catch (err) {
             const msg = err?.response?.data?.error || "Error al iniciar sesión.";
@@ -46,6 +47,7 @@ const Login = () => {
             const { token, rol } = res.data;
 
             localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
+            try { localStorage.setItem(AUTH_ROLE_STORAGE_KEY, rol); } catch(e) {}
             window.location.href = rol === "ADMINISTRADOR" ? "/admin" : "/categorias";
             setAdminTarget(null);
             setClaveAdmin("");

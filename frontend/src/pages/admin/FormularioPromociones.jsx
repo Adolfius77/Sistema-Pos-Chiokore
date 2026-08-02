@@ -44,9 +44,9 @@ const FormularioPromociones = () => {
 
         try {
             if (esNuevo) {
-                await axios.post(`${API_BASE_URL}/api/promociones`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+                await apiCliente.post(`/promociones`, formData);
             } else {
-                await axios.put(`${API_BASE_URL}/api/promociones/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+                await apiCliente.put(`/promociones/${id}`, formData);
             }
             alert('Promoción guardada correctamente');
             navigate('/admin/promociones');

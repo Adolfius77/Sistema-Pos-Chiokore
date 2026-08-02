@@ -10,7 +10,8 @@ apiCliente.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
         if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+            config.headers = config.headers || {};
+            config.headers.Authorization = 'Bearer ' + token;
         }
         // Dejar que el navegador ponga multipart boundary cuando hay FormData
         if (config.data instanceof FormData) {

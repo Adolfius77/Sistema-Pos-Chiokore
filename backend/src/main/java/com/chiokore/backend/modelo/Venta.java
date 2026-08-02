@@ -51,6 +51,15 @@ public class Venta {
     @Column(name = "url_comprobante")
     private String url_comprobante;
 
+    @Column(name = "cajero_nombre")
+    private String cajero_nombre;
+
+    @Column(name = "dispositivo_modelo")
+    private String dispositivo_modelo;
+
+    @Column(name = "ip_origen")
+    private String ip_origen;
+
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleVenta> detalles = new ArrayList<>();
 

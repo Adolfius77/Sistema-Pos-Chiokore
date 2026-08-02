@@ -13,5 +13,6 @@ public class CobroDTO {
     private String metodoPago;
     private double montoRecibido;
     private String referencia;
+    private String modeloDispositivo;
     private List<ItemDto> items;
 }

@@ -25,16 +25,21 @@ public class VentaFactory {
 
         venta.setMetodo_pago(cobro.getMetodoPago());
         venta.setMonto_recibido(cobro.getMontoRecibido());
-        venta.setEstado(EstadoVenta.COMPLETADA);
         venta.setFecha_hora(LocalDateTime.now());
         venta.setDetalles(detalles);
         venta.setReferencia(cobro.getReferencia());
 
-        venta.setTotal(total);
-        if (cobro.getMontoRecibido() < total) {
-            throw new IllegalArgumentException("El monto recibido (" + cobro.getMontoRecibido() + ") es menor al total de la venta (" + total + ")");
+        // Recalcular total a partir de los detalles para evitar inconsistencias
+        double recalculado = detalles.stream().mapToDouble(d -> d.getCantidad() * d.getPrecio_unitario_capturado()).sum();
+        venta.setTotal(recalculado);
+        if (cobro.getMontoRecibido() < recalculado) {
+            // Pago parcial: marcar como PENDIENTE y no entregar cambio
+            venta.setEstado(EstadoVenta.PENDIENTE);
+            venta.setCambio_entregado(0.0);
+        } else {
+            venta.setEstado(EstadoVenta.COMPLETADA);
+            venta.setCambio_entregado(cobro.getMontoRecibido() - recalculado);
         }
-        venta.setCambio_entregado(cobro.getMontoRecibido() - total);
 
         detalles.forEach(d -> d.setVenta(venta));
         return venta;
