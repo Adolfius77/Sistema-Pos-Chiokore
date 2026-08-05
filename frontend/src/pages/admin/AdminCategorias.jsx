@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Camera } from "lucide-react";
+import { Camera, Pencil, Trash2 } from "lucide-react";
 import {
     listarCategorias,
     guardarCategoria,
@@ -165,9 +165,11 @@ const AdminCategorias = () => {
                             </div>
                             <div className="admin-lista-acciones">
                                 <button className="tactile-btn admin-btn-secondary" onClick={() => editar(cat)}>
+                                    <Pencil size={16} />
                                     Editar
                                 </button>
                                 <button className="tactile-btn admin-btn-danger" onClick={() => eliminar(cat.id)}>
+                                    <Trash2 size={16} />
                                     Eliminar
                                 </button>
                             </div>

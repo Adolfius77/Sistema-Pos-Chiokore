@@ -7,7 +7,13 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     port: 5175,
-    strictPort: true
+    strictPort: true,
+    headers: {
+      "Accept-CH":
+        "Sec-CH-UA, Sec-CH-UA-Mobile, Sec-CH-UA-Platform, Sec-CH-UA-Platform-Version, Sec-CH-UA-Model, Sec-CH-UA-Full-Version-List",
+      "Permissions-Policy":
+        "ch-ua-model=(self), ch-ua-platform-version=(self), ch-ua-full-version-list=(self)"
+    }
   },
   css: {
     preprocessorOptions: {

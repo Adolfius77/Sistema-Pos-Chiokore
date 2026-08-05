@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Pencil, Power } from "lucide-react";
 import apiCliente from "../../config/api";
 import { urlUpload } from "../../config/env.js";
 
@@ -43,8 +44,12 @@ const AdminPromociones = () => {
                             <span className={`admin-badge ${p.activo ? "ok" : "off"}`}>{p.activo ? "Activo" : "Inactivo"}</span>
                         </div>
                         <div className="admin-lista-acciones">
-                            <button className="tactile-btn admin-btn-secondary" onClick={() => navigate(`/admin/promociones/editar/${p.id}`)}>Editar</button>
+                            <button className="tactile-btn admin-btn-secondary" onClick={() => navigate(`/admin/promociones/editar/${p.id}`)}>
+                                <Pencil size={16} />
+                                Editar
+                            </button>
                             <button className="tactile-btn admin-btn-secondary" onClick={() => toggleActivo(p)}>
+                                <Power size={16} />
                                 {p.activo ? "Desactivar" : "Activar"}
                             </button>
                         </div>

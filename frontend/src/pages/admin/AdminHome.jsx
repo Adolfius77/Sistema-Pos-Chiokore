@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Package, Tags, Receipt, AlertTriangle,
-    ShoppingCart, DollarSign, CreditCard, TrendingUp
+    ShoppingCart, DollarSign, CreditCard, TrendingUp,
+    ChevronDown, ChevronUp, X, PackageCheck
 } from "lucide-react";
 import { obtenerResumenVentas } from "../../services/ventasAdmin.js";
+import { listarProductos } from "../../services/productos.js";
 
 const hoyIso = () => {
     const d = new Date();
@@ -12,14 +14,128 @@ const hoyIso = () => {
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 };
 
+const STOCK_BAJO_UMBRAL = 5;
+
+const NotificacionStockBajo = ({ productos, onNavigate }) => {
+    const [abierto, setAbierto] = useState(false);
+    const [saliendo, setSaliendo] = useState(false);
+    const [descartado, setDescartado] = useState(false);
+
+    const stockBajo = productos
+        .filter(p => p.activo && p.stock !== null && p.stock <= STOCK_BAJO_UMBRAL)
+        .sort((a, b) => (a.stock || 0) - (b.stock || 0));
+
+    if (stockBajo.length === 0 || descartado) return null;
+
+    const handleDescartar = (e) => {
+        e.stopPropagation();
+        setSaliendo(true);
+        setTimeout(() => setDescartado(true), 300);
+    };
+
+    return (
+        <div className={`admin-stock-alert ${abierto ? "admin-stock-alert--abierto" : ""} ${saliendo ? "admin-stock-alert--saliendo" : ""}`}>
+            <div
+                className="admin-stock-alert__header"
+                onClick={() => setAbierto(!abierto)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setAbierto(!abierto)}
+            >
+                <div className="admin-stock-alert__header-left">
+                    <div className="admin-stock-alert__icon-box">
+                        <AlertTriangle size={18} />
+                    </div>
+                    <div className="admin-stock-alert__titles">
+                        <h4 className="admin-stock-alert__title">Atención de Inventario</h4>
+                        <p className="admin-stock-alert__subtitle">
+                            {stockBajo.length} producto{stockBajo.length > 1 ? "s requieren reabastecimiento" : " requiere reabastecimiento"}
+                        </p>
+                    </div>
+                </div>
+
+                <div className="admin-stock-alert__header-right">
+                    <span className="admin-stock-alert__badge">{stockBajo.length}</span>
+                    <div className="admin-stock-alert__chevron">
+                        {abierto ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                    </div>
+                </div>
+            </div>
+
+            {abierto && (
+                <div className="admin-stock-alert__body">
+                    <div className="admin-stock-alert__grid">
+                        {stockBajo.slice(0, 8).map((p) => {
+                            const esCritico = p.stock <= 1;
+                            return (
+                                <div
+                                    key={p.id}
+                                    className={`admin-stock-alert__item ${esCritico ? "critico" : ""}`}
+                                >
+                                    <PackageCheck size={16} className="admin-stock-alert__item-icon" />
+                                    <div className="admin-stock-alert__item-info">
+                                        <span className="admin-stock-alert__item-nombre">{p.nombre}</span>
+                                        <span className="admin-stock-alert__item-cat">
+                                            {p.categoria?.nombre || "Sin categoría"}
+                                        </span>
+                                    </div>
+                                    <span className={`admin-stock-alert__pill ${esCritico ? "critico" : ""}`}>
+                                        {p.stock === 0 ? "Agotado" : `${p.stock} uds`}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="admin-stock-alert__footer">
+                        {stockBajo.length > 8 && (
+                            <span className="admin-stock-alert__more">
+                                +{stockBajo.length - 8} productos más en riesgo
+                            </span>
+                        )}
+                        <div className="admin-stock-alert__actions">
+                            <button
+                                type="button"
+                                className="admin-stock-alert__btn-ir"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onNavigate && onNavigate("/admin/productos");
+                                }}
+                            >
+                                <Package size={14} />
+                                Gestionar Productos
+                            </button>
+                            <button
+                                type="button"
+                                className="admin-stock-alert__btn-ocultar"
+                                onClick={handleDescartar}
+                            >
+                                <X size={14} />
+                                Ocultar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
 const AdminHome = () => {
     const navigate = useNavigate();
     const [resumen, setResumen] = useState(null);
+    const [productos, setProductos] = useState([]);
     const [error, setError] = useState("");
 
     useEffect(() => {
-        obtenerResumenVentas(hoyIso())
-            .then(setResumen)
+        Promise.all([
+            obtenerResumenVentas(hoyIso()),
+            listarProductos()
+        ])
+            .then(([res, prods]) => {
+                setResumen(res);
+                setProductos(prods);
+            })
             .catch(() => setError("No se pudo cargar el resumen del día."));
     }, []);
 
@@ -78,6 +194,8 @@ const AdminHome = () => {
 
             {error && <p className="admin-error">{error}</p>}
 
+            <NotificacionStockBajo productos={productos} onNavigate={navigate} />
+
             <div className="admin-resumen-grid">
                 {stats.map((s) => (
                     <div
@@ -112,6 +230,7 @@ const AdminHome = () => {
                     <span>Ventas</span>
                     <p>Historial y tickets</p>
                 </button>
+
             </div>
         </div>
     );

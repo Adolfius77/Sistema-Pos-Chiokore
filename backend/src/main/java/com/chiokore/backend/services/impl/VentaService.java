@@ -207,7 +207,7 @@ public class VentaService implements IVentaService {
 
         long stockBajo = productoRepository.findAll().stream()
                 .filter(Producto::isActivo)
-                .filter(p -> p.getStock() <= 3)
+                .filter(p -> p.getStock() <= 5)
                 .count();
 
         return new VentaResumenDTO(ventas.size(), totalGeneral, totalEfectivo, totalTarjeta, stockBajo);

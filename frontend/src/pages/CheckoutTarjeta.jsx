@@ -158,7 +158,6 @@ const CheckoutTarjeta = () => {
                         ref={inputFotoRef}
                         type="file"
                         accept="image/*"
-                        capture="environment"
                         className="input-foto-oculto"
                         onChange={seleccionarFoto}
                     />

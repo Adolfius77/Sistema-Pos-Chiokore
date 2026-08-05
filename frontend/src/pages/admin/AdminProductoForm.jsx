@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Camera } from "lucide-react";
+import { Camera, Save, ArrowLeft, Tag, DollarSign, Boxes, Package } from "lucide-react";
 import { listarCategorias } from "../../services/categorias.js";
 import { obtenerProducto, guardarProducto } from "../../services/productos.js";
 import { urlUpload } from "../../config/env.js";
@@ -98,89 +98,160 @@ const AdminProductoForm = () => {
 
     return (
         <div className="admin-page">
-            <h1 className="admin-titulo">{esNuevo ? "NUEVO PRODUCTO" : "EDITAR PRODUCTO"}</h1>
+            <div className="producto-form-top">
+                <button className="producto-form-back" onClick={() => navigate("/admin/productos")}>
+                    <ArrowLeft size={18} />
+                </button>
+                <div>
+                    <h1 className="admin-titulo">{esNuevo ? "Nuevo producto" : "Editar producto"}</h1>
+                    <p className="admin-subtitulo">Completa la información del producto</p>
+                </div>
+            </div>
 
-            <form className="admin-form" onSubmit={guardar}>
-                <div className="admin-form-grid">
-                    <div className="admin-form-campos">
-                        <label htmlFor="nombre">Nombre</label>
-                        <input id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+            <form className="producto-form" onSubmit={guardar} noValidate>
+                <div className="producto-form-grid">
+                    <div className="producto-form-left">
+                        <div className="producto-seccion">
+                            <h3 className="producto-seccion-titulo">
+                                <Tag size={16} /> Información del producto
+                            </h3>
 
-                        <label htmlFor="precio">Precio</label>
-                        <input
-                            id="precio"
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            value={precio}
-                            onChange={(e) => setPrecio(e.target.value)}
-                            required
-                        />
+                            <div className="producto-campo">
+                                <label htmlFor="nombre" className="producto-label">Nombre del producto</label>
+                                <input
+                                    id="nombre"
+                                    className="producto-input"
+                                    value={nombre}
+                                    onChange={(e) => setNombre(e.target.value)}
+                                    placeholder="Ej. Vestido primavera"
+                                    required
+                                />
+                            </div>
 
-                        <label htmlFor="stock">Stock</label>
-                        <input
-                            id="stock"
-                            type="number"
-                            min="0"
-                            step="1"
-                            value={stock}
-                            onChange={(e) => setStock(e.target.value)}
-                            required
-                        />
+                            <div className="producto-fila">
+                                <div className="producto-campo">
+                                    <label htmlFor="precio" className="producto-label">Precio</label>
+                                    <div className="producto-input-group">
+                                        <span className="producto-prefijo"><DollarSign size={16} /></span>
+                                        <input
+                                            id="precio"
+                                            className="producto-input"
+                                            type="number"
+                                            min="0"
+                                            step="0.01"
+                                            value={precio}
+                                            onChange={(e) => setPrecio(e.target.value)}
+                                            placeholder="0.00"
+                                            required
+                                        />
+                                    </div>
+                                </div>
 
-                        <label htmlFor="categoria">Categoría</label>
-                        <select
-                            id="categoria"
-                            value={categoriaId}
-                            onChange={(e) => setCategoriaId(e.target.value)}
-                            required
-                        >
-                            {categorias.map((c) => (
-                                <option key={c.id} value={c.id}>{c.nombre}</option>
-                            ))}
-                        </select>
+                                <div className="producto-campo">
+                                    <label htmlFor="stock" className="producto-label">Stock disponible</label>
+                                    <div className="producto-input-group">
+                                        <span className="producto-prefijo"><Boxes size={16} /></span>
+                                        <input
+                                            id="stock"
+                                            className="producto-input"
+                                            type="number"
+                                            min="0"
+                                            step="1"
+                                            value={stock}
+                                            onChange={(e) => setStock(e.target.value)}
+                                            placeholder="0"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div className="admin-toggles">
-                            <label className="admin-toggle">
-                                <input type="checkbox" checked={activo} onChange={(e) => setActivo(e.target.checked)} />
-                                Activo
-                            </label>
-                            <label className="admin-toggle">
-                                <input type="checkbox" checked={esUnico} onChange={(e) => setEsUnico(e.target.checked)} />
-                                Pieza única
-                            </label>
+                            <div className="producto-campo">
+                                <label htmlFor="categoria" className="producto-label">Categoría</label>
+                                <select
+                                    id="categoria"
+                                    className="producto-input"
+                                    value={categoriaId}
+                                    onChange={(e) => setCategoriaId(e.target.value)}
+                                    required
+                                >
+                                    {categorias.map((c) => (
+                                        <option key={c.id} value={c.id}>{c.nombre}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="producto-seccion">
+                            <h3 className="producto-seccion-titulo">
+                                <Package size={16} /> Estado en tienda
+                            </h3>
+                            <div className="producto-toggles">
+                                <label className="producto-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={activo}
+                                        onChange={(e) => setActivo(e.target.checked)}
+                                    />
+                                    <span className="producto-switch-track" />
+                                    <span className="producto-switch-label">Visible en catálogo</span>
+                                </label>
+
+                                <label className="producto-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={esUnico}
+                                        onChange={(e) => setEsUnico(e.target.checked)}
+                                    />
+                                    <span className="producto-switch-track" />
+                                    <span className="producto-switch-label">Pieza única</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="admin-form-foto">
-                        <input
-                            ref={inputFotoRef}
-                            type="file"
-                            accept="image/*"
-                            className="input-foto-oculto"
-                            onChange={seleccionarFoto}
-                        />
-                        <button type="button" className="zona-foto admin-zona-foto" onClick={() => inputFotoRef.current?.click()}>
-                            {previewUrl ? (
-                                <img src={previewUrl} alt="Producto" className="preview-ticket" />
-                            ) : (
-                                <div className="zona-foto-vacia">
-                                    <Camera size={48} />
-                                    <span>Foto del producto</span>
-                                </div>
-                            )}
-                        </button>
+                    <div className="producto-form-right">
+                        <div className="producto-seccion">
+                            <h3 className="producto-seccion-titulo">Foto del producto</h3>
+                            <input
+                                ref={inputFotoRef}
+                                type="file"
+                                accept="image/*"
+                                className="input-foto-oculto"
+                                onChange={seleccionarFoto}
+                            />
+                            <button
+                                type="button"
+                                className={`producto-foto ${previewUrl ? "con-foto" : ""}`}
+                                onClick={() => inputFotoRef.current?.click()}
+                            >
+                                {previewUrl ? (
+                                    <img src={previewUrl} alt="Producto" className="producto-foto-img" />
+                                ) : (
+                                    <div className="producto-foto-vacio">
+                                        <Camera size={40} />
+                                        <strong>Sube una foto</strong>
+                                        <span>Haz clic para seleccionar</span>
+                                    </div>
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                {error && <p className="admin-error">{error}</p>}
+                {error && (
+                    <div className="producto-error">
+                        <strong>{error}</strong>
+                    </div>
+                )}
 
-                <div className="acciones-cobro">
-                    <button type="button" className="btn-secundario" onClick={() => navigate("/admin/productos")}>
+                <div className="producto-acciones">
+                    <button type="button" className="producto-btn producto-btn--ghost" onClick={() => navigate("/admin/productos")}>
                         Cancelar
                     </button>
-                    <button type="submit" className="btn-cobrar" disabled={guardando}>
-                        {guardando ? "Guardando..." : "Guardar"}
+                    <button type="submit" className="producto-btn producto-btn--primary" disabled={guardando}>
+                        <Save size={16} />
+                        {guardando ? "Guardando..." : "Guardar producto"}
                     </button>
                 </div>
             </form>

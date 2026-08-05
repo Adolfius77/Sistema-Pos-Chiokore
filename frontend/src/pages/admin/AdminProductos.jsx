@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Pencil, Power } from "lucide-react";
 import { listarProductos, cambiarActivoProducto } from "../../services/productos.js";
 import { urlUpload } from "../../config/env.js";
 
@@ -60,18 +61,23 @@ const AdminProductos = () => {
                         <div className="admin-lista-info">
                             <h2>{p.nombre}</h2>
                             <p>
-                                ${Number(p.precio).toFixed(2)} · Stock: {p.stock}
-                                {p.categoria?.nombre ? ` · ${p.categoria.nombre}` : ""}
+                                ${Number(p.precio).toFixed(2)} | Stock: {p.stock}
                             </p>
                             <span className={`admin-badge ${p.activo ? "ok" : "off"}`}>
                                 {p.activo ? "Activo" : "Inactivo"}
                             </span>
+
+                            <span className={`admin-badge1 }`}>
+                                {p.categoria.nombre ? p.categoria.nombre : "Sin categoría"}
+                            </span>
                         </div>
                         <div className="admin-lista-acciones">
                             <button className="tactile-btn admin-btn-secondary" onClick={() => navigate(`/admin/productos/${p.id}`)}>
+                                <Pencil size={16} />
                                 Editar
                             </button>
                             <button className="tactile-btn admin-btn-secondary" onClick={() => toggleActivo(p)}>
+                                <Power size={16} />
                                 {p.activo ? "Desactivar" : "Activar"}
                             </button>
                         </div>

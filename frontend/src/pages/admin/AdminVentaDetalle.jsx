@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, XCircle } from "lucide-react";
 import { obtenerVentaDetalle, cancelarVenta } from "../../services/ventasAdmin.js";
 import { urlUpload } from "../../config/env.js";
 
@@ -59,7 +60,10 @@ const AdminVentaDetalle = () => {
                     <p className="venta-subtitle">{formatearFecha(venta.fecha_hora)}</p>
                 </div>
                 <div className="venta-header-actions">
-                    <button className="tactile-btn volver-btn" onClick={() => navigate("/admin/ventas")}>Volver</button>
+                    <button className="tactile-btn volver-btn" onClick={() => navigate("/admin/ventas")}>
+                        <ArrowLeft size={18} />
+                        Volver
+                    </button>
                     {venta.estado !== "CANCELADA" && (
                         <button
                             className="tactile-btn admin-btn-danger"
@@ -74,9 +78,9 @@ const AdminVentaDetalle = () => {
                                 }
                             }}
                         >
+                            <XCircle size={18} />
                             Cancelar venta
-                        </button>
-                    )}
+                        </button>                    )}
                 </div>
             </div>
 
