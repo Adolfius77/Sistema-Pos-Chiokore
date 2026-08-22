@@ -4,6 +4,7 @@ import com.chiokore.backend.dtos.CobroDTO;
 import com.chiokore.backend.modelo.Venta;
 import com.chiokore.backend.services.IVentaService;
 import com.chiokore.backend.services.ImageStorageService;
+import com.chiokore.backend.utils.UserAgentUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -167,7 +168,9 @@ public class ventaController {
 
             String dispositivo = venta.getModeloDispositivo();
             if (dispositivo == null || dispositivo.isBlank()) {
-                dispositivo = request.getHeader("User-Agent");
+                // El frontend no pudo detectar el modelo exacto: se traduce el
+                // User-Agent a una etiqueta legible en lugar de guardarlo crudo.
+                dispositivo = UserAgentUtil.aEtiquetaLegible(request.getHeader("User-Agent"));
             }
             Venta ventaProcesada = ventaService.procesarVenta(
                     venta,

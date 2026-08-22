@@ -23,13 +23,34 @@ const marcaDesdeBrands = () => {
     if (!navigator?.userAgentData?.brands) return "";
     const noMarca = /^Not[ _]A[ _]Brand$/i;
     const util = navigator.userAgentData.brands.find((b) => noMarca.test(b.brand));
-    // Escoger la marca "real" priorizando las que no son el motor ni el browser base
-    const prioridad = ["Samsung", "Huawei", "Xiaomi", "OPPO", "Vivo", "Realme", "OnePlus", "Honor", "Lenovo", "Google", "Apple"];
+    // Escoger la marca "real" priorizando las que no son el motor ni el browser base.
+    // OJO: "Google" NO va en esta lista porque "Google Chrome" es el nombre del
+    // navegador y aparece en casi todos los Android sin importar el fabricante
+    // real del equipo (Samsung, Xiaomi, etc. tambien usan Chrome).
+    const prioridad = ["Samsung", "Huawei", "Xiaomi", "OPPO", "Vivo", "Realme", "OnePlus", "Honor", "Lenovo", "Apple"];
     for (const p of prioridad) {
         const hit = navigator.userAgentData.brands.find((b) => b.brand && b.brand.toLowerCase().includes(p.toLowerCase()));
         if (hit) return p;
     }
     return util?.brand?.replace("Generic ", "") || "";
+};
+
+// Infiere el fabricante a partir del propio modelo detectado (mas confiable
+// que "brands" de Client Hints, que solo listan navegadores instalados).
+const FABRICANTE_POR_MODELO = [
+    { patron: /^SM-|^GT-/i, marca: "Samsung" },
+    { patron: /Pixel/i, marca: "Google" },
+    { patron: /Redmi|POCO|^Mi[ -]?\d/i, marca: "Xiaomi" },
+    { patron: /Huawei|^ALE-|^VOG-|^ANE-|^LYA-|^MAR-/i, marca: "Huawei" },
+    { patron: /^CPH\d/i, marca: "OPPO" },
+    { patron: /^V\d{4}[A-Z]?$/i, marca: "Vivo" },
+    { patron: /OnePlus|^KB\d|^GM\d/i, marca: "OnePlus" },
+];
+
+const marcaDesdeModelo = (modelo) => {
+    if (!modelo) return "";
+    const hit = FABRICANTE_POR_MODELO.find((f) => f.patron.test(modelo));
+    return hit?.marca || "";
 };
 
 const tipoAndroid = () => {
@@ -83,12 +104,16 @@ const obtenerModeloDispositivo = async () => {
             ]);
 
             const modeloEntropy = limpiarModelo(entropy?.model);
-            const marca = marcaDesdeBrands();
 
             if (modeloEntropy) {
+                // Prioriza inferir la marca por el propio modelo (mas confiable);
+                // solo recurre a los "brands" del navegador si no se reconoce el modelo.
+                const marca = marcaDesdeModelo(modeloEntropy) || marcaDesdeBrands();
                 const marcaYaIncluida = marca && modeloEntropy.toLowerCase().includes(marca.toLowerCase());
                 return marcaYaIncluida ? modeloEntropy : (marca ? `${marca} ${modeloEntropy}` : modeloEntropy);
             }
+
+            const marca = marcaDesdeBrands();
 
             // Sin modelo high-entropy: usar plataforma + versión
             const plataforma = [entropy?.platform, entropy?.platformVersion].filter(Boolean).join(" ");
