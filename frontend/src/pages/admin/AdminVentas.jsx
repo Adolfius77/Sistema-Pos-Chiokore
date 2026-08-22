@@ -32,8 +32,8 @@ const AdminVentas = () => {
     const [error, setError] = useState("");
     const [cargando, setCargando] = useState(true);
     const [descargando, setDescargando] = useState(false);
-    const [search, setSearch] = useState("");
-    const [sortBy, setSortBy] = useState({ field: 'fecha_hora', dir: 'desc' });
+    const search = "";
+    const sortBy = { field: "fecha_hora", dir: "desc" };
 
     useEffect(() => {
         setCargando(true);

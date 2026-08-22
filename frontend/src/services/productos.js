@@ -34,7 +34,7 @@ export const guardarProducto = async ({ id, datos, imagenFile }) => {
         const { data } = await apiCliente.post("/productos", formData);
         return data;
     } catch (error) {
-        throw new Error(mensajeError(error, "No se pudo guardar el producto."));
+        throw new Error(mensajeError(error, "No se pudo guardar el producto."), { cause: error });
     }
 };
 
@@ -43,6 +43,6 @@ export const cambiarActivoProducto = async (id, activo) => {
         const { data } = await apiCliente.patch(`/productos/${id}/activo`, { activo });
         return data;
     } catch (error) {
-        throw new Error(mensajeError(error, "No se pudo actualizar el estado."));
+        throw new Error(mensajeError(error, "No se pudo actualizar el estado."), { cause: error });
     }
 };

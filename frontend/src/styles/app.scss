@@ -94,3 +94,59 @@ body {
     padding: 1rem;
   }
 }
+
+// Fondo decorativo llamativo para las pantallas del trabajador (POS)
+.cliente-bg-shape {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  animation: clienteFloat 30s ease-in-out infinite;
+
+  &:nth-child(1) {
+    width: 600px;
+    height: 600px;
+    top: -180px;
+    right: -120px;
+    background: radial-gradient(circle, rgba(153, 70, 42, 0.4) 0%, transparent 70%);
+  }
+
+  &:nth-child(2) {
+    width: 480px;
+    height: 480px;
+    bottom: -140px;
+    left: -100px;
+    background: radial-gradient(circle, rgba(217, 131, 100, 0.38) 0%, transparent 70%);
+  }
+
+  &:nth-child(3) {
+    width: 350px;
+    height: 350px;
+    top: 35%;
+    right: -40px;
+    background: radial-gradient(circle, rgba(244, 190, 120, 0.35) 0%, transparent 70%);
+  }
+
+  &:nth-child(4) {
+    width: 220px;
+    height: 220px;
+    top: 10%;
+    left: 6%;
+    background: radial-gradient(circle, rgba(153, 70, 42, 0.28) 0%, transparent 70%);
+  }
+
+  &:nth-child(5) {
+    width: 170px;
+    height: 170px;
+    bottom: 28%;
+    right: 26%;
+    background: radial-gradient(circle, rgba(217, 131, 100, 0.3) 0%, transparent 70%);
+  }
+}
+
+@keyframes clienteFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(18px, -22px) scale(1.05); }
+  50% { transform: translate(-14px, -8px) scale(0.96); }
+  75% { transform: translate(22px, 12px) scale(1.02); }
+}

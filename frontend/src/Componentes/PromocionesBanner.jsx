@@ -1,4 +1,4 @@
-import { Tag, Calendar } from 'lucide-react';
+import { Tag } from 'lucide-react';
 import { urlUpload } from '../config/env.js';
 
 const PromocionesBanner = ({ promociones }) => {

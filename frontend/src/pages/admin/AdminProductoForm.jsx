@@ -27,7 +27,7 @@ const AdminProductoForm = () => {
         listarCategorias()
             .then((cats) => {
                 setCategorias(cats);
-                if (cats.length && !categoriaId) setCategoriaId(String(cats[0].id));
+                if (cats.length) setCategoriaId((prev) => prev || String(cats[0].id));
             })
             .catch(() => setError("No se pudieron cargar las categorías."));
     }, []);

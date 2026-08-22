@@ -1,9 +1,11 @@
 
+@use "variables" as *;
+
 .promociones-container {
   padding: 1rem;
   width: 100%;
   min-height: 100%;
-  background-color: #ffffff;
+  background-color: transparent;
 
   @media (min-width: 768px) {
     padding: 2rem;
@@ -14,6 +16,7 @@
     font-weight: 800;
     color: #000000;
     margin-bottom: 2.5rem;
+    margin-left: 2.5rem;
     text-transform: uppercase;
     letter-spacing: -0.5px;
     word-break: break-word;
@@ -50,9 +53,10 @@
   }
 
     .promo-card {
-      border: 3px solid #000000;
-      border-radius: 1rem;
+      border: $std-border;
+      border-radius: $std-radius;
       background-color: #ffffff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -129,7 +133,7 @@
 
     .promo-base {
       background-color: #ebdcc9;
-      border-top: 3px solid #000000;
+      border-top: $std-border;
       padding: 1rem 1.5rem;
       text-align: center;
 

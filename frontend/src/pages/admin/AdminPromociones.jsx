@@ -44,11 +44,11 @@ const AdminPromociones = () => {
                             <span className={`admin-badge ${p.activo ? "ok" : "off"}`}>{p.activo ? "Activo" : "Inactivo"}</span>
                         </div>
                         <div className="admin-lista-acciones">
-                            <button className="tactile-btn admin-btn-secondary" onClick={() => navigate(`/admin/promociones/editar/${p.id}`)}>
+                            <button className="tactile-btn admin-btn-secondary admin-btn-edit" onClick={() => navigate(`/admin/promociones/editar/${p.id}`)}>
                                 <Pencil size={16} />
                                 Editar
                             </button>
-                            <button className="tactile-btn admin-btn-secondary" onClick={() => toggleActivo(p)}>
+                            <button className="tactile-btn admin-btn-secondary admin-btn-toggle" onClick={() => toggleActivo(p)}>
                                 <Power size={16} />
                                 {p.activo ? "Desactivar" : "Activar"}
                             </button>

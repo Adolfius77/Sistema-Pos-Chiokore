@@ -34,7 +34,7 @@ export const guardarCategoria = async ({ id, datos, imagenFile }) => {
         const { data } = await apiCliente.post("/categorias", formData);
         return data;
     } catch (error) {
-        throw new Error(mensajeError(error, "No se pudo guardar la categoría."));
+        throw new Error(mensajeError(error, "No se pudo guardar la categoría."), { cause: error });
     }
 };
 
@@ -43,6 +43,6 @@ export const eliminarCategoria = async (id) => {
         const { data } = await apiCliente.delete(`/categorias/${id}`);
         return data;
     } catch (error) {
-        throw new Error(mensajeError(error, "No se pudo eliminar la categoría."));
+        throw new Error(mensajeError(error, "No se pudo eliminar la categoría."), { cause: error });
     }
 };

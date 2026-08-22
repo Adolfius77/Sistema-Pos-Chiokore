@@ -17,14 +17,14 @@
 }
 
 .producto-card {
-  border: 1px solid $BordeSideBar;
-  border-radius: 12px;
+  border: $std-border;
+  border-radius: $std-radius;
   overflow: hidden;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: $std-shadow;
   height: 100%;
   width: 100%;
 
@@ -40,7 +40,7 @@
   height: 220px;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  border-bottom: 2px solid #a4a0a0;
+  border-bottom: $std-border;
 
   img {
     width: 100%;

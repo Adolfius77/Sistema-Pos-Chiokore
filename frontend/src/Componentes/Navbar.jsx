@@ -1,25 +1,6 @@
-import { Volume2, VolumeX, User, Menu, X } from "lucide-react";
-import { useState } from "react";
-import { sound } from "../utils/sound.js";
+import { User, Menu, X } from "lucide-react";
 
 const Navbar = ({ nombre, onToggleSidebar, sidebarOpen }) => {
-    const [audioActivado, setAudioActivado] = useState(() => {
-        const saved = localStorage.getItem("AUDIO_ENABLED");
-        return saved === null ? true : saved === "true";
-    });
-
-    const toggleAudio = () => {
-        setAudioActivado(prev => {
-            const newVal = !prev;
-            localStorage.setItem("AUDIO_ENABLED", String(newVal));
-            if (newVal) {
-                // Play a test sound to show audio is active
-                setTimeout(() => sound.playClick(), 50);
-            }
-            return newVal;
-        });
-    };
-
     return (
         <header className="navbar">
             <div className="navbar-brand">

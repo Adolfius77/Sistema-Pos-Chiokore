@@ -2,12 +2,12 @@
 
 @keyframes breathe {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.02); }
+    50% { transform: scale(1.01); }
 }
 
 @keyframes flash {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    50% { opacity: 0.55; }
 }
 
 .idle-overlay {
@@ -25,35 +25,32 @@
 
     .idle-content {
         text-align: center;
-        padding: 3rem;
-        border: 6px solid $border-color;
-        border-radius: $border-radius-soft;
-        background-color: $ligth;
-        box-shadow: 15px 15px 0px $border-color;
+        padding: 2.5rem 3rem;
+        border-radius: $std-radius;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
         animation: breathe 3s ease-in-out infinite;
 
         .idle-logo {
-            width: 200px;
-            margin-bottom: 1.5rem;
+            width: 120px;
+            margin-bottom: 1.25rem;
         }
 
         h1 {
-            font-size: 5rem;
-            font-weight: 900;
+            font-size: 2.2rem;
+            font-weight: 800;
             color: $primary-color;
-            margin-bottom: 1rem;
+            margin-bottom: 0.6rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            
+            letter-spacing: 3px;
         }
 
         p {
-            font-size: 2rem;
-            font-weight: 800;
-            color: $text-charcoal;
-            animation: flash 2s ease-in-out infinite;
-
-            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: $text-gray;
+            animation: flash 2.5s ease-in-out infinite;
+            margin: 0;
         }
     }
 }

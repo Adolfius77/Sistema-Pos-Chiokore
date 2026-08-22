@@ -14,17 +14,17 @@
 
 .promo-card-moderno {
     background: $ligth;
-    border: 3px solid $border-color;
-    border-radius: 20px;
+    border: $std-border;
+    border-radius: $std-radius;
     overflow: hidden;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
-    box-shadow: 6px 6px 0px $border-color;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
 
     &:hover {
         transform: translateY(-6px);
-        box-shadow: 10px 10px 0px $border-color;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
     .promo-card-img {
@@ -33,7 +33,7 @@
         aspect-ratio: 16 / 10;
         overflow: hidden;
         background-color: $bg-cream;
-        border-bottom: 3px solid $border-color;
+        border-bottom: $std-border;
 
         img {
             width: 100%;
@@ -63,14 +63,14 @@
             right: 10px;
             background: $ColorVerde;
             color: $ligth;
-            border: 2px solid $border-color;
+            border: $std-border;
             border-radius: 12px;
             padding: 0.4rem 0.8rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             line-height: 1;
-            box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+            box-shadow: $std-shadow;
 
             .promo-badge-num {
                 font-size: 1.8rem;
@@ -130,8 +130,8 @@
             justify-content: space-between;
             align-items: center;
             background: $bg-tan;
-            border: 2px solid $border-color;
-            border-radius: 12px;
+            border: $std-border;
+            border-radius: $std-radius;
             padding: 0.6rem 1rem;
 
             .promo-paquete-label {

@@ -179,12 +179,6 @@ const AdminHome = () => {
 
     return (
         <div className="admin-page">
-            <div className="admin-bg-shape" />
-            <div className="admin-bg-shape" />
-            <div className="admin-bg-shape" />
-            <div className="admin-bg-shape" />
-            <div className="admin-bg-shape" />
-            <div className="admin-bg-shape" />
             <div className="admin-header">
                 <div>
                     <h1 className="admin-titulo">Panel de Administración</h1>

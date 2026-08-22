@@ -1,12 +1,12 @@
 @use 'variables' as *;
 
 .sidebar {
-  background-color: $ColorSideBar;
-  width: 280px;
+  background-color: #ffffff;
+  width: 260px;
   display: flex;
   flex-direction: column;
   padding: 1.5rem 1rem;
-  border-right: 2px solid $BordeSideBar;
+  border-right: $std-border;
   z-index: 100;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -18,12 +18,12 @@
   bottom: 0;
   transform: translateX(-100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 
   @media (min-width: $tablet) {
     top: 96px;
-    width: 320px;
-    padding: 2rem 1.5rem;
+    width: 280px;
+    padding: 2rem 1.25rem;
   }
 
   // En desktop: sidebar fija a la vista
@@ -37,7 +37,7 @@
     min-height: 100%;
     flex-shrink: 0;
     padding-top: 1rem;
-    width: 290px;
+    width: 260px;
 
     &.open {
       transform: none;
@@ -56,83 +56,76 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    flex-grow: 1;
+    gap: 0.35rem;
 
-    @media (min-width: $tablet) {
-      gap: 1rem;
-    }
+    .menu-item a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: $text-gray;
+      background-color: transparent;
+      text-decoration: none;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      min-width: 0;
+      border: none;
+      border-bottom-width: 0;
+      border-radius: 10px;
+      transition: background-color 0.15s ease, color 0.15s ease;
 
-    .menu-item {
-      a {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.9rem 1rem;
-        font-size: 1.1rem;
-        font-weight: 700;
+      @media (min-width: $tablet) {
+        padding: 0.8rem 1rem;
+        font-size: 1.05rem;
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+        stroke-width: 1.8px;
+        flex-shrink: 0;
+      }
+
+      &:hover {
+        background-color: $gray;
         color: $text-dark;
-        background-color: $ligth;
-        text-decoration: none;
-        word-break: break-word;
-        overflow-wrap: break-word;
-        min-width: 0;
+      }
 
-        @media (min-width: $tablet) {
-          padding: 1.1rem 1.3rem;
-          font-size: 1.3rem;
-          gap: 1rem;
-        }
+      &:active {
+        transform: none;
+      }
 
-        svg {
-          width: 24px;
-          height: 24px;
-          stroke-width: 2.5px;
-          flex-shrink: 0;
+      &.active {
+        background-color: rgba($primary-color, 0.12);
+        color: $primary-color;
+        font-weight: 700;
+        svg { color: $primary-color; }
+      }
 
-          @media (min-width: $tablet) {
-            width: 28px;
-            height: 28px;
-          }
-        }
-
-        &.active {
-          background-color: $primary-color;
-          color: $ligth;
-          svg { color: $ligth; }
-        }
-
-        .cart-badge {
-          background-color: $primary-color;
-          color: white;
-          border-radius: 50%;
-          min-width: 24px;
-          height: 24px;
-          padding: 0 4px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 0.8rem;
-          font-weight: 800;
-          margin-left: auto;
-          border: 2px solid $text-dark;
-          box-shadow: 1px 1px 0px $text-dark;
-          flex-shrink: 0;
-
-          @media (min-width: $tablet) {
-            min-width: 28px;
-            height: 28px;
-            font-size: 0.95rem;
-            padding: 0 6px;
-          }
-        }
+      .cart-badge {
+        background-color: $primary-color;
+        color: white;
+        border-radius: 50%;
+        min-width: 22px;
+        height: 22px;
+        padding: 0 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 800;
+        margin-left: auto;
+        flex-shrink: 0;
       }
     }
   }
 
   .sidebar-footer {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    margin-top: auto;
+    padding-top: 1.25rem;
+    border-top: $std-border;
 
     .btn-cerrar-sesion {
       width: 100%;
@@ -140,31 +133,35 @@
       align-items: center;
       justify-content: flex-start;
       gap: 0.75rem;
-      background-color: $ligth;
-      color: $primary-color;
-      padding: 0.9rem 1rem;
-      font-size: 1.1rem;
-      font-weight: 700;
-      word-break: break-word;
-      overflow-wrap: break-word;
-      min-width: 0;
+      background-color: transparent;
+      color: $text-gray;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.98rem;
+      font-weight: 600;
+      border: none;
+      border-bottom-width: 0;
+      border-radius: 10px;
+      transition: background-color 0.15s ease, color 0.15s ease;
 
       @media (min-width: $tablet) {
-        padding: 1.1rem 1.3rem;
-        font-size: 1.3rem;
-        gap: 1rem;
+        padding: 0.8rem 1rem;
+        font-size: 1.05rem;
       }
 
       svg {
-        width: 24px;
-        height: 24px;
-        stroke-width: 2.5px;
+        width: 20px;
+        height: 20px;
+        stroke-width: 1.8px;
         flex-shrink: 0;
+      }
 
-        @media (min-width: $tablet) {
-          width: 28px;
-          height: 28px;
-        }
+      &:hover {
+        background-color: #fee2e2;
+        color: #991b1b;
+      }
+
+      &:active {
+        transform: none;
       }
     }
   }
@@ -176,16 +173,16 @@
   align-items: center;
   justify-content: center;
   background-color: $ligth;
-  border: 2px solid $border-color;
-  border-radius: 8px;
+  border: $std-border;
+  border-radius: 10px;
   width: 44px;
   height: 44px;
   cursor: pointer;
   flex-shrink: 0;
 
   @media (min-width: $tablet) {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
   }
 
   @media (min-width: $desktop) {
@@ -193,13 +190,13 @@
   }
 
   svg {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     color: $text-dark;
 
     @media (min-width: $tablet) {
-      width: 32px;
-      height: 32px;
+      width: 26px;
+      height: 26px;
     }
   }
 
@@ -215,7 +212,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(2px);
   z-index: 99;
 

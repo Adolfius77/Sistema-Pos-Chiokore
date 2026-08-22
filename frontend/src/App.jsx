@@ -33,6 +33,11 @@ function PosLayout({ onLogout, sidebarOpen, onCloseSidebar }) {
             {sidebarOpen && <div className="sidebar-overlay" onClick={onCloseSidebar} />}
             <SideBar onLogout={onLogout} sidebarOpen={sidebarOpen} onCloseSidebar={onCloseSidebar} />
             <div className="content" onClick={onCloseSidebar}>
+                <div className="cliente-bg-shape" />
+                <div className="cliente-bg-shape" />
+                <div className="cliente-bg-shape" />
+                <div className="cliente-bg-shape" />
+                <div className="cliente-bg-shape" />
                 <Outlet />
             </div>
         </div>

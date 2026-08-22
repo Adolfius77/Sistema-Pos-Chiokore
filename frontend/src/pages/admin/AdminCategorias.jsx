@@ -164,7 +164,7 @@ const AdminCategorias = () => {
                                 <h2>{cat.nombre}</h2>
                             </div>
                             <div className="admin-lista-acciones">
-                                <button className="tactile-btn admin-btn-secondary" onClick={() => editar(cat)}>
+                                <button className="tactile-btn admin-btn-secondary admin-btn-edit" onClick={() => editar(cat)}>
                                     <Pencil size={16} />
                                     Editar
                                 </button>

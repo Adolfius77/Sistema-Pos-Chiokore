@@ -42,11 +42,12 @@
     .categoria-card {
       display: flex;
       flex-direction: column;
-      background-color: $card-label-bg;
+background-color: white;
       padding: 0;
       overflow: hidden;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-radius: $std-radius;
+      border: $std-border;
+      box-shadow: $std-shadow;
 
       .img-container {
         width: 100%;
