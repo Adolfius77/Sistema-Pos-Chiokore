@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.NoArgsConstructor;
-import org.pojava.datetime.DateTime;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -60,6 +61,10 @@ public class Venta {
     @Column(name = "ip_origen")
     private String ip_origen;
 
+    // Fuera de equals/hashCode/toString: son entidades JPA con relacion bidireccional,
+    // incluir la coleccion dispara carga perezosa y recursion infinita con DetalleVenta.
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleVenta> detalles = new ArrayList<>();
 

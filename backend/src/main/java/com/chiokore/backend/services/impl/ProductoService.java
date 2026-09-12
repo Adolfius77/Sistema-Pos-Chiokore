@@ -1,10 +1,9 @@
 package com.chiokore.backend.services.impl;
 
-import com.chiokore.backend.controllers.ventaController;
+import com.chiokore.backend.Exceptions.RecursoNoEncontradoException;
 import com.chiokore.backend.modelo.Producto;
 import com.chiokore.backend.repository.ProductoRepository;
 import com.chiokore.backend.services.IProductoService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +36,7 @@ public class ProductoService implements IProductoService {
     @Override
     public List<Producto> obtenerActivos() {
         logger.info("Obteniendo todos los productos activos");
-        return productoRepository.findAll().stream()
-                .filter(Producto::isActivo)
-                .collect(Collectors.toList());
+        return productoRepository.findByActivoTrue();
     }
 
     @Override
@@ -51,14 +48,15 @@ public class ProductoService implements IProductoService {
     @Override
     public Producto obtenerPorId(int id) {
         logger.info("Obteniendo el producto id={}", id);
-        return productoRepository.findById((long)id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        return productoRepository.findById((long) id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto no encontrado: " + id));
     }
 
     @Override
     public void eliminar(int id) {
         if(!productoRepository.existsById((long)id)){
             logger.error("El producto no existe");
-            throw new RuntimeException("Producto no encontrado");
+            throw new RecursoNoEncontradoException("Producto no encontrado: " + id);
         }
         logger.info("Eliminando el producto id={}", id);
         productoRepository.deleteById((long)id);

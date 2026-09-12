@@ -86,29 +86,13 @@ public class ventaController {
 
     @GetMapping("/{id:\\d+}")
     public ResponseEntity<?> obtenerDetalle(@PathVariable int id) {
-        try {
-            return ResponseEntity.ok(ventaService.obtenerDetalle(id));
-        } catch (RuntimeException e) {
-            Map<String, String> body = new HashMap<>();
-            body.put("mensaje", e.getMessage());
-            body.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
-        }
+        return ResponseEntity.ok(ventaService.obtenerDetalle(id));
     }
 
     @PostMapping("/{id:\\d+}/cancelar")
     public ResponseEntity<?> cancelarVenta(@PathVariable int id) {
-        try {
-            Venta v = ventaService.cancelarVenta(id);
-            return ResponseEntity.ok(Map.of("mensaje", "Venta cancelada", "venta", v));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("mensaje", e.getMessage(), "error", e.getMessage()));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", e.getMessage(), "error", e.getMessage()));
-        } catch (Exception e) {
-            logger.error("Error al cancelar la venta", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al cancelar la venta", "error", e.getMessage()));
-        }
+        Venta v = ventaService.cancelarVenta(id);
+        return ResponseEntity.ok(Map.of("mensaje", "Venta cancelada", "venta", v));
     }
 
     @PostMapping(value = "/cobrar", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -146,110 +130,82 @@ public class ventaController {
         return ResponseEntity.ok().headers(headers).body(contenido);
     }
 
+    /**
+     * Tronco comun del cobro en efectivo y con tarjeta.
+     *
+     * Los errores de negocio (stock insuficiente, cantidades invalidas, producto
+     * inexistente) suben y los traduce GlobalExceptionHandler al codigo HTTP que
+     * corresponde, con un mensaje limpio para el cajero.
+     */
     private ResponseEntity<?> procesar(CobroDTO venta, String urlComprobante, Jwt jwt, HttpServletRequest request) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Long idTrabajador;
-            String nombreCajero;
-
-            if (jwt != null) {
-                idTrabajador = jwt.getClaim("empleadoId");
-                nombreCajero = jwt.getSubject();
-            } else {
-                Map<String, Object> resp = new HashMap<>();
-                resp.put("mensaje", "Acceso denegado: token requerido.");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resp);
-            }
-
-            if (idTrabajador == null) {
-                response.put("mensaje", "Acceso denegado: El token no contiene un ID de trabajador valido.");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-            }
-
-            String dispositivo = venta.getModeloDispositivo();
-            if (dispositivo == null || dispositivo.isBlank()) {
-                // El frontend no pudo detectar el modelo exacto: se traduce el
-                // User-Agent a una etiqueta legible en lugar de guardarlo crudo.
-                dispositivo = UserAgentUtil.aEtiquetaLegible(request.getHeader("User-Agent"));
-            }
-            Venta ventaProcesada = ventaService.procesarVenta(
-                    venta,
-                    idTrabajador,
-                    urlComprobante,
-                    nombreCajero,
-                    dispositivo,
-                    extraerIpCliente(request)
-            );
-            double restante = ventaProcesada.getTotal() - ventaProcesada.getMonto_recibido();
-            if (restante > 0) {
-                response.put("mensaje", "Venta registrada como PENDIENTE. Falta pago de: " + restante);
-                response.put("restante", restante);
-            } else {
-                response.put("mensaje", "Venta procesada correctamente");
-            }
-            response.put("cajero", nombreCajero);
-            response.put("idTrabajador", idTrabajador);
-            response.put("venta", ventaProcesada);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (IllegalArgumentException e) {
-            response.put("mensaje", "Error en la venta");
-            response.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        } catch (Exception e) {
-            logger.error("Error interno al procesar el cobro", e);
-            response.put("mensaje", "Error interno al procesar el cobro");
-            response.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        if (jwt == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("mensaje", "Acceso denegado: token requerido.",
+                                 "error", "Acceso denegado: token requerido."));
         }
+
+        Long idTrabajador = jwt.getClaim("empleadoId");
+        String nombreCajero = jwt.getSubject();
+
+        if (idTrabajador == null) {
+            String aviso = "Acceso denegado: el token no contiene un ID de trabajador valido.";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("mensaje", aviso, "error", aviso));
+        }
+
+        String dispositivo = venta.getModeloDispositivo();
+        if (dispositivo == null || dispositivo.isBlank()) {
+            // El frontend no pudo detectar el modelo exacto: se traduce el
+            // User-Agent a una etiqueta legible en lugar de guardarlo crudo.
+            dispositivo = UserAgentUtil.aEtiquetaLegible(request.getHeader("User-Agent"));
+        }
+
+        Venta ventaProcesada = ventaService.procesarVenta(
+                venta,
+                idTrabajador,
+                urlComprobante,
+                nombreCajero,
+                dispositivo,
+                extraerIpCliente(request)
+        );
+
+        Map<String, Object> response = new HashMap<>();
+        double restante = ventaProcesada.getTotal() - ventaProcesada.getMonto_recibido();
+        if (restante > 0) {
+            response.put("mensaje", "Venta registrada como PENDIENTE. Falta pago de: " + restante);
+            response.put("restante", restante);
+        } else {
+            response.put("mensaje", "Venta procesada correctamente");
+        }
+        response.put("cajero", nombreCajero);
+        response.put("idTrabajador", idTrabajador);
+        response.put("venta", ventaProcesada);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/recalcular-totales")
     public ResponseEntity<?> recalcularTotales() {
-        try {
-            int updated = ventaService.recalcularTotales();
-            return ResponseEntity.ok(Map.of("mensaje", "Totales recalculados", "actualizados", updated));
-        } catch (Exception e) {
-            logger.error("Error al recalcular totales", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al recalcular totales", "error", e.getMessage()));
-        }
+        int updated = ventaService.recalcularTotales();
+        return ResponseEntity.ok(Map.of("mensaje", "Totales recalculados", "actualizados", updated));
     }
 
     @PostMapping("/{id:\\d+}/recalcular")
     public ResponseEntity<?> recalcularVenta(@PathVariable int id) {
-        try {
-            Venta v = ventaService.recalcularVenta(id);
-            return ResponseEntity.ok(Map.of("mensaje", "Venta recalculada", "venta", v));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", e.getMessage(), "error", e.getMessage()));
-        } catch (Exception e) {
-            logger.error("Error al recalcular la venta", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al recalcular la venta", "error", e.getMessage()));
-        }
+        Venta v = ventaService.recalcularVenta(id);
+        return ResponseEntity.ok(Map.of("mensaje", "Venta recalculada", "venta", v));
     }
 
     @PostMapping("/recalcular-precios")
     public ResponseEntity<?> recalcularPrecios() {
-        try {
-            int updated = ventaService.recalcularPrecios();
-            return ResponseEntity.ok(Map.of("mensaje", "Precios recalculados", "actualizados", updated));
-        } catch (Exception e) {
-            logger.error("Error al recalcular precios", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al recalcular precios", "error", e.getMessage()));
-        }
+        int updated = ventaService.recalcularPrecios();
+        return ResponseEntity.ok(Map.of("mensaje", "Precios recalculados", "actualizados", updated));
     }
 
     @PostMapping("/{id:\\d+}/recalcular-precios")
     public ResponseEntity<?> recalcularPreciosVenta(@PathVariable int id) {
-        try {
-            Venta v = ventaService.recalcularPreciosVenta(id);
-            return ResponseEntity.ok(Map.of("mensaje", "Precios de venta recalculados", "venta", v));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", e.getMessage(), "error", e.getMessage()));
-        } catch (Exception e) {
-            logger.error("Error al recalcular precios de la venta", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al recalcular precios de la venta", "error", e.getMessage()));
-        }
+        Venta v = ventaService.recalcularPreciosVenta(id);
+        return ResponseEntity.ok(Map.of("mensaje", "Precios de venta recalculados", "venta", v));
     }
 
     private String extraerIpCliente(HttpServletRequest request) {

@@ -1,5 +1,6 @@
 package com.chiokore.backend.controllers;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -9,11 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+/**
+ * Utilidad de depuracion local.
+ *
+ * Solo existe bajo el perfil "dev" (arranca con -Dspring.profiles.active=dev):
+ * antes se publicaba siempre y devolvia ademas el token crudo.
+ */
 @RestController
 @RequestMapping("/api/debug")
+@Profile("dev")
 public class DebugController {
 
-    // Dev-only: devuelve los claims del JWT autenticado para depuración local
     @GetMapping("/claims")
     public ResponseEntity<?> claims(@AuthenticationPrincipal Jwt jwt) {
         if (jwt == null) {
@@ -21,8 +28,7 @@ public class DebugController {
         }
         return ResponseEntity.ok(Map.of(
                 "claims", jwt.getClaims(),
-                "subject", jwt.getSubject(),
-                "tokenValue", jwt.getTokenValue()
+                "subject", jwt.getSubject()
         ));
     }
 }

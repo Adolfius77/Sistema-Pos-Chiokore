@@ -1,22 +1,54 @@
 package com.chiokore.backend.Exceptions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({IllegalArgumentException.class, RuntimeException.class})
-    public ResponseEntity<Map<String, String>> handleBusinessErrors(Exception ex) {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", "Error en la venta");
-        errorResponse.put("mensaje", ex.getMessage());
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    /**
+     * El cuerpo mantiene las claves "error" y "mensaje" porque el frontend
+     * (services/ventas.js) las lee en ese orden para mostrar el aviso al cajero.
+     */
+    private ResponseEntity<Map<String, String>> respuesta(HttpStatus status, String mensaje) {
+        return ResponseEntity.status(status).body(Map.of(
+                "error", mensaje,
+                "mensaje", mensaje
+        ));
+    }
+
+    @ExceptionHandler(RecursoNoEncontradoException.class)
+    public ResponseEntity<Map<String, String>> noEncontrado(RecursoNoEncontradoException ex) {
+        return respuesta(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReglaNegocioException.class)
+    public ResponseEntity<Map<String, String>> reglaNegocio(ReglaNegocioException ex) {
+        return respuesta(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> peticionInvalida(IllegalArgumentException ex) {
+        return respuesta(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    /**
+     * Red de seguridad: cualquier fallo no previsto se registra completo en el log
+     * del servidor pero al cliente solo se le devuelve un mensaje generico, para no
+     * filtrar detalles internos (nombres de tabla, stack traces, etc.).
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> errorInterno(Exception ex) {
+        logger.error("Error no controlado", ex);
+        return respuesta(HttpStatus.INTERNAL_SERVER_ERROR,
+                "Ocurrio un error interno. Intenta de nuevo o avisa al administrador.");
     }
 }

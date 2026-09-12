@@ -1,5 +1,7 @@
 package com.chiokore.backend.services.impl;
 
+import com.chiokore.backend.Exceptions.RecursoNoEncontradoException;
+import com.chiokore.backend.Exceptions.ReglaNegocioException;
 import com.chiokore.backend.Factorys.VentaFactory;
 import com.chiokore.backend.dtos.CobroDTO;
 import com.chiokore.backend.dtos.ItemDto;
@@ -46,6 +48,7 @@ public class VentaService implements IVentaService {
     private final IPromocionService promocionService;
     private final VentaFactory ventaFactory;
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(VentaService.class);
+    private static final int UMBRAL_STOCK_BAJO = 5;
 
     @Override
     public Venta procesarVenta(CobroDTO cobroDTO, Long idTrabajador, String urlComprobante, String cajeroNombre, String dispositivoModelo, String ipOrigen) {
@@ -54,15 +57,34 @@ public class VentaService implements IVentaService {
             throw new IllegalArgumentException("El cobro con tarjeta requiere la foto del ticket.");
         }
 
+        if (cobroDTO.getItems() == null || cobroDTO.getItems().isEmpty()) {
+            throw new IllegalArgumentException("La venta no tiene productos.");
+        }
+        if (cobroDTO.getMontoRecibido() < 0) {
+            throw new IllegalArgumentException("El monto recibido no puede ser negativo.");
+        }
+
         List<DetalleVenta> detalles = new ArrayList<>();
         double total = 0;
         LocalDate hoy = LocalDate.now();
 
         for (ItemDto item : cobroDTO.getItems()) {
-            Producto p = productoService.obtenerPorId(item.getProducto_id());
+            // Sin esta validacion una cantidad negativa pasaba el chequeo de stock
+            // (stock < -5 es falso), aumentaba las existencias y restaba del total.
+            if (item.getCantidad() < 1) {
+                throw new IllegalArgumentException("La cantidad de cada producto debe ser al menos 1.");
+            }
 
+            // Lectura con candado: evita que dos cajas vendan el mismo stock a la vez.
+            Producto p = productoRepository.findByIdParaActualizar((long) item.getProducto_id())
+                    .orElseThrow(() -> new RecursoNoEncontradoException(
+                            "Producto no encontrado: " + item.getProducto_id()));
+
+            if (!p.isActivo()) {
+                throw new ReglaNegocioException("El producto no esta disponible: " + p.getNombre());
+            }
             if (p.getStock() < item.getCantidad()) {
-                throw new RuntimeException("Stock insuficiente para: " + p.getNombre());
+                throw new ReglaNegocioException("Stock insuficiente para: " + p.getNombre());
             }
 
             p.setStock(p.getStock() - item.getCantidad());
@@ -163,16 +185,16 @@ public class VentaService implements IVentaService {
     @Transactional(readOnly = true)
     public Venta obtenerDetalle(int id) {
         return ventaRepository.findByIdWithDetalles((long) id)
-                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Venta no encontrada: " + id));
     }
 
     @Override
     public Venta cancelarVenta(int id) {
         Venta venta = ventaRepository.findByIdWithDetalles((long) id)
-                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Venta no encontrada: " + id));
 
         if (venta.getEstado() != null && venta.getEstado().name().equalsIgnoreCase("CANCELADA")) {
-            throw new IllegalArgumentException("La venta ya está cancelada.");
+            throw new ReglaNegocioException("La venta ya esta cancelada.");
         }
 
         // Restaurar stock por cada detalle
@@ -205,10 +227,7 @@ public class VentaService implements IVentaService {
             }
         }
 
-        long stockBajo = productoRepository.findAll().stream()
-                .filter(Producto::isActivo)
-                .filter(p -> p.getStock() <= 5)
-                .count();
+        long stockBajo = productoRepository.countByActivoTrueAndStockLessThanEqual(UMBRAL_STOCK_BAJO);
 
         return new VentaResumenDTO(ventas.size(), totalGeneral, totalEfectivo, totalTarjeta, stockBajo);
     }
@@ -455,7 +474,7 @@ public class VentaService implements IVentaService {
     @Override
     public Venta recalcularVenta(int id) {
         Venta v = ventaRepository.findByIdWithDetalles((long) id)
-                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Venta no encontrada: " + id));
         double sum = 0.0;
         if (v.getDetalles() != null) {
             for (DetalleVenta d : v.getDetalles()) {
@@ -498,7 +517,7 @@ public class VentaService implements IVentaService {
     @Override
     public Venta recalcularPreciosVenta(int id) {
         Venta v = ventaRepository.findByIdWithDetalles((long) id)
-                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Venta no encontrada: " + id));
         boolean changed = false;
         LocalDate fecha = v.getFecha_hora() != null ? v.getFecha_hora().toLocalDate() : LocalDate.now();
         if (v.getDetalles() != null) {

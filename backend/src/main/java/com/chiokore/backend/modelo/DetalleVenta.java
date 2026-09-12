@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -19,6 +21,10 @@ public class DetalleVenta {
     @Column(name = "id", nullable = false)
     private int id;
 
+    // Sin estos excludes, Venta.toString() -> DetalleVenta.toString() -> Venta.toString()
+    // se llaman en ciclo y revientan con StackOverflowError.
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "venta_id", nullable = false)
