@@ -1,57 +1,53 @@
 @use "variables" as *;
+
 .btn-agregar {
-  background-color: $ColorVerde;
-  border-radius: 30px;
-  color: #000;
-  border: none;
+  @include tactil;
+  background-color: $exito;
+  border-radius: 999px;
+  color: $ligth;
   cursor: pointer;
-  padding: 10px;
+  padding: 0.7rem 1rem;
   font-size: 0.9rem;
-  font-weight: bold;
+  font-weight: 800;
   width: 100%;
   margin-top: auto;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
-  flex-direction: row;
+  gap: 0.5rem;
 
   @media (min-width: $tablet) {
-    padding: 10px;
+    padding: 0.8rem 1rem;
     font-size: 1rem;
   }
 
-  &:hover {
-    opacity: 0.8;
+  &:hover:not(:disabled) {
+    background-color: $exito-hover;
   }
 
   &:disabled {
-    background-color: #ccc;
+    background-color: $superficie-hundida;
+    color: $texto-suave;
+    border-color: rgba($border-color, 0.25);
+    box-shadow: none;
     cursor: not-allowed;
   }
 
-  &.active {
-    transform: scale(0.95);
-  }
-
   &.agregado-exito {
-    background-color: #0d6efd;
-    color: white;
-    transform: scale(1.02);
-    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.4);
+    background-color: $accion-primaria;
+    color: $ligth;
+    border-color: $border-color;
   }
 }
-.icono-carrito{
-    width: 20px;
-    height: 20px;
-    stroke-width: 2.5px;
 
+.icono-carrito {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5px;
+  flex-shrink: 0;
 
-    @media (min-width: $tablet) {
-        width: 24px;
-        height: 24px;
-    }
+  @media (min-width: $tablet) {
+    width: 24px;
+    height: 24px;
+  }
 }
-

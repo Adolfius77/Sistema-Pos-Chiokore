@@ -65,22 +65,20 @@ body {
 }
 
 .tactile-btn {
-  border: 2px solid $border-color;
-  border-bottom-width: 5px;
+  @include tactil;
   border-radius: $border-radius-inner;
-  transition: transform 0.1s ease, border-bottom-width 0.1s ease;
   cursor: pointer;
-
-  &:active {
-    transform: translateY(3px);
-    border-bottom-width: 2px;
-  }
-  &:focus {
-    outline: none;
-  }
+  background-color: $superficie;
 }
 
 // Warning banner
+// Red de seguridad de accesibilidad: cualquier elemento enfocable por
+// teclado debe mostrar donde esta el foco.
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid rgba($accion-primaria, 0.55);
+  outline-offset: 2px;
+}
+
 .warning-banner {
   background-color: #fff3cd;
   color: #856404;
@@ -108,7 +106,7 @@ body {
     height: 600px;
     top: -180px;
     right: -120px;
-    background: radial-gradient(circle, rgba(153, 70, 42, 0.4) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(153, 70, 42, 0.16) 0%, transparent 70%);
   }
 
   &:nth-child(2) {
@@ -116,7 +114,7 @@ body {
     height: 480px;
     bottom: -140px;
     left: -100px;
-    background: radial-gradient(circle, rgba(217, 131, 100, 0.38) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(217, 131, 100, 0.15) 0%, transparent 70%);
   }
 
   &:nth-child(3) {
@@ -124,7 +122,7 @@ body {
     height: 350px;
     top: 35%;
     right: -40px;
-    background: radial-gradient(circle, rgba(244, 190, 120, 0.35) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(244, 190, 120, 0.14) 0%, transparent 70%);
   }
 
   &:nth-child(4) {
@@ -132,7 +130,7 @@ body {
     height: 220px;
     top: 10%;
     left: 6%;
-    background: radial-gradient(circle, rgba(153, 70, 42, 0.28) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(153, 70, 42, 0.12) 0%, transparent 70%);
   }
 
   &:nth-child(5) {
@@ -140,8 +138,12 @@ body {
     height: 170px;
     bottom: 28%;
     right: 26%;
-    background: radial-gradient(circle, rgba(217, 131, 100, 0.3) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(217, 131, 100, 0.12) 0%, transparent 70%);
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cliente-bg-shape { animation: none; }
 }
 
 @keyframes clienteFloat {

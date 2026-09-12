@@ -42,3 +42,95 @@ $gap-massive: 2rem;
 $std-border: 1.5px solid rgba(0, 0, 0, 0.08);
 $std-radius: 12px;
 $std-shadow: none;
+
+// ============================================================
+//  SISTEMA DE DISENO
+//  Tokens semanticos y mixins compartidos. La identidad "tactil"
+//  (borde marcado + sombra dura desplazada) venia solo de la pantalla
+//  de login; aqui se vuelve reutilizable para toda la aplicacion.
+// ============================================================
+
+// --- Colores semanticos -------------------------------------
+// Se definen a partir de la paleta de arriba en lugar de meter
+// colores sueltos de Bootstrap/Tailwind en cada componente.
+$superficie:          #ffffff;
+$superficie-suave:    $bg-cream;
+$superficie-hundida:  $gray;
+
+$accion-primaria:        $primary-color;
+$accion-primaria-hover:  $primary-hover;
+
+// Verde de "confirmar": mas profundo que el #22C55E original, que
+// junto al crema y la terracota se veia fosforescente.
+$exito:        #2f7d5a;
+$exito-hover:  #26654a;
+$exito-suave:  #e7f2ec;
+
+$peligro:       $ColorErrores;
+$peligro-suave: #fdecea;
+
+$aviso:         #9a6413;
+$aviso-suave:   #fdf3e2;
+
+$texto-suave:  #6b5a54;
+
+// --- Elevacion ----------------------------------------------
+// Sombra dura desplazada: es el gesto que define la interfaz.
+$sombra-tactil:       3px 3px 0 $border-color;
+$sombra-tactil-alta:  5px 5px 0 $border-color;
+$sombra-tactil-baja:  2px 2px 0 $border-color;
+// Sombra suave, solo para superficies que no se pueden tocar.
+$sombra-suave:        0 1px 2px rgba(27, 28, 28, 0.05), 0 4px 12px rgba(27, 28, 28, 0.06);
+$sombra-suave-alta:   0 4px 8px rgba(27, 28, 28, 0.07), 0 12px 28px rgba(27, 28, 28, 0.10);
+
+// --- Trazo y curvas -----------------------------------------
+$borde-marcado: 2px solid $border-color;
+$curva-rebote:  cubic-bezier(0.34, 1.56, 0.64, 1);
+$transicion:    0.18s ease;
+
+// --- Mixins --------------------------------------------------
+
+/// Anillo de foco visible. Imprescindible: `.tactile-btn` hacia
+/// `outline: none` sin poner nada en su lugar, dejando la navegacion
+/// por teclado (y los lectores de codigo de barras) sin rastro visual.
+@mixin anillo-foco($color: $accion-primaria) {
+  &:focus-visible {
+    outline: 3px solid rgba($color, 0.55);
+    outline-offset: 2px;
+  }
+}
+
+/// Superficie tactil: se levanta al pasar el cursor y se hunde al pulsar.
+@mixin tactil($sombra: $sombra-tactil, $sombra-hover: $sombra-tactil-alta) {
+  border: $borde-marcado;
+  box-shadow: $sombra;
+  transition: transform $transicion, box-shadow $transicion, background-color $transicion;
+  @include anillo-foco;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: $sombra-hover;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: $sombra-tactil-baja;
+  }
+
+  // Quien prefiere menos movimiento conserva el cambio de sombra
+  // pero sin el desplazamiento.
+  @media (prefers-reduced-motion: reduce) {
+    transition: box-shadow $transicion, background-color $transicion;
+    &:hover:not(:disabled),
+    &:active:not(:disabled) { transform: none; }
+  }
+}
+
+/// Recorta un texto a un numero fijo de lineas.
+@mixin lineas($n) {
+  display: -webkit-box;
+  -webkit-line-clamp: $n;
+  line-clamp: $n;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

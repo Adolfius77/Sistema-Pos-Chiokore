@@ -139,6 +139,8 @@ const AdminHome = () => {
             .catch(() => setError("No se pudo cargar el resumen del día."));
     }, []);
 
+    // Colores alineados con la paleta de src/styles/_variables.scss
+    // (terracota, verde profundo, ambar, pizarra y rojo de error).
     const stats = [
         {
             label: "Ventas hoy",
@@ -151,29 +153,29 @@ const AdminHome = () => {
             label: "Total general",
             value: `$${(resumen?.totalGeneral ?? 0).toFixed(2)}`,
             icon: TrendingUp,
-            color: "#166534",
-            bg: "#dcfce7",
+            color: "#2f7d5a",
+            bg: "#e7f2ec",
         },
         {
             label: "Efectivo",
             value: `$${(resumen?.totalEfectivo ?? 0).toFixed(2)}`,
             icon: DollarSign,
-            color: "#92400e",
-            bg: "#fef3c7",
+            color: "#9a6413",
+            bg: "#fdf3e2",
         },
         {
             label: "Tarjeta",
             value: `$${(resumen?.totalTarjeta ?? 0).toFixed(2)}`,
             icon: CreditCard,
-            color: "#3b0764",
-            bg: "#f3e8ff",
+            color: "#3f4b63",
+            bg: "#eceff5",
         },
         {
             label: "Stock bajo",
             value: resumen?.productosStockBajo ?? "—",
             icon: AlertTriangle,
-            color: "#991b1b",
-            bg: "#fee2e2",
+            color: "#ba1a1a",
+            bg: "#fdecea",
         },
     ];
 

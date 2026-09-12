@@ -11,126 +11,182 @@
 
   @media (min-width: $tablet) {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 30px;
-    padding: 20px;
+    gap: 1.75rem;
+    padding: 1.25rem;
   }
 }
 
 .producto-card {
-  border: $std-border;
+  @include tactil;
   border-radius: $std-radius;
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: $superficie;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: $std-shadow;
   height: 100%;
   width: 100%;
 
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-}
-
-.img-container {
-  position: relative;
-  width: 100%;
-  height: 220px;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border-bottom: $std-border;
-
-  img {
+  .img-container {
+    position: relative;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 12px 12px 0 0;
+    // Antes convivian height: 220px y aspect-ratio: 1/1, que se contradicen
+    // (con ambas dimensiones definidas el navegador ignora la proporcion).
+    // Se deja 4/3, la misma de las tarjetas de categoria, para que la rejilla
+    // sea consistente y quepan mas productos en pantalla.
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-bottom: $borde-marcado;
+    background-color: $superficie-hundida;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.35s ease;
+    }
+  }
+
+  &:hover .img-container img {
+    transform: scale(1.04);
+
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+    }
   }
 }
 
+// Precio: pastilla, no circulo. Un precio de cuatro cifras se salia del
+// circulo de ancho fijo y el texto se recortaba.
 .etiqueta-precio {
   position: absolute;
-  bottom: 8px;
-  right: 8px;
-  width: clamp(50px, 15vw , 70px);
-  height: clamp(50px, 15vw , 70px);
-  background-color: #93000A;
-  border: 3px solid #fff;
-  border-radius: 50%;
+  bottom: 10px;
+  right: 10px;
+  min-width: 0;
+  max-width: calc(100% - 20px);
+  padding: 0.3rem 0.7rem;
+  background-color: $accion-primaria;
+  border: 2px solid $superficie;
+  border-radius: 18px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0 0.3rem;
+  color: $ligth;
+  font-weight: 800;
+  box-shadow: $sombra-suave;
+  text-align: right;
   z-index: 1;
 
-  span { line-height: 1.1; }
-  span:first-child { font-size: 0.95rem; }
-  span:last-child { font-size: 0.65rem; }
+  span { line-height: 1.15; }
 
+  span:not([class]) {
+    font-size: 0.9rem;
+
+    @media (min-width: $tablet) { font-size: 1.1rem; }
+  }
+
+  // La moneda es el ultimo span y no necesita competir con la cifra.
+  span:last-child {
+    font-size: 0.6rem;
+    font-weight: 600;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
+  }
+
+  // En promocion el precio tachado ocupa su propio renglon: en moviles la
+  // pastilla se desbordaba de la tarjeta al intentar caber todo en una linea.
   .precio-original {
+    flex-basis: 100%;
     text-decoration: line-through;
     font-size: 0.7rem;
-    color: rgba(255,255,255,0.7);
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.75);
     font-weight: 500;
+
+    @media (min-width: $tablet) { font-size: 0.75rem; }
   }
+
   .precio-promo {
-    font-size: 1rem;
+    font-size: 0.9rem;
+
+    @media (min-width: $tablet) { font-size: 1.15rem; }
   }
 }
 
 .badge-promo {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  background: #16a34a;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 0.75rem;
+  top: 10px;
+  left: 10px;
+  background: $exito;
+  color: $ligth;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
+  box-shadow: $sombra-suave;
   z-index: 2;
 }
 
 .info-producto {
-  padding: 10px;
+  padding: 0.75rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  gap: 0.45rem;
 
-  @media(min-width: $tablet){
-    padding: 15px;
+  @media (min-width: $tablet) {
+    padding: 1rem;
   }
 
   h4 {
-    margin: 0 0 10px 0;
+    @include lineas(2);
+    margin: 0;
     font-size: 1rem;
-    color: #333;
-    min-height: 3em;
-    margin-bottom: 5px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-weight: 700;
+    line-height: 1.3;
+    min-height: 2.6em;
+    color: $text-dark;
 
-    @media (min-width: $tablet) {
-      font-size: 1.1rem; }
+    @media (min-width: $tablet) { font-size: 1.1rem; }
   }
 
+  // El stock se pintaba siempre de rojo, incluso con 15 piezas
+  // disponibles: el color ahora significa algo.
   .stock {
-    font-size: 0.85rem;
-    margin: 0 0 10px 0;
-    font-weight: 500;
-    color: red;
-    @media (min-width: $tablet) { font-size: 1rem; }
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background-color: $exito-suave;
+    color: $exito;
+
+    @media (min-width: $tablet) { font-size: 0.85rem; }
+
+    &::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: currentColor;
+      flex-shrink: 0;
+    }
+
+    &.stock--bajo {
+      background-color: $aviso-suave;
+      color: $aviso;
+    }
+
+    &.stock--agotado {
+      background-color: $peligro-suave;
+      color: $peligro;
+    }
   }
 }
-
-
-

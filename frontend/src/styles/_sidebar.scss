@@ -73,6 +73,10 @@
       min-width: 0;
       border: none;
       border-bottom-width: 0;
+      box-shadow: none;
+      // El menu lateral es deliberadamente plano: anula el relieve
+      // que .tactile-btn aporta al resto de la interfaz.
+      box-shadow: none;
       border-radius: 10px;
       transition: background-color 0.15s ease, color 0.15s ease;
 
@@ -91,10 +95,13 @@
       &:hover {
         background-color: $gray;
         color: $text-dark;
+        transform: none;
+        box-shadow: none;
       }
 
       &:active {
         transform: none;
+        box-shadow: none;
       }
 
       &.active {
@@ -140,6 +147,10 @@
       font-weight: 600;
       border: none;
       border-bottom-width: 0;
+      box-shadow: none;
+      // El menu lateral es deliberadamente plano: anula el relieve
+      // que .tactile-btn aporta al resto de la interfaz.
+      box-shadow: none;
       border-radius: 10px;
       transition: background-color 0.15s ease, color 0.15s ease;
 
@@ -156,12 +167,15 @@
       }
 
       &:hover {
-        background-color: #fee2e2;
-        color: #991b1b;
+        background-color: $peligro-suave;
+        color: $peligro;
+        transform: none;
+        box-shadow: none;
       }
 
       &:active {
         transform: none;
+        box-shadow: none;
       }
     }
   }

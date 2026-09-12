@@ -42,12 +42,13 @@
     .categoria-card {
       display: flex;
       flex-direction: column;
-background-color: white;
+      background-color: $superficie;
       padding: 0;
       overflow: hidden;
       border-radius: $std-radius;
-      border: $std-border;
-      box-shadow: $std-shadow;
+      // Antes se heredaba .tactile-btn y acto seguido se pisaban su borde y
+      // su sombra con los planos, dejando dos lenguajes visuales enfrentados.
+      // La tarjeta ahora mantiene el relieve del resto de la interfaz.
 
       .img-container {
         width: 100%;
@@ -65,6 +66,7 @@ background-color: white;
 
       .label-container {
         padding: 1rem;
+        border-top: $borde-marcado;
         display: flex;
         align-items: center;
         justify-content: center;

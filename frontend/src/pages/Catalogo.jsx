@@ -5,6 +5,14 @@ import BotonAgregar from "../Componentes/botonAgregar.jsx";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { urlUpload } from "../config/env.js";
 
+// El color de la etiqueta de stock comunica el nivel: antes todo se
+// pintaba de rojo, incluso con el inventario lleno.
+const nivelStock = (stock) => {
+    if (stock <= 0) return "stock--agotado";
+    if (stock <= 5) return "stock--bajo";
+    return "stock--ok";
+};
+
 const Catalogo = () =>{
     const {id } = useParams();
     const navigate = useNavigate();
@@ -80,8 +88,8 @@ const Catalogo = () =>{
 
                             <div className="info-producto">
                                 <h4>{prod.nombre}</h4>
-                                <p className="stock">
-                                    {prod.stock > 0 ? `Stock: ${prod.stock} piezas` : 'Agotado'}
+                                <p className={`stock ${nivelStock(prod.stock)}`}>
+                                    {prod.stock > 0 ? `${prod.stock} en existencia` : 'Agotado'}
                                 </p>
                                 <BotonAgregar producto={{...prod, precio: prod.precioFinal}} />
                             </div>

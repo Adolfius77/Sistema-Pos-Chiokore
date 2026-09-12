@@ -161,16 +161,9 @@
 }
 
 .admin-stat-card {
-  border: 2px solid $border-color;
-  border-bottom-width: 5px;
+  @include tactil;
   border-radius: $border-radius-inner;
   padding: 1rem;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 4px 4px 0 $border-color;
-  }
 
   .stat-icon {
     width: 36px;
@@ -222,9 +215,8 @@
 }
 
 .admin-home-card {
-  background-color: white;
-  border: 2px solid $border-color;
-  border-bottom-width: 6px;
+  @include tactil($sombra-tactil-alta, 7px 7px 0 $border-color);
+  background-color: $superficie;
   border-radius: $border-radius-soft;
   padding: 1.5rem 1rem;
   display: flex;
@@ -249,9 +241,6 @@
   }
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 6px 6px 0 $border-color;
-
     &::before {
       opacity: 1;
     }
