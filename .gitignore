@@ -5,3 +5,6 @@ frontend/dist/
 uploads/
 frontend/.env
 frontend/.env
+
+# Agentes locales de Claude Code (no se versionan)
+.claude/agents/
