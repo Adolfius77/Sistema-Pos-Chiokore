@@ -3,8 +3,16 @@ frontend/node_modules/
 frontend/dist/
 .idea/
 uploads/
+
+# Variables de entorno con valores reales (usa los .env.example como plantilla)
 frontend/.env
-frontend/.env
+backend/.env
+
+# Logs de ejecucion
+*.log
+
+# Archivos de modulo de IntelliJ IDEA
+*.iml
 
 # Agentes y skills locales de Claude Code (no se versionan)
 .claude/agents/
