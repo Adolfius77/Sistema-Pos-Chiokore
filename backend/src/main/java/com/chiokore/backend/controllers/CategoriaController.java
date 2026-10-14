@@ -3,6 +3,7 @@ package com.chiokore.backend.controllers;
 import com.chiokore.backend.dtos.CategoriaAdminDTO;
 import com.chiokore.backend.modelo.Categoria;
 import com.chiokore.backend.repository.ProductoRepository;
+import com.chiokore.backend.repository.PromocionesRepository;
 import com.chiokore.backend.services.ICategoriasService;
 import com.chiokore.backend.services.ImageStorageService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class CategoriaController {
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CategoriaController.class);
     private final ICategoriasService categoriaService;
     private final ProductoRepository productoRepository;
+    private final PromocionesRepository promocionesRepository;
     private final ImageStorageService imageStorageService;
 
     @GetMapping
@@ -69,12 +71,18 @@ public class CategoriaController {
     ) {
         try {
             Categoria existente = categoriaService.obtenerPorId(id);
+            String imagenAnterior = existente.getUrl_imagen();
             aplicarDatos(existente, datos);
-            if (imagen != null && !imagen.isEmpty()) {
+            boolean cambioImagen = imagen != null && !imagen.isEmpty();
+            if (cambioImagen) {
                 existente.setUrl_imagen(imageStorageService.guardar("categorias", imagen));
             }
             logger.info("Actualizando categoria: {}", existente);
-            return ResponseEntity.ok(categoriaService.guardar(existente));
+            Categoria guardada = categoriaService.guardar(existente);
+            if (cambioImagen) {
+                imageStorageService.eliminar(imagenAnterior);
+            }
+            return ResponseEntity.ok(guardada);
         } catch (IllegalArgumentException e) {
             logger.error("Error al actualizar categoria", e);
             return error(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -96,7 +104,14 @@ public class CategoriaController {
                 return error(HttpStatus.BAD_REQUEST,
                         "No se puede eliminar la categoría porque tiene " + productos + " producto(s).");
             }
+            long promociones = promocionesRepository.countByCategoriaId(id);
+            if (promociones > 0) {
+                return error(HttpStatus.BAD_REQUEST,
+                        "No se puede eliminar la categoría porque tiene " + promociones + " promoción(es).");
+            }
+            String imagen = categoriaService.obtenerPorId(id).getUrl_imagen();
             categoriaService.eliminar(id);
+            imageStorageService.eliminar(imagen);
             Map<String, String> ok = new HashMap<>();
             ok.put("mensaje", "Categoría eliminada");
             logger.info("Eliminando categoria: {}", id);

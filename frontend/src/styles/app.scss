@@ -72,8 +72,6 @@ body {
 }
 
 // Warning banner
-// Red de seguridad de accesibilidad: cualquier elemento enfocable por
-// teclado debe mostrar donde esta el foco.
 :where(a, button, input, select, textarea, [tabindex]):focus-visible {
   outline: 3px solid rgba($accion-primaria, 0.55);
   outline-offset: 2px;
@@ -151,4 +149,29 @@ body {
   25% { transform: translate(18px, -22px) scale(1.05); }
   50% { transform: translate(-14px, -8px) scale(0.96); }
   75% { transform: translate(22px, 12px) scale(1.02); }
+}
+
+// La tarjeta del ticket sube y aparece.
+@keyframes exitoEntra {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// La palomita entra con rebote, que es el golpe de vista que confirma el cobro.
+@keyframes exitoPop {
+  0%   { opacity: 0; transform: scale(0.4); }
+  60%  { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.pantalla-cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 100vh;
+  color: $text-gray;
+  text-align: center;
+  padding: 1rem;
 }

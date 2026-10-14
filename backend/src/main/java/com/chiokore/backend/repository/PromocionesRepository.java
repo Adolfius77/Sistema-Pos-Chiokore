@@ -14,6 +14,14 @@ import java.util.Optional;
 public interface PromocionesRepository  extends JpaRepository<Promocion, Long> {
     List<Promocion> findByActivoTrue();
 
+    long countByCategoriaId(int categoriaId);
+
     @Query("SELECT p FROM Promocion p WHERE p.activo = true AND p.categoria.id = :categoriaId AND :fecha BETWEEN p.fechaInicio AND p.fechaFin")
     Optional<Promocion> findActivaByCategoriaAndFecha(int categoriaId, LocalDate fecha);
+
+    @Query("SELECT p FROM Promocion p WHERE p.activo = true AND p.categoria.id = :categoriaId AND :fecha BETWEEN p.fechaInicio AND p.fechaFin ORDER BY p.fechaInicio DESC, p.id DESC")
+    List<Promocion> findActivasVigentesPorCategoria(int categoriaId, LocalDate fecha);
+
+    @Query("SELECT p FROM Promocion p WHERE p.activo = true AND :fecha BETWEEN p.fechaInicio AND p.fechaFin ORDER BY p.fechaInicio DESC")
+    List<Promocion> findActivasVigentes(LocalDate fecha);
 }

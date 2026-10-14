@@ -2,6 +2,7 @@ package com.chiokore.backend.controllers;
 
 import com.chiokore.backend.dtos.ProductoAdminDTO;
 import com.chiokore.backend.dtos.ProductoConPromoDTO;
+import com.chiokore.backend.dtos.PromocionAplicadaDTO;
 import com.chiokore.backend.modelo.Categoria;
 import com.chiokore.backend.modelo.Producto;
 import com.chiokore.backend.modelo.Promocion;
@@ -49,41 +50,22 @@ public class ProductoController {
         LocalDate hoy = LocalDate.now();
         List<ProductoConPromoDTO> resultado = productos.stream().map(p -> {
             double precioOriginal = p.getPrecio();
-            double precioFinal = precioOriginal;
-            boolean tienePromo = false;
-            double descuento = 0;
-            String promocionNombre = null;
-
-            if (p.getCategoria() != null) {
-                Optional<Promocion> promoOpt = promocionService.buscarPromocionActivaPorCategoria(p.getCategoria().getId(), hoy);
-                    if (promoOpt.isPresent()) {
-                        Promocion promo = promoOpt.get();
-                        promocionNombre = promo.getNombre();
-
-                        if (promo.getCantidadPaquete() > 0 && promo.getPrecioPaquete() > 0 && promo.getPrecioPaquete() < promo.getCantidadPaquete() * precioOriginal) {
-                            double precioUnitarioPaquete = promo.getPrecioPaquete() / (double) promo.getCantidadPaquete();
-                            precioFinal = Math.round(precioUnitarioPaquete * 100.0) / 100.0;
-                            descuento = Math.round((1 - precioFinal / precioOriginal) * 10000.0) / 100.0;
-                            if (descuento > 0) tienePromo = true;
-                        } else if (promo.getPrecioPromocional() > 0) {
-                            precioFinal = Math.round(promo.getPrecioPromocional() * 100.0) / 100.0;
-                            descuento = Math.round((1 - precioFinal / precioOriginal) * 10000.0) / 100.0;
-                            if (precioFinal < precioOriginal) tienePromo = true;
-                        }
-                    }
-            }
+            PromocionAplicadaDTO promo = promocionService.calcularPromocionCatalogo(p, hoy);
 
             return ProductoConPromoDTO.builder()
                     .id(p.getId())
                     .nombre(p.getNombre())
                     .precioOriginal(precioOriginal)
-                    .precioFinal(precioFinal)
+                    .precioFinal(promo.getPrecioFinal())
+                    .tipoPromocion(promo.getTipoPromocion())
                     .url_imagen(p.getUrl_imagen())
                     .stock(p.getStock())
                     .activo(p.isActivo())
-                    .tienePromo(tienePromo)
-                    .descuento(descuento)
-                    .promocionNombre(promocionNombre)
+                    .tienePromo(promo.isTienePromo())
+                    .descuento(promo.getDescuento())
+                    .promocionNombre(promo.getPromocionNombre())
+                    .cantidadPaquete(promo.getCantidadPaquete())
+                    .precioPaquete(promo.getPrecioPaquete())
                     .build();
         }).collect(Collectors.toList());
         return ResponseEntity.ok(resultado);
@@ -133,11 +115,17 @@ public class ProductoController {
     ) {
         try {
             Producto existente = productoService.obtenerPorId(id);
+            String imagenAnterior = existente.getUrl_imagen();
             aplicarDatos(existente, datos);
-            if (imagen != null && !imagen.isEmpty()) {
+            boolean cambioImagen = imagen != null && !imagen.isEmpty();
+            if (cambioImagen) {
                 existente.setUrl_imagen(imageStorageService.guardar("productos", imagen));
             }
-            return ResponseEntity.ok(productoService.guardar(existente));
+            Producto guardado = productoService.guardar(existente);
+            if (cambioImagen) {
+                imageStorageService.eliminar(imagenAnterior);
+            }
+            return ResponseEntity.ok(guardado);
         } catch (IllegalArgumentException e) {
             logger.error("Error al actualizar el producto", e);
             return error(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -164,6 +152,14 @@ public class ProductoController {
             logger.error("Error al cambiar el estado activo del producto", e);
             return error(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminar(@PathVariable int id) {
+        String imagen = productoService.obtenerPorId(id).getUrl_imagen();
+        productoService.eliminar(id);
+        imageStorageService.eliminar(imagen);
+        return ResponseEntity.ok(Map.of("mensaje", "Producto eliminado"));
     }
 
     private Producto mapearNuevo(ProductoAdminDTO datos) {

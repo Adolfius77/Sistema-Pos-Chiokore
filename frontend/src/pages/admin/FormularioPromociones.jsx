@@ -13,12 +13,11 @@ const FormularioPromociones = () => {
     const [categorias, setCategorias] = useState([]);
     const [promo, setPromo] = useState({
         nombre: '',
-        cantidadPaquete: 1,
+        cantidadPaquete: 2,
         precioPaquete: 0,
         fechaInicio: '',
         fechaFin: '',
         descuento: 0,
-        precioPromocional: 0,
         activo: true,
         categoria: { id: '' }
     });
@@ -58,6 +57,16 @@ const FormularioPromociones = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!(Number(promo.cantidadPaquete) >= 2)) {
+            setError("El paquete debe ser de al menos 2 piezas.");
+            return;
+        }
+        if (!(Number(promo.precioPaquete) > 0)) {
+            setError("El precio del paquete debe ser mayor a cero.");
+            return;
+        }
+
         const formData = new FormData();
         formData.append('promocion', new Blob([JSON.stringify(promo)], { type: 'application/json' }));
         if (file) formData.append('imagen', file);
@@ -128,22 +137,10 @@ const FormularioPromociones = () => {
                                 <DollarSign size={16} /> Precios
                             </h3>
 
-                            <div className="producto-campo">
-                                <label className="producto-label">Precio por pieza</label>
-                                <div className="producto-input-group">
-                                    <span className="producto-prefijo"><DollarSign size={16} /></span>
-                                    <input
-                                        className="producto-input"
-                                        type="number"
-                                        min="0"
-                                        step="0.01"
-                                        value={promo.precioPromocional}
-                                        onChange={e => setPromo({ ...promo, precioPromocional: parseFloat(e.target.value) })}
-                                        placeholder="0.00"
-                                        required
-                                    />
-                                </div>
-                            </div>
+                            <p className="producto-ayuda">
+                                El descuento se aplica solo al completar el paquete. Las piezas
+                                sueltas se cobran a su precio normal.
+                            </p>
 
                             <div className="producto-fila">
                                 <div className="producto-campo">
@@ -153,7 +150,7 @@ const FormularioPromociones = () => {
                                         <input
                                             className="producto-input"
                                             type="number"
-                                            min="1"
+                                            min="2"
                                             step="1"
                                             value={promo.cantidadPaquete}
                                             onChange={e => setPromo({ ...promo, cantidadPaquete: parseInt(e.target.value) })}

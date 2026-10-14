@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/useCart.js";
 import { procesarCobroTarjeta } from "../services/ventas.js";
 import { Camera, CheckCircle } from "lucide-react";
+import { sound } from "../utils/sound.js";
 
 const CheckoutTarjeta = () => {
     const navigate = useNavigate();
@@ -61,12 +62,15 @@ const CheckoutTarjeta = () => {
                 total,
             });
 
+            const guardada = respuesta?.venta || respuesta || {};
             setVentaExitosa({
-                folio: respuesta.venta?.id || respuesta.id || "N/A",
-                totalPagado: total,
+                folio: guardada.id || "N/A",
+                totalPagado: Number(guardada.total ?? total),
                 referencia: referencia.trim() || null,
             });
 
+
+            sound.playSuccess();
             clearCart();
             setTicketFile(null);
             if (previewUrl) URL.revokeObjectURL(previewUrl);
@@ -94,7 +98,7 @@ const CheckoutTarjeta = () => {
                 <main className="pantalla-exito">
                     <div className="exito-card">
                         <div className="icono-exito">
-                            <CheckCircle size={100} strokeWidth={2} color="#10b981" />
+                            <CheckCircle size={100} strokeWidth={2} />
                         </div>
 
                         <h1>¡VENTA EXITOSA!</h1>

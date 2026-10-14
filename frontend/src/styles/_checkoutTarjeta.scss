@@ -309,6 +309,11 @@
   padding: 1rem;
 
   .exito-card {
+    animation: exitoEntra 0.35s ease-out both;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
     background-color: white;
     padding: 2rem;
     border: 2px solid $border-color;
@@ -319,6 +324,12 @@
     max-width: 520px;
 
     .icono-exito {
+      color: $exito;
+      animation: exitoPop 0.45s cubic-bezier(0.22, 1.2, 0.36, 1) 0.12s both;
+
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
+      }
       display: flex;
       justify-content: center;
       align-items: center;

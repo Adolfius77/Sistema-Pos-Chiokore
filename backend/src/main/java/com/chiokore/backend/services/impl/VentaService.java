@@ -5,6 +5,7 @@ import com.chiokore.backend.Exceptions.ReglaNegocioException;
 import com.chiokore.backend.Factorys.VentaFactory;
 import com.chiokore.backend.dtos.CobroDTO;
 import com.chiokore.backend.dtos.ItemDto;
+import com.chiokore.backend.dtos.PromocionAplicadaDTO;
 import com.chiokore.backend.dtos.VentaDiaDTO;
 import com.chiokore.backend.dtos.VentaResumenDTO;
 import com.chiokore.backend.dtos.VentasResumenDTO;
@@ -90,8 +91,9 @@ public class VentaService implements IVentaService {
             p.setStock(p.getStock() - item.getCantidad());
             productoService.guardar(p);
 
-            double precioUnitario = calcularPrecioConPromocion(p, item.getCantidad(), hoy);
-            double subtotal = precioUnitario * item.getCantidad();
+            PromocionAplicadaDTO promo = promocionService.calcularPromocionAplicada(p, item.getCantidad(), hoy);
+            double subtotal = promo.isTienePromo() ? promo.getMontoAplicado() : (p.getPrecio() * item.getCantidad());
+            double precioUnitario = subtotal / item.getCantidad();
 
             DetalleVenta detalle = ventaFactory.crearDetalle(p, item.getCantidad(), precioUnitario);
             detalles.add(detalle);
@@ -108,41 +110,6 @@ public class VentaService implements IVentaService {
         ventafinal.setDispositivo_modelo(dispositivoModelo);
         ventafinal.setIp_origen(ipOrigen);
         return ventaRepository.save(ventafinal);
-    }
-
-    private double calcularPrecioConPromocion(Producto producto, int cantidad, LocalDate fecha) {
-        // Por defecto usar el precio del producto
-        double precioBase = producto.getPrecio();
-        if (producto.getCategoria() == null) return precioBase;
-
-        Optional<Promocion> promoOpt = promocionService.buscarPromocionActivaPorCategoria(
-                producto.getCategoria().getId(), fecha);
-
-        if (promoOpt.isEmpty()) return precioBase;
-
-        Promocion promo = promoOpt.get();
-
-        // Si hay precio por paquete, calcular precio unitario de ese paquete
-        if (promo.getCantidadPaquete() > 0 && promo.getPrecioPaquete() > 0) {
-            double precioUnitarioPaquete = promo.getPrecioPaquete() / (double) promo.getCantidadPaquete();
-            // Aplicar la promo por paquete solo si reduce el precio unitario respecto al precio base
-            if (precioUnitarioPaquete < precioBase) {
-                // calcular media ponderada entre paquetes y resto
-                int paquetes = cantidad / promo.getCantidadPaquete();
-                int resto = cantidad % promo.getCantidadPaquete();
-                double total = paquetes * promo.getPrecioPaquete() + resto * precioBase;
-                return Math.round((total / (double) cantidad) * 100.0) / 100.0;
-            } else {
-                return precioBase;
-            }
-        }
-
-        // Precio promocional directo: aplicar solo si es menor que el precio base
-        if (promo.getPrecioPromocional() > 0 && promo.getPrecioPromocional() < precioBase) {
-            return Math.round(promo.getPrecioPromocional() * 100.0) / 100.0;
-        }
-
-        return precioBase;
     }
 
     @Override
@@ -496,7 +463,7 @@ public class VentaService implements IVentaService {
                 for (DetalleVenta d : v.getDetalles()) {
                     Producto p = d.getProducto();
                     if (p == null) continue;
-                    double nuevo = calcularPrecioConPromocion(p, d.getCantidad(), fecha);
+                    double nuevo = calcularPrecioUnitarioAplicado(p, d.getCantidad(), fecha);
                     if (Double.compare(d.getPrecio_unitario_capturado(), nuevo) != 0) {
                         d.setPrecio_unitario_capturado(nuevo);
                         changed = true;
@@ -524,7 +491,7 @@ public class VentaService implements IVentaService {
             for (DetalleVenta d : v.getDetalles()) {
                 Producto p = d.getProducto();
                 if (p == null) continue;
-                double nuevo = calcularPrecioConPromocion(p, d.getCantidad(), fecha);
+                double nuevo = calcularPrecioUnitarioAplicado(p, d.getCantidad(), fecha);
                 if (Double.compare(d.getPrecio_unitario_capturado(), nuevo) != 0) {
                     d.setPrecio_unitario_capturado(nuevo);
                     changed = true;
@@ -537,5 +504,13 @@ public class VentaService implements IVentaService {
             return ventaRepository.save(v);
         }
         return v;
+    }
+
+    private double calcularPrecioUnitarioAplicado(Producto producto, int cantidad, LocalDate fecha) {
+        PromocionAplicadaDTO promo = promocionService.calcularPromocionAplicada(producto, cantidad, fecha);
+        if (!promo.isTienePromo() || cantidad <= 0) {
+            return producto.getPrecio();
+        }
+        return Math.round((promo.getMontoAplicado() / (double) cantidad) * 100.0) / 100.0;
     }
 }

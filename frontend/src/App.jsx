@@ -81,7 +81,7 @@ function App() {
 
     if (!tokenReady) {
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
+            <div className="pantalla-cargando">
                 <h2>Cargando sistema...</h2>
             </div>
         );

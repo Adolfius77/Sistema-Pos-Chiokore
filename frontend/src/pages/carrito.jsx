@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useCart } from "../context/useCart.js";
 import { urlUpload } from "../config/env.js";
+import { calcularSubtotalItem, descripcionPromocionItem } from "../utils/cartCalculations.js";
 
 const Carrito = () => {
     const { cartItems, updateQuantity, getTotal,eliminarCarrito  } = useCart();
@@ -17,7 +18,10 @@ const Carrito = () => {
                             <button onClick={() => navigate('/categorias')}>Ir a categorías</button>
                         </div>
                     ) : (
-                        cartItems.map((item) => (
+                        cartItems.map((item) => {
+                            const promo = descripcionPromocionItem(item);
+
+                            return (
                             <div className="carrito-item-card" key={item.id}>
                                 <img
                                     src={urlUpload(item.url_imagen) || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"}
@@ -27,7 +31,8 @@ const Carrito = () => {
 
                                 <div className="item-info">
                                     <span className="item-nombre">{item.nombre}</span>
-                                    <span className="item-precio">${item.precio.toFixed(2)}</span>
+                                    <span className="item-precio">${Number(item.precio).toFixed(2)}</span>
+                                    {promo && <span className="item-promo">{promo}</span>}
                                 </div>
 
                                 <div className="item-controles">
@@ -37,13 +42,14 @@ const Carrito = () => {
                                 </div>
 
                                 <div className="item-subtotal">
-                                    ${(item.precio * item.cantidad).toFixed(2)}
+                                    ${calcularSubtotalItem(item).toFixed(2)}
                                 </div>
                                 <div className="btn-borrar">
                                     <button onClick={() => eliminarCarrito(item.id)}>Borrar</button>
                                 </div>
                             </div>
-                        ))
+                            );
+                        })
                     )}
                 </div>
 

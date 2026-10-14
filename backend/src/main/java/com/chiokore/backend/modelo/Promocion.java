@@ -21,6 +21,11 @@ public class Promocion {
     @Column(name = "descuento", nullable = false, columnDefinition = "double default 0.0")
     private double descuento = 0.0;
 
+    /**
+     * Columna heredada del descuento por pieza suelta. Ya no se usa para cobrar:
+     * el descuento vive solo en el paquete. Se conserva porque la columna es
+     * NOT NULL en la base y no se quiso migrar el esquema.
+     */
     @Column(name = "precio_promocional", nullable = false, columnDefinition = "double default 0.0")
     private double precioPromocional = 0.0;
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCart } from "../context/useCart.js";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Check } from "lucide-react";
 import { sound } from "../utils/sound.js";
 
 const BotonAgregar = ({ producto }) => {
@@ -29,7 +29,10 @@ const BotonAgregar = ({ producto }) => {
             {sinStock ? (
                 'Sin existencias'
             ) : agregado ? (
-                '¡Agregado! ✔️'
+                <>
+                    <Check className="icono-check" size={20} strokeWidth={3} />
+                    <span>¡Agregado!</span>
+                </>
             ) : (
                 <>
                     <span>Agregar al carrito</span>

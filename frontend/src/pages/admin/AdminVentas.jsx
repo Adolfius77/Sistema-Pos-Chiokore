@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { descargarReporteVentasExcel, listarVentasPorFecha, obtenerResumenRango } from "../../services/ventasAdmin.js";
+import { Receipt, TrendingUp, Download } from "lucide-react";
 
 const hoyIso = () => {
     const d = new Date();
@@ -50,6 +51,28 @@ const AdminVentas = () => {
             .finally(() => setCargando(false));
     }, [desde, hasta]);
 
+    const dinero = (n) =>
+        `$${Number(n ?? 0).toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+
+    const numeroVentas = resumen?.numeroVentas ?? 0;
+    const totalVentas = Number(resumen?.totalVentas ?? 0);
+    const tarjetasResumen = [
+        {
+            label: "Ventas",
+            valor: numeroVentas,
+            icono: Receipt,
+            tono: "terracota",
+        },
+        {
+            label: "Total cobrado",
+            valor: dinero(totalVentas),
+            icono: TrendingUp,
+            tono: "verde",
+            destacada: true,
+        },
+    ];
+
     const exportarExcel = async () => {
         if (!desde || !hasta) {
             setError("Selecciona ambas fechas para generar el reporte.");
@@ -95,7 +118,7 @@ const AdminVentas = () => {
 
         return (
             <div className="admin-page report-page">
-                {/* Top area: filtros a la izquierda, botón grande a la derecha */}
+
                 <div className="report-top">
                     <div className="report-filters-row">
                         <div className="fecha-input">
@@ -110,7 +133,12 @@ const AdminVentas = () => {
 
                     <div className="report-download">
                         <button className="excel-btn" onClick={exportarExcel} disabled={descargando}>
-                            {descargando ? 'Generando...' : '↓ Descargar Excel'}
+                            {descargando ? 'Generando...' : (
+                                <>
+                                    <Download size={20} />
+                                    <span>Descargar Excel</span>
+                                </>
+                            )}
                         </button>
                     </div>
                 </div>
@@ -121,14 +149,18 @@ const AdminVentas = () => {
                 {/* Cards */}
                 {!cargando && resumen && (
                     <div className="report-cards">
-                        <div className="report-card">
-                            <div className="card-title">VENTAS</div>
-                            <div className="card-value">{resumen.numeroVentas}</div>
-                        </div>
-                        <div className="report-card report-card--accent">
-                            <div className="card-title">TOTAL</div>
-                            <div className="card-value">${Number(resumen.totalVentas ?? 0).toLocaleString('en-US', {minimumFractionDigits:2})}</div>
-                        </div>
+                        {tarjetasResumen.map((t) => (
+                            <div
+                                key={t.label}
+                                className={`report-card tarjeta-tono--${t.tono}${t.destacada ? " report-card--destacada" : ""}`}
+                            >
+                                <div className="card-icon">
+                                    <t.icono size={20} color="white" />
+                                </div>
+                                <span className="card-title">{t.label}</span>
+                                <strong className="card-value">{t.valor}</strong>
+                            </div>
+                        ))}
                     </div>
                 )}
 

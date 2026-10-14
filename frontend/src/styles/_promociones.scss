@@ -7,145 +7,39 @@
   min-height: 100%;
   background-color: transparent;
 
-  @media (min-width: 768px) {
+  @media (min-width: $tablet) {
     padding: 2rem;
   }
 
   .promociones-title {
     font-size: 2.25rem;
     font-weight: 800;
-    color: #000000;
-    margin-bottom: 2.5rem;
-    margin-left: 2.5rem;
+    color: $text-dark;
+    // Antes tenia un margen izquierdo suelto que la descuadraba de las cartas.
+    margin: 0 0 1.75rem;
     text-transform: uppercase;
     letter-spacing: -0.5px;
     word-break: break-word;
     overflow-wrap: break-word;
 
-    @media (max-width: 480px) {
+    @media (max-width: $mobile) {
       font-size: 1.5rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
   }
 
-  .promociones-loading {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #6b7280;
-    margin-top: 2rem;
+  .promociones-vacio {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $text-gray;
   }
+}
 
-  .promociones-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-
-    @media (min-width: 640px) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-    @media (min-width: 1024px) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    @media (min-width: 1400px) {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-    .promo-card {
-      border: $std-border;
-      border-radius: $std-radius;
-      background-color: #ffffff;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      width: 100%;
-      min-width: 0;
-
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .promo-img {
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        overflow: hidden;
-        background-color: #f5f0eb;
-        flex-shrink: 0;
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-        }
-      }
-
-      .promo-body {
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      position: relative;
-
-      .promo-icon {
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        color: #a64d32;
-      }
-
-      .promo-descuento {
-        font-size: 3rem;
-        font-weight: 900;
-        color: #a64d32;
-        letter-spacing: -2px;
-        line-height: 1;
-        text-align: center;
-      }
-
-      .promo-nombre {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #000000;
-        text-align: center;
-        margin-top: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        word-break: break-word;
-      }
-
-      .promo-fecha {
-        color: #6b7280;
-        font-weight: 700;
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-top: 1rem;
-        text-align: center;
-      }
-    }
-
-    .promo-base {
-      background-color: #ebdcc9;
-      border-top: $std-border;
-      padding: 1rem 1.5rem;
-      text-align: center;
-
-      .promo-aplica {
-        font-size: 1.7rem;
-        font-weight: 1000;
-        color: #000000;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        word-break: break-word;
-        overflow-wrap: break-word;
-      }
-    }
-  }
+// Va fuera del contenedor: la pantalla de carga se pinta sola, sin envoltorio.
+.promociones-loading {
+  padding: 2rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $text-gray;
 }

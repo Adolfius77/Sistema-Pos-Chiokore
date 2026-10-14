@@ -113,8 +113,11 @@ public class SecurityConfig {
             if (jwt.getClaim("authorities") instanceof Collection<?> lista) {
                 lista.forEach(o -> roles.add(String.valueOf(o)));
             }
-            if (jwt.getClaim("role") != null) roles.add(String.valueOf(jwt.getClaim("role")));
-            if (jwt.getClaim("rol") != null) roles.add(String.valueOf(jwt.getClaim("rol")));
+
+            String claimRole = jwt.getClaimAsString("role");
+            if (claimRole != null) roles.add(claimRole);
+            String claimRol = jwt.getClaimAsString("rol");
+            if (claimRol != null) roles.add(claimRol);
 
             Set<GrantedAuthority> authorities = new HashSet<>();
             for (String r : roles) {
@@ -122,7 +125,7 @@ public class SecurityConfig {
                 String normalized = r.trim();
                 if (normalized.startsWith("ROLE_")) normalized = normalized.substring(5);
                 String upper = normalized.toUpperCase();
-                // Sinonimos de admin -> ADMINISTRADOR
+
                 if (upper.equals("ADMIN") || upper.equals("ADMINISTRATOR") || upper.equals("ADMINISTRADOR")) {
                     authorities.add(new SimpleGrantedAuthority("ADMINISTRADOR"));
                 } else {
@@ -137,8 +140,6 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // setAllowedOriginPatterns (no setAllowedOrigins) para poder usar comodines
-        // junto con allowCredentials. Un "*" literal con credenciales lo rechaza el navegador.
         configuration.setAllowedOriginPatterns(Arrays.asList(allowedOrigins));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));

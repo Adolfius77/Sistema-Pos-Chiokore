@@ -14,10 +14,13 @@ public class ProductoConPromoDTO {
     private String nombre;
     private double precioOriginal;
     private double precioFinal;
+    private String tipoPromocion;
     private String url_imagen;
     private int stock;
     private boolean activo;
     private boolean tienePromo;
     private double descuento;
     private String promocionNombre;
+    private int cantidadPaquete;
+    private double precioPaquete;
 }

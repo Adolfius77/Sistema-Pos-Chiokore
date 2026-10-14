@@ -57,11 +57,12 @@ const CheckoutEfectivo = () => {
                 }))
             });
 
+            const guardada = venta?.venta || venta || {};
             setVentaExitosa({
-                folio: venta.id || venta.venta?.id || "N/A",
-                totalPagado: total,
-                efectivoRecibido: montoValido,
-                cambioEntregado: cambio
+                folio: guardada.id || "N/A",
+                totalPagado: Number(guardada.total ?? total),
+                efectivoRecibido: Number(guardada.monto_recibido ?? montoValido),
+                cambioEntregado: Number(guardada.cambio_entregado ?? cambio)
             });
 
             sound.playSuccess();
@@ -90,7 +91,7 @@ const CheckoutEfectivo = () => {
                     <div className="exito-card">
 
                         <div className="icono-exito">
-                            <CheckCircle size={100} strokeWidth={2} color="#10b981" />
+                            <CheckCircle size={100} strokeWidth={2} />
                         </div>
 
                         <h1>¡VENTA EXITOSA!</h1>

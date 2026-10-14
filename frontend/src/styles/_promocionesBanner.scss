@@ -3,28 +3,29 @@
 .promo-banner-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    padding: 1rem;
+    gap: 1.25rem;
+    // El padding lo pone .promociones-container: aqui se duplicaba y las
+    // cartas quedaban despegadas del titulo de la pagina.
+    padding: 0;
 
     @media (min-width: $tablet) {
-        gap: 2rem;
-        padding: 2rem;
+        gap: 1.75rem;
     }
 }
 
 .promo-card-moderno {
     background: $ligth;
     border: $std-border;
-    border-radius: $std-radius;
+    border-radius: $border-radius-inner;
     overflow: hidden;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
 
     &:hover {
         transform: translateY(-6px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
     }
 
     .promo-card-img {
@@ -57,112 +58,112 @@
             color: $primary-color;
         }
 
-        .promo-badge-descuento {
+        // La categoria va sobre la foto para que el cuerpo se quede solo con
+        // el trato: nombre, precio del paquete y vigencia.
+        .promo-card-categoria {
             position: absolute;
             top: 10px;
-            right: 10px;
-            background: $ColorVerde;
-            color: $ligth;
+            left: 10px;
+            max-width: calc(100% - 20px);
+            background: rgba(255, 255, 255, 0.94);
+            color: $text-charcoal;
             border: $std-border;
-            border-radius: 12px;
-            padding: 0.4rem 0.8rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            line-height: 1;
-            box-shadow: $std-shadow;
-
-            .promo-badge-num {
-                font-size: 1.8rem;
-                font-weight: 900;
-            }
-
-            .promo-badge-txt {
-                font-size: 0.75rem;
-                font-weight: 800;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
+            border-radius: 999px;
+            padding: 0.3rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             @media (min-width: $tablet) {
-                top: 15px;
-                right: 15px;
-                padding: 0.6rem 1rem;
-
-                .promo-badge-num {
-                    font-size: 2.2rem;
-                }
-                .promo-badge-txt {
-                    font-size: 0.85rem;
-                }
+                top: 14px;
+                left: 14px;
+                font-size: 0.8rem;
             }
         }
     }
 
     .promo-card-body {
-        padding: 1.2rem;
+        padding: 1.1rem;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 0.9rem;
         flex: 1;
 
         @media (min-width: $tablet) {
-            padding: 1.5rem;
-            gap: 1rem;
+            padding: 1.4rem;
         }
 
         .promo-card-nombre {
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             font-weight: 800;
+            line-height: 1.25;
             color: $text-dark;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
             margin: 0;
             word-break: break-word;
 
             @media (min-width: $tablet) {
-                font-size: 1.6rem;
+                font-size: 1.35rem;
             }
         }
 
+        // El bloque del precio se empuja hacia abajo para que todas las cartas
+        // de la fila alineen el trato aunque los nombres midan distinto.
         .promo-card-paquete {
+            margin-top: auto;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.1rem;
             background: $bg-tan;
             border: $std-border;
             border-radius: $std-radius;
-            padding: 0.6rem 1rem;
+            padding: 0.7rem 0.9rem;
 
             .promo-paquete-label {
-                font-size: 0.9rem;
-                font-weight: 700;
+                font-size: 0.8rem;
+                font-weight: 800;
                 color: $text-gray;
                 text-transform: uppercase;
+                letter-spacing: 0.6px;
             }
 
             .promo-paquete-valor {
-                font-size: 1.1rem;
+                font-size: 1.9rem;
                 font-weight: 900;
+                line-height: 1.05;
                 color: $primary-color;
+                letter-spacing: -1px;
+            }
+
+            .promo-paquete-unitario {
+                font-size: 0.8rem;
+                font-weight: 700;
+                color: $text-gray;
             }
 
             @media (min-width: $tablet) {
-                padding: 0.8rem 1.2rem;
-                .promo-paquete-label { font-size: 1rem; }
-                .promo-paquete-valor { font-size: 1.3rem; }
+                padding: 0.9rem 1.1rem;
+
+                .promo-paquete-label { font-size: 0.85rem; }
+                .promo-paquete-valor { font-size: 2.2rem; }
+                .promo-paquete-unitario { font-size: 0.88rem; }
             }
         }
 
-        .promo-card-categoria {
+        .promo-card-vigencia {
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.85rem;
+            margin: 0;
+            font-size: 0.82rem;
             font-weight: 700;
             color: $text-gray;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
 
             svg {
                 color: $primary-color;
@@ -170,8 +171,7 @@
             }
 
             @media (min-width: $tablet) {
-                font-size: 0.95rem;
-                gap: 8px;
+                font-size: 0.9rem;
             }
         }
     }

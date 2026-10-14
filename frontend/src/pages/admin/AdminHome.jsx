@@ -139,43 +139,37 @@ const AdminHome = () => {
             .catch(() => setError("No se pudo cargar el resumen del día."));
     }, []);
 
-    // Colores alineados con la paleta de src/styles/_variables.scss
-    // (terracota, verde profundo, ambar, pizarra y rojo de error).
+
     const stats = [
         {
             label: "Ventas hoy",
             value: resumen?.numVentas ?? "—",
             icon: ShoppingCart,
-            color: "#99462a",
-            bg: "#fef3ee",
+            tono: "terracota",
         },
         {
             label: "Total general",
             value: `$${(resumen?.totalGeneral ?? 0).toFixed(2)}`,
             icon: TrendingUp,
-            color: "#2f7d5a",
-            bg: "#e7f2ec",
+            tono: "verde",
         },
         {
             label: "Efectivo",
             value: `$${(resumen?.totalEfectivo ?? 0).toFixed(2)}`,
             icon: DollarSign,
-            color: "#9a6413",
-            bg: "#fdf3e2",
+            tono: "ambar",
         },
         {
             label: "Tarjeta",
             value: `$${(resumen?.totalTarjeta ?? 0).toFixed(2)}`,
             icon: CreditCard,
-            color: "#3f4b63",
-            bg: "#eceff5",
+            tono: "pizarra",
         },
         {
             label: "Stock bajo",
             value: resumen?.productosStockBajo ?? "—",
             icon: AlertTriangle,
-            color: "#ba1a1a",
-            bg: "#fdecea",
+            tono: "rojo",
         },
     ];
 
@@ -194,18 +188,12 @@ const AdminHome = () => {
 
             <div className="admin-resumen-grid">
                 {stats.map((s) => (
-                    <div
-                        key={s.label}
-                        className="admin-stat-card"
-                        style={{ backgroundColor: s.bg }}
-                    >
-                        <div className="stat-icon" style={{ backgroundColor: s.color }}>
+                    <div key={s.label} className={`admin-stat-card tarjeta-tono--${s.tono}`}>
+                        <div className="stat-icon">
                             <s.icon size={20} color="white" />
                         </div>
                         <span className="stat-label">{s.label}</span>
-                        <strong className="stat-value" style={{ color: s.color }}>
-                            {s.value}
-                        </strong>
+                        <strong className="stat-value">{s.value}</strong>
                     </div>
                 ))}
             </div>

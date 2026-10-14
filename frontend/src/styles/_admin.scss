@@ -160,6 +160,26 @@
   }
 }
 
+@mixin tono-tarjeta($color, $fondo) {
+  background-color: $fondo;
+
+  .stat-icon,
+  .card-icon {
+    background-color: $color;
+  }
+
+  .stat-value,
+  .card-value {
+    color: $color;
+  }
+}
+
+.tarjeta-tono--terracota { @include tono-tarjeta($primary-color, #fef3ee); }
+.tarjeta-tono--verde     { @include tono-tarjeta($exito, $exito-suave); }
+.tarjeta-tono--ambar     { @include tono-tarjeta($aviso, $aviso-suave); }
+.tarjeta-tono--pizarra   { @include tono-tarjeta($info, $info-suave); }
+.tarjeta-tono--rojo      { @include tono-tarjeta($peligro, $peligro-suave); }
+
 .admin-stat-card {
   @include tactil;
   border-radius: $border-radius-inner;
@@ -868,7 +888,7 @@
   .report-actions { justify-content: flex-end; }
 }
 
-/* Stich / Figma inspired detailed report styles */
+
 .report-page { padding-bottom: 2rem; }
 .report-top {
   display: flex;
@@ -903,37 +923,90 @@
 .report-download { }
 
 .excel-btn {
-  background: #8c4a33; /* warm brown */
-  color: white;
-  border: none;
+
+  @include tactil;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: $primary-color;
+  color: $ligth;
   padding: 0.9rem 1.2rem;
-  border-radius: 12px;
+  border-radius: $std-radius;
   font-weight: 900;
-  box-shadow: 0 6px 0 rgba(140,74,51,0.18);
   cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: $accion-primaria-hover;
+  }
+
+  &:disabled {
+    background: $superficie-hundida;
+    color: $texto-suave;
+    box-shadow: none;
+    cursor: progress;
+  }
 }
+
 
 .report-cards {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.85rem;
   margin: 1rem 0 1.25rem;
+
+  @media (min-width: $tablet) {
+    gap: 1rem;
+  }
 }
 
 .report-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  border: 2px solid $border-color;
-  box-shadow: 6px 6px 0 rgba(0,0,0,0.05);
+
+  @include tactil;
+  border-radius: $border-radius-inner;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 2px solid $border-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-title {
+    display: block;
+    color: $text-gray;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 0.15rem;
+  }
+
+  .card-value {
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-.report-card--accent .card-value { color: #1f7a2e; font-size: 1.9rem; font-weight: 900; }
-.card-title { color: $text-gray; font-weight: 800; letter-spacing: 1px; }
-.card-value { font-size: 1.6rem; color: #8b3b1c; font-weight: 900; }
+.report-card--destacada {
+  box-shadow: $sombra-tactil-alta;
+
+  .card-value {
+    font-size: 1.9rem;
+  }
+
+  @media (min-width: $tablet) {
+    .card-value { font-size: 2.1rem; }
+  }
+}
 
 .report-list-wrap {
   background: transparent;
@@ -979,7 +1052,9 @@
 .product-summary-more { color:$text-gray; font-size:0.9rem; align-self:center; }
 
 .method-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
   font-weight: 800;
@@ -1000,7 +1075,6 @@
   .report-download { text-align: right; }
 }
 
-/* Venta detalle improved styles */
 .venta-page {
   padding-bottom: 3rem;
 }
@@ -1083,38 +1157,166 @@
 }
 
 .venta-card {
-  background: #efe8df; /* warm beige */
-  border-radius: 18px;
+  background: $superficie-suave;
+  border-radius: $border-radius-soft;
   padding: 1.2rem;
-  border: 2px solid $border-color;
-  box-shadow: 6px 10px 0 rgba(0,0,0,0.08);
+  border: $borde-marcado;
+  box-shadow: $sombra-tactil-alta;
   flex: 0 0 520px;
 }
 
+
+.venta-total {
+  background: $superficie;
+  border: $borde-marcado;
+  border-radius: $border-radius-inner;
+  box-shadow: $sombra-tactil;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  align-items: flex-start;
+}
+
+.venta-total-label {
+  color: $text-gray;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.venta-total-valor {
+  color: $primary-color;
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.venta-total--cancelada .venta-total-valor {
+  color: $texto-suave;
+  text-decoration: line-through;
+}
+
+.estado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border: 2px solid $border-color;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+
+  &--completada { background: $exito-suave; color: $exito; }
+  &--cancelada  { background: $peligro-suave; color: $peligro; }
+}
+
+.venta-aviso-cancelada {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: $peligro-suave;
+  color: $peligro;
+  border: $borde-marcado;
+  border-radius: $border-radius-inner;
+  box-shadow: $sombra-tactil;
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 1.25rem;
+  font-weight: 800;
+
+  svg { flex-shrink: 0; }
+}
+
+.venta-bloque + .venta-bloque { margin-top: 1.4rem; }
+
+.venta-bloque-titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid rgba($border-color, 0.15);
+  color: $text-gray;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.venta-conteo {
+  background: $superficie-hundida;
+  border: 2px solid rgba($border-color, 0.2);
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+  font-size: 0.8rem;
+  color: $text-charcoal;
+}
+
 .venta-info { display: flex; flex-direction: column; gap: 0.6rem; }
-.venta-row { display: flex; justify-content: space-between; align-items: center; color: $text-gray; font-size: 1.05rem; }
-.venta-row span { font-weight: 700; }
-.venta-row strong { color: $text-charcoal; font-weight: 900; }
 
-.state-cancelada { color: $ColorErrores; }
-.state-completada { color: #1f7a2e; }
+.venta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  color: $text-gray;
+  font-size: 1.05rem;
+}
 
-.venta-products { margin-top: 0.8rem; }
+.venta-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+}
+
+.venta-row strong {
+  color: $text-charcoal;
+  font-weight: 900;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.venta-sin-dato {
+  color: $texto-suave;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.venta-referencia {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.95rem;
+}
+
+.venta-products { display: flex; flex-direction: column; gap: 0.6rem; }
+
 .product-card {
-  background: white;
-  border-radius: 12px;
+  background: $superficie;
+  border-radius: $std-radius;
   padding: 0.8rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 2px solid $border-color;
-  box-shadow: 4px 6px 0 rgba(0,0,0,0.04);
-  margin-bottom: 0.8rem;
+  gap: 1rem;
+  border: $borde-marcado;
+  box-shadow: $sombra-tactil;
 }
 
 .product-name { font-weight: 900; font-size: 1.05rem; color: $text-charcoal; }
 .product-meta { color: $text-gray; font-size: 0.95rem; margin-top: 0.25rem; }
-.product-price { font-weight: 900; color: $primary-color; }
+.product-price {
+  font-weight: 900;
+  color: $primary-color;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
 
 .venta-right { flex: 1; }
 .ticket-panel { background: white; border-radius: 12px; padding: 1rem; border: 2px solid $border-color; }
@@ -1124,7 +1326,6 @@
   .venta-card { width: 100%; flex: none; }
 }
 
-/* Product form improvements */
 .product-form-header { margin-bottom: 0.6rem; }
 .product-form-sub { color: $text-gray; margin-top: 0.25rem; }
 
@@ -1271,6 +1472,13 @@
 
 .producto-campo {
   margin-bottom: 1.1rem;
+}
+
+.producto-ayuda {
+  margin: 0 0 1.1rem;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: $text-gray;
 }
 
 .producto-label {

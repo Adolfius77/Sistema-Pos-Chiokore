@@ -7,7 +7,7 @@ const Promociones = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        apiCliente.get("/promociones/activas")
+        apiCliente.get("/promociones/vigentes")
             .then(response => {
                 setPromociones(response.data);
                 setLoading(false);
@@ -25,7 +25,11 @@ const Promociones = () => {
     return (
         <div className="promociones-container">
             <h1 className="promociones-title">OFERTAS ESPECIALES</h1>
-            <PromocionesBanner promociones={promociones} />
+            {promociones.length === 0 ? (
+                <p className="promociones-vacio">No hay ofertas vigentes por ahora.</p>
+            ) : (
+                <PromocionesBanner promociones={promociones} />
+            )}
         </div>
     );
 };

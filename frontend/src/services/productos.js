@@ -46,3 +46,12 @@ export const cambiarActivoProducto = async (id, activo) => {
         throw new Error(mensajeError(error, "No se pudo actualizar el estado."), { cause: error });
     }
 };
+
+export const eliminarProducto = async (id) => {
+    try {
+        const { data } = await apiCliente.delete(`/productos/${id}`);
+        return data;
+    } catch (error) {
+        throw new Error(mensajeError(error, "No se pudo eliminar el producto."), { cause: error });
+    }
+};

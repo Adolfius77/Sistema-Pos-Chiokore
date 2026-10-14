@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CartContext } from "./cartContext.js";
+import { calcularTotalConPromociones } from "../utils/cartCalculations.js";
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
@@ -29,9 +30,8 @@ export const CartProvider = ({ children }) => {
 
     const clearCart = () => setCartItems([]);
 
-    const getTotal = () => {
-        return cartItems.reduce((total, item) => total + item.precio * item.cantidad, 0);
-    };
+    //metodo para obtener el total del carrito con promociones aplicadas
+    const getTotal = () => calcularTotalConPromociones(cartItems);
 
     const value = { cartItems, addToCart, updateQuantity, getTotal, eliminarCarrito, clearCart };
 

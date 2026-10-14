@@ -144,6 +144,17 @@
         font-size: 1.2rem;
       }
     }
+
+    .item-promo {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: $primary-color;
+      margin-top: 4px;
+
+      @media (min-width: $tablet) {
+        font-size: 1.05rem;
+      }
+    }
   }
 
   .item-controles {

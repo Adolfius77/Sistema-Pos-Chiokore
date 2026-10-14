@@ -38,7 +38,7 @@ const Categorias = () => {
             <h1 className="titulo-seccion">SELECCIONA UNA CATEGORIA</h1>
 
             {error ? (
-                <div style={{color: 'red', fontSize: '1.5rem', fontWeight: 'bold'}}>{error}</div>
+                <div className="categorias-error">{error}</div>
             ) : (
                 <div className="categorias-grid">
                     {categorias.map((cat) => (

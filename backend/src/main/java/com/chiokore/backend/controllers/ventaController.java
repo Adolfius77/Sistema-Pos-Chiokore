@@ -4,8 +4,10 @@ import com.chiokore.backend.dtos.CobroDTO;
 import com.chiokore.backend.modelo.Venta;
 import com.chiokore.backend.services.IVentaService;
 import com.chiokore.backend.services.ImageStorageService;
+import com.chiokore.backend.utils.ClientIpUtil;
 import com.chiokore.backend.utils.UserAgentUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
@@ -24,10 +26,15 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/ventas")
@@ -36,6 +43,26 @@ public class ventaController {
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ventaController.class);
     private final IVentaService ventaService;
     private final ImageStorageService imageStorageService;
+
+    // Lista de proxies (separados por coma) cuyos headers de IP reenviada se
+    // consideran confiables. Vacia por defecto: sin proxy delante, los headers
+    // son solo datos que manda el cliente.
+    @Value("${app.proxies-confiables:}")
+    private String proxiesConfiablesConfig;
+
+    private Set<String> proxiesConfiables = Set.of();
+
+    @PostConstruct
+    void cargarProxiesConfiables() {
+        proxiesConfiables = Arrays.stream(proxiesConfiablesConfig.split(","))
+                .map(ClientIpUtil::normalizar)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toUnmodifiableSet());
+
+        if (!proxiesConfiables.isEmpty()) {
+            logger.info("Proxies confiables para la IP de venta: {}", proxiesConfiables);
+        }
+    }
 
     // GET /api/ventas?desde=2026-07-01&hasta=2026-07-15
     // Resumen de ventas completadas del periodo. Lo consume el modulo de Nomina.
@@ -111,7 +138,7 @@ public class ventaController {
         return procesar(venta, urlComprobante, jwt, request);
     }
 
-    @GetMapping(value = "/reporte-excel", produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    @GetMapping("/reporte-excel")
     public ResponseEntity<?> descargarReporteExcel(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta
@@ -208,20 +235,39 @@ public class ventaController {
         return ResponseEntity.ok(Map.of("mensaje", "Precios de venta recalculados", "venta", v));
     }
 
+    /**
+     * Resuelve la IP que se guarda en la venta.
+     *
+     * X-Forwarded-For y X-Real-IP los puede mandar cualquier cliente, asi que
+     * solo se leen cuando la conexion viene de un proxy declarado en
+     * app.proxies-confiables. Sin proxy configurado (el caso normal: el POS pega
+     * directo al backend) se usa la direccion real del socket.
+     */
     private String extraerIpCliente(HttpServletRequest request) {
+        String remota = ClientIpUtil.normalizar(request.getRemoteAddr());
+        if (!esProxyConfiable(remota)) {
+            return remota;
+        }
+
+        // "cliente, proxy1, proxy2": se recorre de derecha a izquierda descartando
+        // los proxies confiables; la primera que no lo sea es la del cliente. Ir al
+        // reves permitiria al cliente inventar la primera entrada de la lista.
         String header = request.getHeader("X-Forwarded-For");
         if (header != null && !header.isBlank()) {
             String[] partes = header.split(",");
-            if (partes.length > 0) {
-                return partes[0].trim();
+            for (int i = partes.length - 1; i >= 0; i--) {
+                String candidata = ClientIpUtil.normalizar(partes[i]);
+                if (candidata != null && !esProxyConfiable(candidata)) {
+                    return candidata;
+                }
             }
         }
 
-        String realIp = request.getHeader("X-Real-IP");
-        if (realIp != null && !realIp.isBlank()) {
-            return realIp.trim();
-        }
+        String realIp = ClientIpUtil.normalizar(request.getHeader("X-Real-IP"));
+        return realIp != null ? realIp : remota;
+    }
 
-        return request.getRemoteAddr();
+    private boolean esProxyConfiable(String ip) {
+        return ip != null && proxiesConfiables.contains(ip);
     }
 }

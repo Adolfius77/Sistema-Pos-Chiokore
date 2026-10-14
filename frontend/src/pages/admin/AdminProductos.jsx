@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Pencil, Power } from "lucide-react";
-import { listarProductos, cambiarActivoProducto } from "../../services/productos.js";
+import { Pencil, Power, Trash2 } from "lucide-react";
+import { listarProductos, cambiarActivoProducto, eliminarProducto } from "../../services/productos.js";
 import { urlUpload } from "../../config/env.js";
 
 const AdminProductos = () => {
@@ -9,6 +9,7 @@ const AdminProductos = () => {
     const [productos, setProductos] = useState([]);
     const [error, setError] = useState("");
     const [cargando, setCargando] = useState(true);
+    const [eliminandoId, setEliminandoId] = useState(null);
 
     const cargar = async () => {
         try {
@@ -32,6 +33,22 @@ const AdminProductos = () => {
             await cargar();
         } catch (e) {
             setError(e.message);
+        }
+    };
+
+    const eliminar = async (producto) => {
+        if (!window.confirm(`¿Eliminar "${producto.nombre}"? Esta acción no se puede deshacer.`)) return;
+        try {
+            setEliminandoId(producto.id);
+            await eliminarProducto(producto.id);
+            setError("");
+            await cargar();
+        } catch (e) {
+            // El backend responde 409 si el producto ya tiene ventas: en ese caso
+            // el mensaje explica que hay que desactivarlo en lugar de borrarlo.
+            setError(e.message);
+        } finally {
+            setEliminandoId(null);
         }
     };
 
@@ -79,6 +96,14 @@ const AdminProductos = () => {
                             <button className="tactile-btn admin-btn-secondary admin-btn-toggle" onClick={() => toggleActivo(p)}>
                                 <Power size={16} />
                                 {p.activo ? "Desactivar" : "Activar"}
+                            </button>
+                            <button
+                                className="tactile-btn admin-btn-danger"
+                                onClick={() => eliminar(p)}
+                                disabled={eliminandoId === p.id}
+                            >
+                                <Trash2 size={16} />
+                                {eliminandoId === p.id ? "Eliminando..." : "Eliminar"}
                             </button>
                         </div>
                     </div>

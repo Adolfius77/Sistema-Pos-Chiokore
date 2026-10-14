@@ -41,6 +41,20 @@ export const obtenerResumenRango = async (desde, hasta) => {
     }
 };
 
+//metodo para leer el mensaje de error cuando la respuesta vino como blob
+const mensajeErrorBlob = async (error, fallback) => {
+    const data = error?.response?.data;
+    if (data instanceof Blob) {
+        try {
+            const cuerpo = JSON.parse(await data.text());
+            return cuerpo.error || cuerpo.mensaje || fallback;
+        } catch {
+            return fallback;
+        }
+    }
+    return mensajeError(error, fallback);
+};
+
 export const descargarReporteVentasExcel = async ({ desde, hasta }) => {
     try {
         const response = await apiCliente.get("/ventas/reporte-excel", {
@@ -54,7 +68,7 @@ export const descargarReporteVentasExcel = async ({ desde, hasta }) => {
 
         return { blob: response.data, filename };
     } catch (error) {
-        throw new Error(mensajeError(error, "No se pudo descargar el reporte en Excel."), { cause: error });
+        throw new Error(await mensajeErrorBlob(error, "No se pudo descargar el reporte en Excel."), { cause: error });
     }
 };
 

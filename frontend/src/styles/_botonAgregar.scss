@@ -33,10 +33,28 @@
     cursor: not-allowed;
   }
 
+
   &.agregado-exito {
     background-color: $accion-primaria;
     color: $ligth;
     border-color: $border-color;
+    transform: scale(1.02);
+    box-shadow: $sombra-tactil-alta;
+    animation: popAgregado 0.42s cubic-bezier(0.22, 1.1, 0.36, 1);
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      transform: none;
+    }
+  }
+}
+
+.icono-check {
+  flex-shrink: 0;
+  animation: checkEntra 0.38s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 }
 
@@ -50,4 +68,19 @@
     width: 24px;
     height: 24px;
   }
+}
+
+
+@keyframes popAgregado {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.12); }
+  55%  { transform: scale(0.97); }
+  100% { transform: scale(1.03); }
+}
+
+
+@keyframes checkEntra {
+  0%   { opacity: 0; transform: scale(0.3) rotate(-25deg); }
+  60%  { opacity: 1; transform: scale(1.25) rotate(6deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
 }

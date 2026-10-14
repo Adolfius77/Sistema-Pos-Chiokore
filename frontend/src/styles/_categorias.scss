@@ -46,9 +46,6 @@
       padding: 0;
       overflow: hidden;
       border-radius: $std-radius;
-      // Antes se heredaba .tactile-btn y acto seguido se pisaban su borde y
-      // su sombra con los planos, dejando dos lenguajes visuales enfrentados.
-      // La tarjeta ahora mantiene el relieve del resto de la interfaz.
 
       .img-container {
         width: 100%;
@@ -92,4 +89,21 @@
       }
     }
   }
+}
+
+.categorias-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 1rem 1.25rem;
+  background: $peligro-suave;
+  color: $peligro;
+  border: $borde-marcado;
+  border-radius: $border-radius-inner;
+  box-shadow: $sombra-tactil;
+  font-size: 1.15rem;
+  font-weight: 800;
+  text-align: center;
 }

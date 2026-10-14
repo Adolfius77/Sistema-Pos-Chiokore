@@ -1,36 +1,49 @@
-/**
- * Calcula el total del carrito aplicando promociones de volumen por categoría.
- * @param {Array} carrito - Items en el carrito.
- * @param {Array} promocionesActivas - Promociones obtenidas del backend.
- */
-export const calcularTotalConPromociones = (carrito, promocionesActivas) => {
-    const porCategoria = carrito.reduce((acc, item) => {
-        const catId = item.categoria?.id;
-        if (!catId) return acc;
-        if (!acc[catId]) acc[catId] = { items: [], total: 0 };
-        acc[catId].items.push(item);
-        return acc;
-    }, {});
+//metodo para calcular el subtotal de un item aplicando su promocion
+export const calcularSubtotalItem = (item) => {
+    const cantidad = Number(item?.cantidad ?? 0);
+    if (cantidad < 1) return 0;
 
-    let totalFinal = 0;
+    const precioBase = Number(item?.precioOriginal ?? item?.precio ?? 0);
+    const { paquetes, resto } = repartirEnPaquetes(item, cantidad, precioBase);
+    if (paquetes === 0) return precioBase * cantidad;
 
-    Object.keys(porCategoria).forEach(catId => {
-        const promo = promocionesActivas.find(p => p.categoria?.id == catId);
-        const grupo = porCategoria[catId];
-        const cantidadTotalCat = grupo.items.reduce((sum, i) => sum + i.cantidad, 0);
-
-        if (promo && promo.activo) {
-            const numPaquetes = Math.floor(cantidadTotalCat / promo.cantidadPaquete);
-            const sobrantes = cantidadTotalCat % promo.cantidadPaquete;
-            
-            const precioUnitario = grupo.items[0].precio;
-            
-            totalFinal += (numPaquetes * promo.precioPaquete) + (sobrantes * precioUnitario);
-        } else {
-            // Sin promo
-            totalFinal += grupo.items.reduce((sum, i) => sum + (i.precio * i.cantidad), 0);
-        }
-    });
-
-    return totalFinal;
+    // El descuento solo premia el paquete completo: lo que sobra va a precio de lista.
+    return (paquetes * Number(item.precioPaquete)) + (resto * precioBase);
 };
+
+//metodo para describir la promocion que de verdad se aplico a la cantidad del item
+export const descripcionPromocionItem = (item) => {
+    const cantidad = Number(item?.cantidad ?? 0);
+    if (cantidad < 1) return null;
+
+    const precioBase = Number(item?.precioOriginal ?? item?.precio ?? 0);
+    const { paquetes, resto } = repartirEnPaquetes(item, cantidad, precioBase);
+    if (paquetes === 0) return null;
+
+    const cantidadPaquete = Number(item.cantidadPaquete);
+    const precioPaquete = Number(item.precioPaquete);
+    const base = `${paquetes} paquete${paquetes > 1 ? "s" : ""} de ${cantidadPaquete} x $${precioPaquete.toFixed(2)}`;
+    return resto > 0 ? `${base} + ${resto} a $${precioBase.toFixed(2)}` : base;
+};
+
+//metodo para saber cuantos paquetes completos se llevan y cuantas piezas sobran
+const repartirEnPaquetes = (item, cantidad, precioBase) => {
+    const cantidadPaquete = Number(item?.cantidadPaquete ?? 0);
+    const precioPaquete = Number(item?.precioPaquete ?? 0);
+
+    const paqueteValido = cantidadPaquete >= 2
+        && precioPaquete > 0
+        && cantidad >= cantidadPaquete
+        && precioPaquete < cantidadPaquete * precioBase;
+
+    if (!paqueteValido) return { paquetes: 0, resto: cantidad };
+
+    return {
+        paquetes: Math.floor(cantidad / cantidadPaquete),
+        resto: cantidad % cantidadPaquete,
+    };
+};
+
+//metodo para calcular el total del carrito aplicando promociones
+export const calcularTotalConPromociones = (carrito) =>
+    (carrito || []).reduce((total, item) => total + calcularSubtotalItem(item), 0);

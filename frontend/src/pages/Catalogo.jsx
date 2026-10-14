@@ -74,27 +74,42 @@ const Catalogo = () =>{
                 </div>
             ) : (
                 <div className="productos-grid">
-                    {productos.map((prod) => (
-                        <div key={prod.id} className="producto-card">
-                            <div className="img-container">
-                                <img src={urlUpload(prod.url_imagen) || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"} alt={prod.nombre} />
-                                <div className="etiqueta-precio">
-                                    {prod.tienePromo && <span className="precio-original">${prod.precioOriginal.toFixed(2)}</span>}
-                                    <span className={prod.tienePromo ? 'precio-promo' : ''}>${prod.precioFinal.toFixed(2)}</span>
-                                    <span>MXN</span>
-                                </div>
-                                {prod.tienePromo && <div className="badge-promo">OFERTA</div>}
-                            </div>
+                    {productos.map((prod) => {
+                        // La pieza suelta siempre vale el precio de lista: el descuento
+                        // aparece hasta que el cliente completa el paquete.
+                        const precioBase = Number(prod.precioOriginal ?? prod.precioFinal ?? 0);
+                        const esPromoPaquete = prod.tienePromo
+                            && Number(prod.cantidadPaquete) > 1
+                            && Number(prod.precioPaquete) > 0;
 
-                            <div className="info-producto">
-                                <h4>{prod.nombre}</h4>
-                                <p className={`stock ${nivelStock(prod.stock)}`}>
-                                    {prod.stock > 0 ? `${prod.stock} en existencia` : 'Agotado'}
-                                </p>
-                                <BotonAgregar producto={{...prod, precio: prod.precioFinal}} />
+                        return (
+                            <div key={prod.id} className="producto-card">
+                                <div className="img-container">
+                                    <img src={urlUpload(prod.url_imagen) || "https://placehold.co/200x200/eeeeee/666666?text=Sin+Foto"} alt={prod.nombre} />
+                                    <div className="etiqueta-precio">
+                                        <span>${precioBase.toFixed(2)}</span>
+                                        <span>MXN</span>
+                                    </div>
+                                    {esPromoPaquete && (
+                                        <div className="badge-promo badge-promo--paquete">PAQUETE</div>
+                                    )}
+                                </div>
+
+                                <div className="info-producto">
+                                    <h4>{prod.nombre}</h4>
+                                    {esPromoPaquete && (
+                                        <p className="promo-paquete-info">
+                                            Llévate {prod.cantidadPaquete} por ${Number(prod.precioPaquete).toFixed(2)}
+                                        </p>
+                                    )}
+                                    <p className={`stock ${nivelStock(prod.stock)}`}>
+                                        {prod.stock > 0 ? `${prod.stock} en existencia` : "Agotado"}
+                                    </p>
+                                    <BotonAgregar producto={{ ...prod, precio: precioBase }} />
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
         </div>

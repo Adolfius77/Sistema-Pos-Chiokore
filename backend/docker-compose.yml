@@ -1,0 +1,45 @@
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: VentasDB
+      MYSQL_USER: ${DB_USUARIO:-usuario_pos}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Falta DB_PASSWORD en tu archivo .env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Falta DB_ROOT_PASSWORD en tu archivo .env}
+      TZ: ${TZ:-America/Mexico_City}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+  backend:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://db:3306/VentasDB?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC"
+      SPRING_DATASOURCE_USERNAME: ${DB_USUARIO:-usuario_pos}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      ASISTENCIA_API_URL: http://host.docker.internal:8080
+      APP_UPLOAD_DIR: /app/uploads
+      TZ: ${TZ:-America/Mexico_City}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - uploads:/app/uploads
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+  uploads:
