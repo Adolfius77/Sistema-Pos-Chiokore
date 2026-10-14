@@ -5,8 +5,6 @@
 #   1) "build": una imagen con Maven + JDK compila el proyecto y genera el .jar.
 #   2) imagen final: solo un JRE (sin Maven, sin codigo fuente) que ejecuta el .jar.
 # Asi la imagen final pesa mucho menos y no lleva herramientas de compilacion.
-#
-# Ver docs/DOCKER.md para el tutorial completo.
 # ============================================================================
 
 # ---------- Etapa 1: compilar ----------

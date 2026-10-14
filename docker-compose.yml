@@ -4,7 +4,7 @@
 #   docker compose up -d --build
 #
 # Antes copia .env.docker.example como .env (en esta misma carpeta) y llena los
-# valores. Ver docs/DOCKER.md para el tutorial completo.
+# valores.
 # ============================================================================
 
 services:
@@ -15,8 +15,9 @@ services:
     restart: unless-stopped
     environment:
       # Al arrancar por PRIMERA vez (volumen vacio) MySQL crea esta base y este
-      # usuario. Si despues cambias estos valores, no se aplican solos: el
-      # volumen ya existe. Ver la seccion de problemas comunes del tutorial.
+      # usuario. Si despues cambias estos valores, no se aplican solos porque el
+      # volumen ya existe: cambia la contrasena dentro de MySQL con ALTER USER o,
+      # si no hay datos que conservar, borra el volumen (docker compose down -v).
       MYSQL_DATABASE: VentasDB
       MYSQL_USER: ${DB_USUARIO:-usuario_pos}
       MYSQL_PASSWORD: ${DB_PASSWORD:?Falta DB_PASSWORD en el archivo .env}

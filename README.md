@@ -35,7 +35,6 @@ Arrancar con Docker (backend + MySQL, sin instalar Java ni MySQL)
 Copy-Item .env.docker.example .env   # y llena los valores
 docker compose up -d --build
 ```
-Tutorial paso a paso para principiantes: [docs/DOCKER.md](docs/DOCKER.md)
 
 Variables importantes
 - Frontend (`frontend/.env`):
