@@ -30,6 +30,13 @@ npm install
 npm run dev
 ```
 
+Arrancar con Docker (backend + MySQL, sin instalar Java ni MySQL)
+```powershell
+Copy-Item .env.docker.example .env   # y llena los valores
+docker compose up -d --build
+```
+Tutorial paso a paso para principiantes: [docs/DOCKER.md](docs/DOCKER.md)
+
 Variables importantes
 - Frontend (`frontend/.env`):
   - VITE_API_BASE_URL=http://localhost:8082

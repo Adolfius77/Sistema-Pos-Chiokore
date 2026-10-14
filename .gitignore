@@ -17,3 +17,6 @@ backend/.env
 # Agentes y skills locales de Claude Code (no se versionan)
 .claude/agents/
 .claude/skills/
+
+# Variables de docker compose (plantilla: .env.docker.example)
+/.env

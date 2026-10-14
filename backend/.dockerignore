@@ -1,0 +1,19 @@
+# Lo que NO se envia a Docker al construir la imagen.
+# Menos archivos = build mas rapido, y los secretos no terminan dentro de la imagen.
+
+target/
+uploads/
+.env
+*.log
+
+.mvn/
+mvnw
+mvnw.cmd
+
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+HELP.md

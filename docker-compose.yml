@@ -1,0 +1,80 @@
+# ============================================================================
+# Levanta el backend del POS + su base MySQL con un solo comando:
+#
+#   docker compose up -d --build
+#
+# Antes copia .env.docker.example como .env (en esta misma carpeta) y llena los
+# valores. Ver docs/DOCKER.md para el tutorial completo.
+# ============================================================================
+
+services:
+
+  # ---------- Base de datos ----------
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      # Al arrancar por PRIMERA vez (volumen vacio) MySQL crea esta base y este
+      # usuario. Si despues cambias estos valores, no se aplican solos: el
+      # volumen ya existe. Ver la seccion de problemas comunes del tutorial.
+      MYSQL_DATABASE: VentasDB
+      MYSQL_USER: ${DB_USUARIO:-usuario_pos}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Falta DB_PASSWORD en el archivo .env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Falta DB_ROOT_PASSWORD en el archivo .env}
+      TZ: ${TZ:-America/Mexico_City}
+    volumes:
+      # Los datos viven en un volumen con nombre: sobreviven a "docker compose down".
+      - mysql-data:/var/lib/mysql
+    ports:
+      # Solo para conectarte desde tu PC con MySQL Workbench o DBeaver
+      # (host 127.0.0.1, puerto 3307). Se usa 3307 para no chocar con un
+      # MySQL que ya tengas instalado en el 3306.
+      - "127.0.0.1:3307:3306"
+    healthcheck:
+      # "Sano" = MySQL ya acepta conexiones por red. El backend espera a esto.
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  # ---------- Backend Spring Boot ----------
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # "db" es el nombre del servicio de arriba: dentro de la red de Docker
+      # funciona como nombre de host. NO uses localhost aqui.
+      SPRING_DATASOURCE_URL: "jdbc:mysql://db:3306/VentasDB?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC"
+      SPRING_DATASOURCE_USERNAME: ${DB_USUARIO:-usuario_pos}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:?Falta DB_PASSWORD en el archivo .env}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO:-update}
+
+      APP_JWT_SECRET: ${APP_JWT_SECRET:?Falta APP_JWT_SECRET en el archivo .env}
+      ADMIN_CLAVE: ${ADMIN_CLAVE:?Falta ADMIN_CLAVE en el archivo .env}
+      APP_CORS_ALLOWED_ORIGINS: ${APP_CORS_ALLOWED_ORIGINS:-http://localhost:5173,http://localhost:5175,http://127.0.0.1:5173,http://127.0.0.1:5175,http://192.168.*.*:5173,http://192.168.*.*:5175}
+
+      # host.docker.internal = "la PC que corre Docker". Sirve para llegar al
+      # microservicio de asistencia si corre fuera de Docker en tu maquina.
+      ASISTENCIA_API_URL: ${ASISTENCIA_API_URL:-http://host.docker.internal:8080}
+      ASISTENCIA_API_TOKEN: ${ASISTENCIA_API_TOKEN:?Falta ASISTENCIA_API_TOKEN en el archivo .env}
+
+      # Las ventas se fechan con la hora del contenedor; sin esto seria UTC y
+      # las ventas de la noche caerian en el dia siguiente.
+      TZ: ${TZ:-America/Mexico_City}
+    extra_hosts:
+      # En Docker Desktop (Windows/Mac) ya existe; en Linux hace falta esta linea.
+      - "host.docker.internal:host-gateway"
+    volumes:
+      # Imagenes de productos y tickets subidas desde el POS.
+      - uploads:/app/uploads
+    ports:
+      # puerto_de_tu_PC:puerto_del_contenedor
+      - "8082:8082"
+
+volumes:
+  mysql-data:
+  uploads:
