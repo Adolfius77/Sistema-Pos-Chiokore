@@ -1,8 +1,11 @@
-name: chiokore
+# En Docker Desktop aparece como el grupo "chiokore-pos" (pos-db, pos-backend, pos-frontend),
+# separado del sistema de asistencia ("chiokore-asistencia")
+name: chiokore-pos
 
 services:
   db:
     image: mysql:8.4
+    container_name: pos-db
     environment:
       MYSQL_DATABASE: VentasDB
       MYSQL_USER: ${DB_USUARIO:-usuario_pos}
@@ -23,6 +26,7 @@ services:
 
   backend:
     build: .
+    container_name: pos-backend
     depends_on:
       db:
         condition: service_healthy
@@ -43,6 +47,7 @@ services:
     restart: unless-stopped
 
   frontend:
+    container_name: pos-frontend
     build:
       context: ../frontend
       args:
@@ -57,6 +62,10 @@ services:
       - "5175:80"
     restart: unless-stopped
 
+# Nombres fijos: son los volúmenes que se crearon cuando el proyecto se llamaba "chiokore",
+# así se conservan la base de datos y las imágenes de productos
 volumes:
   mysql-data:
+    name: chiokore_mysql-data
   uploads:
+    name: chiokore_uploads
