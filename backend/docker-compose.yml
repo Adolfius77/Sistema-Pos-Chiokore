@@ -1,3 +1,5 @@
+name: chiokore
+
 services:
   db:
     image: mysql:8.4
@@ -38,6 +40,21 @@ services:
       - uploads:/app/uploads
     ports:
       - "8082:8082"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../frontend
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8082}
+        VITE_AUTH_TOKEN_KEY: ${VITE_AUTH_TOKEN_KEY:-token_pos_chiokore}
+        VITE_AUTH_ROLE_KEY: ${VITE_AUTH_ROLE_KEY:-rol_pos_chiokore}
+        VITE_URL_LOGIN_EXTERNO: ${VITE_URL_LOGIN_EXTERNO:-http://localhost:5175/}
+        VITE_URL_LOGOUT_EXTERNO: ${VITE_URL_LOGOUT_EXTERNO:-http://localhost:5175/}
+    depends_on:
+      - backend
+    ports:
+      - "5175:80"
     restart: unless-stopped
 
 volumes:
