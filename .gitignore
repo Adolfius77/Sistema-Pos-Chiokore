@@ -7,6 +7,11 @@ uploads/
 # Variables de entorno con valores reales (usa los .env.example como plantilla)
 frontend/.env
 backend/.env
+despliegue/.env
+
+# Imagenes exportadas con despliegue/exportar-imagenes.*
+despliegue/*.tar
+despliegue/*.tar.gz
 
 # Logs de ejecucion
 *.log

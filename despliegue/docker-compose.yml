@@ -1,0 +1,65 @@
+# Compose para instalar el POS en OTRA PC usando las imagenes ya construidas
+# (chiokore-pos-backend / chiokore-pos-frontend), sin codigo fuente ni build.
+# Pasos completos en despliegue/README.md
+name: chiokore-pos
+
+services:
+  db:
+    image: mysql:8.4
+    container_name: pos-db
+    environment:
+      MYSQL_DATABASE: VentasDB
+      MYSQL_USER: ${DB_USUARIO:-usuario_pos}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Falta DB_PASSWORD en tu archivo .env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Falta DB_ROOT_PASSWORD en tu archivo .env}
+      TZ: ${TZ:-America/Mexico_City}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+  backend:
+    image: chiokore-pos-backend:latest
+    container_name: pos-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://db:3306/VentasDB?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC"
+      SPRING_DATASOURCE_USERNAME: ${DB_USUARIO:-usuario_pos}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      ASISTENCIA_API_URL: ${ASISTENCIA_API_URL:-http://host.docker.internal:8080}
+      APP_UPLOAD_DIR: /app/uploads
+      # Acepta el front desde cualquier IP (localhost, 192.168.x.x, 10.x.x.x...)
+      APP_CORS_ALLOWED_ORIGINS: ${APP_CORS_ALLOWED_ORIGINS:-http://*:5175,http://*:5173}
+      TZ: ${TZ:-America/Mexico_City}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - uploads:/app/uploads
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+
+  frontend:
+    image: chiokore-pos-frontend:latest
+    container_name: pos-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5175:80"
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+    name: chiokore_mysql-data
+  uploads:
+    name: chiokore_uploads

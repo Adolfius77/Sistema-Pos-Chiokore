@@ -7,12 +7,13 @@ RUN npm ci
 
 COPY . .
 
-# Vite incrusta las VITE_* en el bundle al compilar: cambiarlas exige reconstruir la imagen
-ARG VITE_API_BASE_URL=http://localhost:8082
+# Vite incrusta las VITE_* en el bundle al compilar: cambiarlas exige reconstruir la imagen.
+# Las URLs vacias hacen que el front use la IP con la que se abrio (sirve en cualquier PC)
+ARG VITE_API_BASE_URL=
 ARG VITE_AUTH_TOKEN_KEY=token_pos_chiokore
 ARG VITE_AUTH_ROLE_KEY=rol_pos_chiokore
-ARG VITE_URL_LOGIN_EXTERNO=http://localhost:5175/
-ARG VITE_URL_LOGOUT_EXTERNO=http://localhost:5175/
+ARG VITE_URL_LOGIN_EXTERNO=
+ARG VITE_URL_LOGOUT_EXTERNO=
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL \
     VITE_AUTH_TOKEN_KEY=$VITE_AUTH_TOKEN_KEY \
     VITE_AUTH_ROLE_KEY=$VITE_AUTH_ROLE_KEY \
